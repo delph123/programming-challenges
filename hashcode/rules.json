@@ -1,0 +1,96 @@
+[
+	{
+		"target": "vid/nb",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "ep/nb",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "req/nb",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "cache/nb",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "cache/size",
+		"action": "read",
+		"until": "\n",
+		"parse": "parseInt"
+	}, {
+		"target": "vid/size",
+		"action": "repeat",
+		"times": "../nb",
+		"do": [
+			{
+				"target": ".",
+				"action": "read",
+				"until": " |\n",
+				"parse": "parseInt"
+			}
+		]
+	}, {
+		"target": "ep/pool",
+		"action": "repeat",
+		"times": "../nb",
+		"do": [
+			{
+				"target": "latency",
+				"action": "read",
+				"until": " ",
+				"parse": "parseInt"
+			}, {
+				"target": "cachesNb",
+				"action": "read",
+				"until": "\n",
+				"parse": "parseInt"
+			}, {
+				"target": "caches",
+				"action": "repeat",
+				"times": "../cachesNb",
+				"do": [
+					{
+						"target": "id",
+						"action": "read",
+						"until": " ",
+						"parse": "parseInt"
+					}, {
+						"target": "latency",
+						"action": "read",
+						"until": "\n",
+						"parse": "parseInt"
+					}
+				]
+			}
+		]
+	}, {
+		"target": "req/pool",
+		"action": "repeat",
+		"times": "../nb",
+		"do": [
+			{
+				"target": "vidId",
+				"action": "read",
+				"until": " ",
+				"parse": "parseInt"
+			}, {
+				"target": "epId",
+				"action": "read",
+				"until": " ",
+				"parse": "parseInt"
+			}, {
+				"target": "nb",
+				"action": "read",
+				"until": "\n",
+				"parse": "parseInt"
+			}
+		]
+	}
+]
