@@ -1,0 +1,16 @@
+{
+  "name": "mdf2023",
+  "version": "1.0.0",
+  "description": "Master Dev France - Selection from Sopra Steria",
+  "main": "default.js",
+  "homepage": "http://mdf-breakthecode.apps.ocp4.innershift.sodigital.io/scoreboard",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "collections": "^5.1.13",
+    "md5": "^2.3.0"
+  }
+}
