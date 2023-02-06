@@ -1,0 +1,47 @@
+[
+	{
+		"target": "pizza/rows",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "pizza/cols",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "slice/ingredients",
+		"action": "read",
+		"until": " ",
+		"parse": "parseInt"
+	}, {
+		"target": "slice/cells",
+		"action": "read",
+		"until": "\n",
+		"parse": "parseInt"
+	}, {
+		"target": "pizza/content",
+		"action": "repeat",
+		"times": "../rows",
+		"do": [
+			{
+				"target": ".",
+				"action": "repeat",
+				"times": "../../cols",
+				"do": [
+					{
+						"target": ".",
+						"action": "read",
+						"length": 1,
+						"parse": "parseString"
+					}
+				]
+			}, {
+				"target": "../../dev/null",
+				"action": "read",
+				"until": "\n",
+				"parse": "parseString"
+			}
+		]
+	}
+]

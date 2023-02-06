@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Hash Code 2017 - YouTube Caching</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			var require = function (name) {
+				switch (name) {
+					case "fs":
+						console.log("providing 'fs'...");
+						return {
+							readFileSync: function (filename, encoding) {
+								return jQuery.ajax(filename, { async: false }).responseText;
+							}
+						}
+					default:
+						return;
+				}
+			}
+		</script>
+		<script src="hashcode.js" > </script>
+	</head>
+	
+	<body>
+		Hello, open console!
+	</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "hashcode",
+  "version": "1.0.0",
+  "description": "Google Hash Code Challenge 2017 - YouTube Caching Strategy",
+  "main": "hashcode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node serve.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tyriar/fibonacci-heap": "^1.0.10"
+  },
+  "devDependencies": {
+    "finalhandler": "^1.1.0",
+    "serve-static": "^1.13.2"
+  }
+}

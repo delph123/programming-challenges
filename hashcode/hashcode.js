@@ -139,7 +139,7 @@ class Strategy {
 		return (this.cache[record.cId].size + this.config.vid.size[record.vId]) <= this.config.cache.size;
 	}
 	
-	find() {
+	find(prop = 2, max = 2**30) {
 		console.log("Finding solution...");
 		this.config.cache.pool = [];
 		var pool = this.config.cache.pool;
@@ -150,9 +150,6 @@ class Strategy {
 				pool[i].vid[j] = {
 					cId: i,
 					vId: j,
-					picked: false,
-					dirty: false,
-					reord: false,
 					req: []
 				}
 			}
@@ -187,7 +184,9 @@ class Strategy {
 			for (let j = 0; j < this.config.vid.nb; j++) {
 				let record = this.config.cache.pool[i].vid[j];
 				this.score(record);
-				this.best.push(record);
+				if (record.score > 0) {
+					this.best.push(record);
+				}				
 			}
 		}
 		
@@ -199,20 +198,36 @@ class Strategy {
 			}
 		}
 		
-		console.log("First sort...");
-		this.sort();
+		switch (prop) {
+			case 1:
+				console.log("First sort...");
+				this.sort();
+				this.findFirst(max);
+				break;
+			case 2:
+				this.findNext(max);
+				break;
+		}
+				
+		return this.cache.map((rec) => (rec.vid));
+	}
+	
+	findFirst(max = 2**30) {
 		
 		this.oldBest = [];
-		let r = undefined; var t = 0;		
-		while (r = this.pickFirstBoth()) {
-			t++;
-			console.log("> Solution " + t + " picked. Remaining " + (this.best.length-this.first+this.oldBest.length) + " solutions.")
+		let r = undefined;
+		var t = 0;
+		
+		while ((t++ < max) && (r = this.pickFirstBoth())) {
+			console.log("> Solution " + t + " (" + r.cId + "," + r.vId + "). Remaining " + (this.best.length-this.first+this.oldBest.length) + " solutions.")
 			r.picked = true;
 			this.cache[r.cId].vid.add(r.vId);
 			this.cache[r.cId].size += this.config.vid.size[r.vId];
 			for (let i = 0; i < this.config.ep.nb; i++) {
 				if (this.config.cache.pool[r.cId].ep[i]) {
-					this.config.vid.latency[i][r.vId] = this.config.cache.pool[r.cId].ep[i];
+					if (this.config.cache.pool[r.cId].ep[i] < this.config.vid.latency[i][r.vId]) {
+						this.config.vid.latency[i][r.vId] = this.config.cache.pool[r.cId].ep[i];
+					}
 				}
 			}
 			let aChangedElems = [];
@@ -229,7 +244,136 @@ class Strategy {
 			//if (t === 3) break;
 		}
 		
-		return this.cache.map((rec) => (rec.vid));
+	}
+	
+	findNext(max = 2**30) {
+		
+		let r = undefined;
+		let t = 0;
+		
+		console.log("Building heap...")
+		let h = new Heap(this, this.best);
+		this.best.forEach((e,i) => { e.idx = i; });
+		
+		while ((t++ < max) && (r = h.pickFirst())) {
+			console.log("> Solution " + t + " (" + r.cId + "," + r.vId + "). Remaining " + h.last + " solutions.");
+			this.cache[r.cId].vid.add(r.vId);
+			this.cache[r.cId].size += this.config.vid.size[r.vId];
+			for (let i = 0; i < this.config.ep.nb; i++) {
+				if (this.config.cache.pool[r.cId].ep[i]) {
+					if (this.config.cache.pool[r.cId].ep[i] < this.config.vid.latency[i][r.vId]) {
+						this.config.vid.latency[i][r.vId] = this.config.cache.pool[r.cId].ep[i];
+					}
+				}
+			}
+			for (let i = 0; i < this.config.cache.nb; i++) {
+				if (this.config.cache.pool[i].vid[r.vId].score > 0) {
+					this.score(this.config.cache.pool[i].vid[r.vId]);
+					//this.config.cache.pool[i].vid[r.vId].score = 0;
+					h.reorder(this.config.cache.pool[i].vid[r.vId])
+				}
+			}
+		}
+		
+	}
+	
+}
+
+class Heap {
+		
+	constructor(oStrategy, aTable) {
+		this.strategy = oStrategy;
+		this.table = aTable;
+		this.last = aTable.length;
+		this.build();
+	}
+		
+	pickFirst() {
+		while (this.last > 0 && !this.strategy.fitCache(this.table[0])) {
+			this.remove(0);
+		}
+		
+		if (this.last > 0) {
+			return this.remove(0);
+		}
+	}
+	
+	reorder(record) {
+		if (record.score < 0.01) {
+			this.remove(record.idx);
+		} else {
+			this.down(record.idx);
+		}
+	}
+	
+	remove(index) {
+		if (index > 0) {
+			this.table[index].score = this.table[0].score + 1;
+			this.up(index);
+		}
+		
+		this.last--;
+		this.table[0].score = -1;
+		this.swap(0, this.last);
+		
+		this.down(0);
+		return this.table[this.last];
+	}
+		
+	build() {
+		let n = 2 ** Math.trunc(Math.log2(this.last)) - 2;
+		for (let i = n; i >= 0; i--) {
+			this.down(i);
+		}
+	}
+	
+	up(index) {
+		let i = index;
+		let j = Math.trunc((i-1)/2);
+		while (i > 0 && this.table[j].score < this.table[i].score) {
+			this.swap(i, j);
+			i = j;
+			j = Math.trunc((i-1)/2);
+		}
+	}
+	
+	down(index) {
+		let i = index;
+		let j = 2 * i + 1;
+		if (j+1 < this.last && this.table[j].score < this.table[j+1].score) {
+			j++;
+		}
+		while (j < this.last && this.table[i].score < this.table[j].score) {
+			this.swap(i, j);
+			i = j;
+			j = 2 * i + 1;
+			if (j+1 < this.last && this.table[j].score < this.table[j+1].score) {
+				j++;
+			}
+		}
+	}
+	
+	swap(i, j) {
+		if (i !== j) {
+			let t = this.table[i];
+			this.table[i] = this.table[j];
+			this.table[i].idx = i;
+			this.table[j] = t;
+			this.table[j].idx = j;
+		}
+	}
+	
+	check() {
+		for (let i = 1; i < this.last; i++) {
+			let j = Math.trunc((i-1)/2);
+			if (this.table[i].score > this.table[j].score) {
+				console.log("> Big problem :", i, j);
+			}
+		}
+	}
+	
+	toString() {
+		return '[' + this.table.map(e => e.score).join(' ') + '] (0..' + this.last + ')';
 	}
 	
 }
@@ -322,16 +466,22 @@ class Parser {
 	
 	read(mAction) {
 		let iFrom = this.cursor;
-		let iTo = mAction.until.split("|").reduce((idx, sep) => {
-			let idx2 = this.buffer.indexOf(sep, iFrom);
-			if (idx2 < idx && idx2 >= 0) {
-				return idx2;
-			} else {
-				return idx;
-			}
-		}, this.buffer.length);
-		iTo = iTo < 0 ? this.buffer.length : iTo;
-		this.cursor = iTo + 1;
+		let iTo = iFrom;
+		if (mAction.length) {
+			iTo = iFrom + mAction.length;
+			this.cursor = iTo;
+		} else {
+			iTo = mAction.until.split("|").reduce((idx, sep) => {
+				let idx2 = this.buffer.indexOf(sep, iFrom);
+				if (idx2 < idx && idx2 >= 0) {
+					return idx2;
+				} else {
+					return idx;
+				}
+			}, this.buffer.length);
+			iTo = iTo < 0 ? this.buffer.length : iTo;
+			this.cursor = iTo + 1;
+		}
 		let sBuf = this.buffer.substring(iFrom, iTo);
 		let _value = undefined;
 		if (typeof mAction.parse === "string") {
@@ -438,31 +588,67 @@ class Parser {
 		return JSON.parse(fs.readFileSync(sPath, 'utf-8'));
 	}
 	
-	static read(sInputFilePath) {
+	static read(sInputFilePath, prop = 2, max = 2**30) {
 		var sBuf = Parser.readInput("./" + sInputFilePath);
 		var aRules = Parser.readRules("./rules.json");
 		var oParser = new Parser(sBuf, aRules);
 		console.log("File " + sInputFilePath + " parsed successfully.");
 		var oScorer = new Scorer(oParser.result);
 		var oStrategy = new Strategy(oParser.result);
-		var aCachingStrategy = oStrategy.find();
+		var aCachingStrategy = oStrategy.find(prop, max);
+		var u = oStrategy.cache.map(e => e.size).reduce((a,b) => a+b);
+		var t = oStrategy.config.cache.nb * oStrategy.config.cache.size;
+		var s = oScorer.score(aCachingStrategy);
 		//var aCachingStrategy = oScorer.randCachingStrategy()
 		return {
-			scorer: oScorer,
-			strategy: oStrategy,
-			cachingStrategy: aCachingStrategy,
-			score: oScorer.score(aCachingStrategy),
-			scoreKittens: [0,370175],
-			scoreWorth: [603624, 3105],
-			scoreTrending: [499801, 47554],
-			scoreZoo: [504106, 161465]
+			scorer: () => oScorer,
+			strategy: () => oStrategy,
+			cachingStrategy: () => aCachingStrategy,
+			usage: u,
+			total: t,
+			not_used: t - u,
+			ratio: 100 * u / t,
+			score: s,
+			score_ratio: s / u,
+			max_score: (s/u)*t,
+			scoreKittens: [1021680, 370175, 1021811],
+			scoreWorth: [608310, 3105, 608522],
+			scoreTrending: [499906, 47554, 501140],
+			scoreZoo: [507906, 161465, 542634],
+			scoreTotal: [2637802, 582299, 2674107]
 		};
+	}
+	
+	static playAll(prop = 2, max = 2**30) {
+		var aFiles = ["me_at_the_zoo", "videos_worth_spreading", "trending_today", "kittens"];
+		var mScores = { total: 0 };
+		var aRules = Parser.readRules("./rules.json");
+		
+		for (let f of aFiles) {
+			let sBuf = Parser.readInput("./" + f + ".in");
+			let oParser = new Parser(sBuf, aRules);
+			console.log("File " + f + " parsed successfully.");
+			let oScorer = new Scorer(oParser.result);
+			let oStrategy = new Strategy(oParser.result);
+			let aCachingStrategy = oStrategy.find(prop, max);
+			let s = oScorer.score(aCachingStrategy);
+			mScores[f] = s;
+			mScores.total += s;
+		}
+		
+		return mScores;
 	}
 	
 }
 
+console.log("node --max_old_space_size=6000 hashcode.js");
+
+console.log(Parser.playAll());
+/*
 module.exports = {
+	Heap: Heap,
 	Parser : Parser,
 	Scorer : Scorer,
 	Strategy : Strategy
 }
+*/
