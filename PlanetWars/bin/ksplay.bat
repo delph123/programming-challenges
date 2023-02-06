@@ -1,1 +1,0 @@
-java -jar PlayGame.jar ..\mapsA\map%1.txt 1000 200 log%4.txt "java bot.%2 19 0.00001" %3 | java -jar ShowGame.jar
