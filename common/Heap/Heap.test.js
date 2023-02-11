@@ -90,3 +90,31 @@ test("It accepts a range change listner", () => {
     h.push({ key: 3 }, { key: 16 }, { key: 8 });
     expect(h.map((v) => v.idx)).toEqual(range(h.length));
 });
+
+test("It can be reversed in place", () => {
+    const h = new Heap([4, 8, 2, 6, 12]);
+    const expected = [12, 8, 6, 4, 2];
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
+    h.reverse();
+    expect(extractsAllInOrder(h.clone())).toEqual(expected.clone().reverse());
+    h.reverse();
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
+});
+
+test("It can be reversed without impact", () => {
+    function equalsKey(a, b) {
+        return Object.equal(a.key, b.key);
+    }
+    function compareKeys(a, b) {
+        return b.key - a.key;
+    }
+    function toKey(n) {
+        return { key: n };
+    }
+    const h = new Heap([4, 8, 2, 6, 12].map(toKey), equalsKey, compareKeys);
+    const expected = [2, 4, 6, 8, 12].map(toKey);
+    expect(extractsAllInOrder(h.reversed())).toEqual(
+        expected.clone().reverse()
+    );
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
+});
