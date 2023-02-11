@@ -67,7 +67,7 @@ test("It concatenates a max heap with a list", () => {
     expect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 5, 4, 2]);
 });
 
-test("It accepts a range change listner", () => {
+test("It accepts a map change listner", () => {
     function equalsKey(a, b) {
         return Object.equal(a.key, b.key);
     }
@@ -77,11 +77,13 @@ test("It accepts a range change listner", () => {
     const h = new Heap([], equalsKey, compareKeys);
     h.addMapChangeListener((value, index) => {
         if (value !== undefined) {
+            // The map change listner keeps the idx attribute
+            // equal to the actual index in the heap!
             value.idx = index;
         }
-        // console.log(value, index);
     });
     h.addEach([{ key: 6 }, { key: 12 }, { key: 7 }, { key: 17 }]);
+    // Therefore elements index shall be 0 .. n
     expect(h.map((v) => v.idx)).toEqual(range(h.length));
     h.add({ key: 21 });
     expect(h.map((v) => v.idx)).toEqual(range(h.length));
@@ -111,6 +113,7 @@ test("It can be reversed without impact", () => {
     function toKey(n) {
         return { key: n };
     }
+    // This is a min-heap due to comparison function
     const h = new Heap([4, 8, 2, 6, 12].map(toKey), equalsKey, compareKeys);
     const expected = [2, 4, 6, 8, 12].map(toKey);
     expect(extractsAllInOrder(h.reversed())).toEqual(
