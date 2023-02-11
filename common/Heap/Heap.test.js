@@ -1,5 +1,9 @@
 const Heap = require("./Heap");
 
+function range(n) {
+    return new Array(n).fill(0).map((_, i) => i);
+}
+
 function extractsAllInOrder(heap) {
     const result = [];
     while (heap.length > 0) {
@@ -60,7 +64,7 @@ test("It concatenates a max heap with a list", () => {
     const h = new Heap([4, 8, 2, 6, 12]);
     const v = h.concat([5, 7, 9]);
     expect(extractsAllInOrder(h)).toEqual([12, 8, 6, 4, 2]);
-    e;xpect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 5, 4, 2]);
+    expect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 5, 4, 2]);
 });
 
 test("It accepts a range change listner", () => {
@@ -75,14 +79,14 @@ test("It accepts a range change listner", () => {
         if (value !== undefined) {
             value.idx = index;
         }
-        console.log(value, index);
+        // console.log(value, index);
     });
     h.addEach([{ key: 6 }, { key: 12 }, { key: 7 }, { key: 17 }]);
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
     h.add({ key: 21 });
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
-    h.pop()
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
+    h.pop();
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
     h.push({ key: 3 }, { key: 16 }, { key: 8 });
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
 });
