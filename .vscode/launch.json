@@ -1,18 +1,27 @@
 {
     "version": "0.2.0",
     "configurations": [
-      {
-        "name": "Debug Jest Tests",
-        "type": "node",
-        "request": "launch",
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/common/node_modules/jest/bin/jest.js",
-          "--runInBand"
-        ],
-        "cwd": "${workspaceFolder}/common",
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen"
-      }
+        {
+            "name": "Launch Heap Perf",
+            "cwd": "${workspaceFolder}/common",
+            "program": "${workspaceFolder}/common/Heap/heap_performances.js",
+            "console": "integratedTerminal",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "node"
+        },
+        {
+            "name": "Debug Jest Tests",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/common/node_modules/jest/bin/jest.js",
+                "--runInBand"
+            ],
+            "cwd": "${workspaceFolder}/common",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
     ]
-  }
+}

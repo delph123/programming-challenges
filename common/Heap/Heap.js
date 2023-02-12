@@ -6,7 +6,8 @@ Heap.prototype.merge = function merge(values) {
     let n = this.content.length;
     let k = values.length;
 
-    this.content.push(...values);
+    // this.content.push(...values);
+    values.forEach((v) => this.content.push(v));
     this.length += values.length;
 
     if (k * Math.log2(n + k) > n + k) {
