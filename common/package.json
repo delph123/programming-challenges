@@ -4,7 +4,7 @@
     "description": "A set of common data structures to be used for other challenges",
     "main": "index.js",
     "scripts": {
-        "test": "jest"
+        "test": "jest --watch"
     },
     "author": "",
     "license": "MIT",

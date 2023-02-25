@@ -1,5 +1,9 @@
 const Heap = require("./BinaryMaxHeap");
 
+function range(n) {
+    return new Array(n).fill(0).map((_, i) => i);
+}
+
 function extractsAllInOrder(heap) {
     const result = [];
     while (heap.length > 0) {
@@ -63,24 +67,51 @@ test("It concatenates a max heap with a list", () => {
     expect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 6, 5, 4, 2, 0]);
 });
 
-test("It accepts a range change listner", () => {
+test("It accepts a change listner", () => {
     function compareKeys(a, b) {
         return a.key - b.key;
     }
     const h = new Heap([], compareKeys, (value, index) => {
         if (value !== undefined) {
+            // The map change listner keeps the idx attribute
+            // equal to the actual index in the heap!
             value.idx = index;
         }
-        console.log(value, index);
     });
 
     h.addEach([{ key: 6 }, { key: 12 }, { key: 7 }, { key: 17 }]);
-    console.log(h)
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    // Therefore elements index shall be 0 .. n
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
     h.add({ key: 21 });
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
-    h.pop()
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
+    h.pop();
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
     h.push({ key: 3 }, { key: 16 }, { key: 8 });
-    expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
+    expect(h.map((v) => v.idx)).toEqual(range(h.length));
+});
+
+test("It can be reversed in place", () => {
+    const h = new Heap([4, 8, 2, 6, 12]);
+    const expected = [12, 8, 6, 4, 2];
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
+    h.reverse();
+    expect(extractsAllInOrder(h.clone())).toEqual(expected.slice().reverse());
+    h.reverse();
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
+});
+
+test("It can be reversed without impact", () => {
+    function compareKeys(a, b) {
+        return b.key - a.key;
+    }
+    function toKey(n) {
+        return { key: n };
+    }
+    // This is a min-heap due to comparison function
+    const h = new Heap([4, 8, 2, 6, 12].map(toKey), compareKeys);
+    const expected = [2, 4, 6, 8, 12].map(toKey);
+    expect(extractsAllInOrder(h.reversed())).toEqual(
+        expected.slice().reverse()
+    );
+    expect(extractsAllInOrder(h.clone())).toEqual(expected);
 });
