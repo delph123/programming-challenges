@@ -106,6 +106,29 @@ class BinaryMaxHeap {
 			}
 		}
 	}
+
+	reverse() {
+		// Inverse the order
+		let oldCompare = this.compare;
+		this.compare = function compare(a, b) {
+			return -oldCompare.call(this, a, b);
+		};
+		// Re-heapify the elements according to the new order
+		let m = Math.trunc(this.length / 2) - 1;
+		for (let i = m; i >= 0; i--) {
+			this.heapifyDown(i);
+		}
+		// return current reference as result
+		return this;
+	}
+
+	clone() {
+		return this.concat();
+	}
+
+	reversed() {
+		return this.clone().reverse();
+	}
 	
 	swap(i, j) {
 		if (i !== j) {
