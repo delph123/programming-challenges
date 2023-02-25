@@ -1,4 +1,4 @@
-const Heap = require("./Heap");
+const Heap = require("./BinaryMaxHeap");
 
 function extractsAllInOrder(heap) {
     const result = [];
@@ -8,7 +8,7 @@ function extractsAllInOrder(heap) {
     return result;
 }
 
-test("It creates a max heap from a list", () => {
+it("It creates a max heap from a list", () => {
     const h = new Heap([4, 3, 5, 8, 2, 1]);
     expect(h.length).toBe(6);
     expect(extractsAllInOrder(h)).toEqual([8, 5, 4, 3, 2, 1]);
@@ -58,26 +58,24 @@ test("It pushes a single elements to a max heap", () => {
 
 test("It concatenates a max heap with a list", () => {
     const h = new Heap([4, 8, 2, 6, 12]);
-    const v = h.concat([5, 7, 9]);
+    const v = h.concat([5, 7, 9], [6, 0]);
     expect(extractsAllInOrder(h)).toEqual([12, 8, 6, 4, 2]);
-    e;xpect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 5, 4, 2]);
+    expect(extractsAllInOrder(v)).toEqual([12, 9, 8, 7, 6, 6, 5, 4, 2, 0]);
 });
 
 test("It accepts a range change listner", () => {
-    function equalsKey(a, b) {
-        return Object.equal(a.key, b.key);
-    }
     function compareKeys(a, b) {
         return a.key - b.key;
     }
-    const h = new Heap([], equalsKey, compareKeys);
-    h.addMapChangeListener((value, index) => {
+    const h = new Heap([], compareKeys, (value, index) => {
         if (value !== undefined) {
             value.idx = index;
         }
         console.log(value, index);
     });
+
     h.addEach([{ key: 6 }, { key: 12 }, { key: 7 }, { key: 17 }]);
+    console.log(h)
     expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
     h.add({ key: 21 });
     expect(h.map(v => v.idx)).toEqual(new Array(h.length).fill(0).map((_, i) => i));
