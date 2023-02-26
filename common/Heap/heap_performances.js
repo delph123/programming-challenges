@@ -1,4 +1,5 @@
-const Heap = require("./Heap");
+const Heap = require("./BinaryMaxHeap");
+const Heap2 = require("./Heap");
 
 function generateRecords(size) {
     return new Array(size).fill(0).map(() => Math.random());
@@ -16,16 +17,39 @@ function toKey(n) {
 
 function buildHeap(recs, recs2, name, listner) {
     console.time("build-" + name);
-    let h = new Heap(recs, equalsKey, compareKeys);
+    let h = new Heap(recs, compareKeys, listner);
     console.timeEnd("build-" + name);
-    if (listner) {
-        h.addMapChangeListener(listner);
-    }
     console.time("concat-" + name);
     h.addEach(recs2);
     console.timeEnd("concat-" + name);
     console.time("push-" + name);
-    h.push(5, -4, 2, 0, 8);
+    h.push(...[5, -4, 2, 0, 8].map(toKey));
+    console.timeEnd("push-" + name);
+    console.time("clone-" + name);
+    const c = h.clone();
+    console.timeEnd("clone-" + name);
+    console.time("merge-" + name);
+    h.merge(c);
+    console.timeEnd("merge-" + name);
+    console.time("pop-" + name);
+    while (h.length > 0) {
+        h.pop();
+    }
+    console.timeEnd("pop-" + name);
+}
+
+function buildHeap2(recs, recs2, name, listner) {
+    console.time("build-" + name);
+    let h = new Heap2(recs, equalsKey, compareKeys);
+    if (listner) {
+        h.addMapChangeListener(listner);
+    }
+    console.timeEnd("build-" + name);
+    console.time("concat-" + name);
+    h.addEach(recs2);
+    console.timeEnd("concat-" + name);
+    console.time("push-" + name);
+    h.push(...[5, -4, 2, 0, 8].map(toKey));
     console.timeEnd("push-" + name);
     console.time("clone-" + name);
     const c = h.clone();
@@ -53,10 +77,10 @@ function buildArray(recs, recs2, name) {
     });
     console.timeEnd("concat-" + name);
     console.time("push-" + name);
-    h.push(5, -4, 2, 0, 8);
+    h.push(...[5, -4, 2, 0, 8].map(toKey));
     console.timeEnd("push-" + name);
     console.time("clone-" + name);
-    const c = h.clone();
+    const c = h.slice();
     console.timeEnd("clone-" + name);
     console.time("merge-" + name);
     h = h.concat(c);
@@ -91,12 +115,28 @@ console.log("--");
 
 console.time("monitored-heap");
 buildHeap(recs, recs2, "monitored-heap", (value, index) => {
-    if (value !== undefined) {
-        // The map change listner keeps the idx attribute
-        // equal to the actual index in the heap!
-        value.idx = index;
-    }
+    // The map change listner keeps the idx attribute
+    // equal to the actual index in the heap!
+    value.idx = index;
 });
 console.timeEnd("monitored-heap");
 
 console.log("--");
+
+console.time("collections-heap");
+buildHeap2(recs, recs2, "collections-heap", undefined);
+console.timeEnd("collections-heap");
+
+console.log("--");
+
+// console.time("collections-monitored-heap");
+// buildHeap2(recs, recs2, "collections-monitored-heap", (value, index) => {
+//     if (value !== undefined) {
+//         // The map change listner keeps the idx attribute
+//         // equal to the actual index in the heap!
+//         value.idx = index;
+//     }
+// });
+// console.timeEnd("collections-monitored-heap");
+
+// console.log("--");
