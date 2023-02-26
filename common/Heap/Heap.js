@@ -25,7 +25,7 @@ Heap.prototype.merge = function merge(values) {
 };
 
 Heap.prototype.addEach = function addEach(values, mapFn, thisp) {
-    // Redifined add method to capture all added values
+    // Redefined add method to capture all added values
     let newValues = [];
     this.add = function add(value) {
         newValues.push(value);
