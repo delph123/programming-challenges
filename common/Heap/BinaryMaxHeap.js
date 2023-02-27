@@ -1,32 +1,5 @@
-function defaultCompare(a, b) {
-    if (a < b) return -1;
-    if (a > b) return 1;
-    return 0;
-}
-
-function noop() {}
-
-function expand(collection) {
-    if (collection == null) {
-        return [];
-    } else if (Array.isArray(collection)) {
-        return collection;
-    } else if (typeof collection[Symbol.iterator] === "function") {
-        return [...collection];
-    } else if (typeof collection.length === "number") {
-        return new Array(collection.length)
-            .fill(0)
-            .map((_, i) => collection[i]);
-    }
-}
-
-function collect(collections) {
-    if (!collections || collections.length === 0) {
-        return [];
-    }
-
-    return [].concat(...collections.map(expand));
-}
+const { noop, defaultCompare, collect } = require("../Collection/util");
+const AbstractCollection = require("../Collection/AbstractCollection");
 
 class BinaryMaxHeap {
     content;
@@ -43,16 +16,8 @@ class BinaryMaxHeap {
         this.merge(initialValues);
     }
 
-    push(...values) {
-        return this.merge(values);
-    }
-
     pop() {
         return this.remove(0);
-    }
-
-    concat(...collections) {
-        return this.clone().merge(...collections);
     }
 
     remove(index) {
@@ -101,11 +66,13 @@ class BinaryMaxHeap {
         });
 
         if (k * Math.log2(n + k) > n + k) {
+            // Use Floyd algorithm to build heap in O(n + k)
             let m = Math.trunc(this.length / 2) - 1;
             for (let i = m; i >= 0; i--) {
                 this.heapifyDown(i);
             }
         } else {
+            // Insert k elements one by one since float is O(log(n + k))
             for (let i = n; i < this.content.length; i++) {
                 this.heapifyUp(i);
             }
@@ -190,10 +157,6 @@ class BinaryMaxHeap {
         );
     }
 
-    reversed() {
-        return this.clone().reverse();
-    }
-
     swap(i, j) {
         if (i !== j) {
             let t = this.content[i];
@@ -224,11 +187,12 @@ class BinaryMaxHeap {
     join(sep) {
         return this.content.join(sep);
     }
-
-    toString() {
-        return this.join();
-    }
 }
+
+BinaryMaxHeap.prototype.push = AbstractCollection.prototype.push;
+BinaryMaxHeap.prototype.concat = AbstractCollection.prototype.concat;
+BinaryMaxHeap.prototype.reversed = AbstractCollection.prototype.reversed;
+BinaryMaxHeap.prototype.toString = AbstractCollection.prototype.toString;
 
 BinaryMaxHeap.prototype.addEach = BinaryMaxHeap.prototype.merge;
 BinaryMaxHeap.prototype.add = BinaryMaxHeap.prototype.push;
