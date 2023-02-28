@@ -1,3 +1,3 @@
-const Heap = require("./Heap");
+const Heap = require("./BinaryMaxHeap");
 
 module.exports = Heap;
