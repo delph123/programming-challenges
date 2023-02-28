@@ -2,6 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Day 19",
+            "cwd": "${workspaceFolder}/AoC2022",
+            "program": "${workspaceFolder}/AoC2022/day19.js",
+            "console": "integratedTerminal",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "node"
+        },
+        {
             "name": "Launch Heap Perf",
             "cwd": "${workspaceFolder}/common",
             "program": "${workspaceFolder}/common/Heap/heap_performances.js",
