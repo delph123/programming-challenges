@@ -1,14 +1,14 @@
 /**
  * Day 19: Not Enough Minerals
  *
- * Find maximal number of geode-cracking robots for any blueprint.
+ * Find maximal number of geode-cracking robots for 30 blueprints.
  */
 
 const AStarSolver = require("../common/AStarSolver/AStarSolver");
-const blueprint = require("./inputs/day19");
+const blueprints = require("./inputs/day19");
 
-const MAX_DURATION = 24;
-const MAX_DURATION_P2 = 32;
+const MAX_DURATION_PART_1 = 24;
+const MAX_DURATION_PART_2 = 32;
 
 console.time("total");
 
@@ -17,10 +17,10 @@ let m = 1;
 let v = 0;
 let v2 = 0;
 
-blueprint.forEach((bp) => {
+blueprints.forEach((bp) => {
     console.time("a* " + bp[0]);
     const { path, cost, visited } = collect_astar(bp, [
-        MAX_DURATION,
+        MAX_DURATION_PART_1,
         { ore: 0, clay: 0, obs: 0, geo: 0 },
         { ore: 1, clay: 0, obs: 0, geo: 0 },
     ]);
@@ -45,7 +45,7 @@ blueprint.forEach((bp) => {
     if (bp[0] < 4) {
         console.time("a* p2 " + bp[0]);
         const { path, cost, visited } = collect_astar(bp, [
-            MAX_DURATION_P2,
+            MAX_DURATION_PART_2,
             { ore: 0, clay: 0, obs: 0, geo: 0 },
             { ore: 1, clay: 0, obs: 0, geo: 0 },
         ]);
@@ -84,14 +84,14 @@ function collect_astar(blueprint, start) {
                 getNeighbour(blueprint, turn, collection, robots, 1),
                 getNeighbour(blueprint, turn, collection, robots, 2),
                 getNeighbour(blueprint, turn, collection, robots, 3),
-            ].filter((s) => Boolean(s));
+            ].filter((s) => s != null);
         },
         cost: ([ft, fc, fr], [tt, tc, tr], cost) => tc.geo,
         heuristic: ([turn, col, rob], cost) =>
             heuristic(blueprint, turn, col, rob),
         compareHeuristic: compareArray,
         start: start,
-        isGoal: ([turn]) => turn === 0,
+        isGoal: ([turn, col, rob]) => turn === 0,
     });
 
     return solver.solve();
