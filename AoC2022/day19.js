@@ -14,6 +14,8 @@ console.time("total");
 
 let q = 0;
 let m = 1;
+let v = 0;
+let v2 = 0;
 
 blueprint.forEach((bp) => {
     console.time("a* " + bp[0]);
@@ -25,6 +27,7 @@ blueprint.forEach((bp) => {
     console.timeEnd("a* " + bp[0]);
 
     q += bp[0] * cost;
+    v += visited;
 
     console.log(
         "BP",
@@ -49,6 +52,7 @@ blueprint.forEach((bp) => {
         console.timeEnd("a* p2 " + bp[0]);
 
         m *= cost;
+        v2 += visited;
 
         console.log(
             "BP",
@@ -66,8 +70,8 @@ blueprint.forEach((bp) => {
 });
 
 console.log("--");
-console.log("Quality:", q);
-console.log("Mult*3:", m);
+console.log("Quality:", q, "visited", v);
+console.log("Mult*3:", m, "visited", v2);
 
 console.timeEnd("total");
 
@@ -84,8 +88,8 @@ function collect_astar(blueprint, start) {
         },
         cost: ([ft, fc, fr], [tt, tc, tr], cost) => tc.geo,
         heuristic: ([turn, col, rob], cost) =>
-            heuristic(start[0], turn, col, rob),
-        compareHeuristic: (a, b) => a - b,
+            heuristic(blueprint, turn, col, rob),
+        compareHeuristic: compareArray,
         start: start,
         isGoal: ([turn]) => turn === 0,
     });
@@ -93,45 +97,56 @@ function collect_astar(blueprint, start) {
     return solver.solve();
 }
 
-function heuristic(duration, turn, collection, robots) {
-    return collection.geo + turn * robots.geo + (turn * (turn - 1)) / 2;
+function compareArray(a, b) {
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] > b[i]) {
+            return 1;
+        } else if (a[i] < b[i]) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+function heuristic(blueprint, turn, collection, robots) {
+    const cols = [0, 1, 2, 3].map(() => ({ ...collection }));
+    let rob = { ...robots };
+    let d = turn;
+    while (d > 0) {
+        d--;
+        // Check what which robot can be created
+        const can = cols.map((col, i) => canCreate(blueprint, col, i));
+        // Produce gems on the basis of current robot count
+        cols.forEach((col) => {
+            col.ore += rob.ore;
+            col.clay += rob.clay;
+            col.obs += rob.obs;
+            col.geo += rob.geo;
+        });
+        // Create robots
+        cols.forEach((col, i) => {
+            if (can[i]) {
+                consume(blueprint, rob, col, i);
+            }
+        });
+    }
+    return [cols[3].geo, -turn];
 }
 
 function getHash([turn, col, rob]) {
     return `${rob.ore}/${rob.clay}/${rob.obs}/${rob.geo} | ${col.ore}/${col.clay}/${col.obs}/${col.geo} | ${turn}`;
 }
 
-function getNeighbour(
-    [bp, ore, clay, ob_ore, ob_clay, geo_ore, geo_obs],
-    duration,
-    collection,
-    robots,
-    robot_turn
-) {
+function getNeighbour(blueprint, duration, collection, robots, robot_turn) {
     let col = { ...collection };
     let rob = { ...robots };
 
-    if (
-        exhausted(
-            [bp, ore, clay, ob_ore, ob_clay, geo_ore, geo_obs],
-            duration,
-            collection,
-            robots,
-            robot_turn
-        )
-    ) {
+    if (exhausted(blueprint, duration, collection, robots, robot_turn)) {
         return undefined;
     }
 
     // Produce
-    while (
-        duration > 0 &&
-        !canCreate(
-            [bp, ore, clay, ob_ore, ob_clay, geo_ore, geo_obs],
-            col,
-            robot_turn
-        )
-    ) {
+    while (duration > 0 && !canCreate(blueprint, col, robot_turn)) {
         duration--;
         col.ore += robots.ore;
         col.clay += robots.clay;
@@ -145,12 +160,7 @@ function getNeighbour(
 
     // Create robot
     duration--;
-    [rob, col] = consume(
-        [bp, ore, clay, ob_ore, ob_clay, geo_ore, geo_obs],
-        rob,
-        col,
-        robot_turn
-    );
+    consume(blueprint, rob, col, robot_turn);
     col.ore += robots.ore;
     col.clay += robots.clay;
     col.obs += robots.obs;
@@ -189,7 +199,7 @@ function exhausted(
                     (duration - 1) * geo_obs)
         );
     } else {
-        // Need to produce geode event during last turn
+        // Need to produce geode even during last turn
         // or we won't generate any neighbour during last turn!
         return false;
     }
@@ -215,12 +225,10 @@ function canCreate(
 
 function consume(
     [bp, ore, clay, ob_ore, ob_clay, geo_ore, geo_obs],
-    robots,
-    collection,
+    rob,
+    col,
     robot_turn
 ) {
-    let col = { ...collection };
-    let rob = { ...robots };
     if (robot_turn === 0) {
         col.ore -= ore;
         rob.ore++;
@@ -236,5 +244,4 @@ function consume(
         col.obs -= geo_obs;
         rob.geo++;
     }
-    return [rob, col];
 }
