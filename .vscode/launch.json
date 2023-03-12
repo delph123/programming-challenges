@@ -22,13 +22,13 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Ex1",
+            "name": "Launch Ex3",
             "cwd": "${workspaceFolder}/MDF2023",
             "console": "integratedTerminal",
-            "program": "${workspaceFolder}/MDF2023/final/ex1_sort_candidates_submissions.js",
+            "program": "${workspaceFolder}/MDF2023/04_final/ex3_number_of_alternatives.js",
             "args": [
                 "<",
-                "${workspaceFolder}/MDF2023/final/candidates_submissions.txt"
+                "${workspaceFolder}/MDF2023/04_final/candidates_submissions.txt"
             ],
             "skipFiles": ["<node_internals>/**"]
         },
