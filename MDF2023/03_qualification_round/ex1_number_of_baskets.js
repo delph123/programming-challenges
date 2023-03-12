@@ -6,7 +6,7 @@ input.pop();
 ContestResponse();
 
 function ContestResponse() {
-    const [self, opponent] = input[0].split(" ").map((n) => parseInt(n));
+    const [self, opponent] = input[0].split("-").map((n) => parseInt(n));
 
     if (self <= opponent) {
         console.log(Math.ceil((opponent + 1 - self) / 3));
