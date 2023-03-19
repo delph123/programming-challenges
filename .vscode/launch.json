@@ -25,7 +25,7 @@
             "name": "Launch Ex3",
             "cwd": "${workspaceFolder}/MDF2023",
             "console": "integratedTerminal",
-            "program": "${workspaceFolder}/MDF2023/03_qualification_round/ex3_the_perfect_score.js",
+            "program": "${workspaceFolder}/MDF2023/04_final/ex3_number_of_alternatives.js",
             "args": [
                 "<",
                 "${workspaceFolder}/MDF2023/04_final/candidates_submissions.txt"
