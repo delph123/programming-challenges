@@ -1,8 +1,11 @@
-const fs = require("fs");
-const stdinBuffer = fs.readFileSync(0); // STDIN_FILENO = 0
-const input = stdinBuffer.toString().split("\n");
-input.pop();
-
+input = [
+    "5",
+    "4 tropcourtpouretrevrai",
+    "28 cac'estcool!",
+    "3 tropcourtpouretrevrai",
+    "30 un_poil_plus_long",
+    "43 bondernier",
+];
 ContestResponse();
 
 function ContestResponse() {
