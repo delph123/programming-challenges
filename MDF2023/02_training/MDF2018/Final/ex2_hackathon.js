@@ -25,7 +25,7 @@ function ContestResponse() {
     //     .fill(0)
     //     .map((_, i) => new Set(meet[i].map((_, j) => j).filter((j) => meet[i][j])));
 
-    const all = [new Array(N).fill(0).map((_, i) => i)];
+    const all = [new Set(new Array(N).fill(0).map((_, i) => i))];
 
     //   console.error(meet);
     //   console.error(all);
