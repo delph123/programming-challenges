@@ -1,0 +1,15 @@
+{
+  "name": "personal",
+  "version": "1.0.0",
+  "description": "Personal challenges",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "knuth-shuffle-seeded": "^1.0.6"
+  }
+}
