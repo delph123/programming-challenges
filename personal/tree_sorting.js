@@ -11,6 +11,10 @@ class Tree {
         this.children = children;
     }
 
+    /**
+     * An efficient algorithm which parses the items in one pass
+     * and builds the tree by fragments.
+     */
     static from(items) {
         const treeMap = new Map();
         // Initialize the root tree
@@ -30,7 +34,7 @@ class Tree {
             if (treeMap.has(itemId)) {
                 node = treeMap.get(itemId);
                 node.itemId = itemId;
-                node.parentId = parentId;
+                node.sortOrder = sortOrder;
             } else {
                 node = new Tree(itemId, sortOrder, []);
                 treeMap.set(itemId, node);
@@ -50,6 +54,32 @@ class Tree {
         // );
 
         return treeMap.get(ROOT_ID);
+    }
+
+    /**
+     * A more simple but slower algorithm.
+     */
+    static from_quadratic(items, parent = null) {
+        const root = new Tree(null, null, []);
+
+        for (let [itemId, parentId, sortOrder] of items) {
+            if (parentId == parent) {
+                const subtree = Tree.from_quadratic(items, itemId);
+                subtree.itemId = itemId;
+                subtree.sortOrder = sortOrder;
+                root.children.push(subtree);
+            }
+        }
+
+        return root;
+    }
+
+    sort() {
+        this.children.sort((a, b) => a.sortOrder - b.sortOrder);
+        for (let child of this.children) {
+            child.sort();
+        }
+        return this;
     }
 
     lines(parent = null, from = 0) {

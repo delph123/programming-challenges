@@ -38,10 +38,10 @@
             "request": "launch",
             "runtimeArgs": [
                 "--inspect-brk",
-                "${workspaceRoot}/common/node_modules/jest/bin/jest.js",
+                "${workspaceRoot}/personal/node_modules/jest/bin/jest.js",
                 "--runInBand"
             ],
-            "cwd": "${workspaceFolder}/common",
+            "cwd": "${workspaceFolder}/personal",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         }

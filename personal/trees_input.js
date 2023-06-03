@@ -3,10 +3,9 @@ const { range } = require("../common/Collection/util");
 const { getNextId, randomInt } = require("../common/Random/util");
 const Tree = require("./tree_sorting");
 
-function randomTree(depth, width, maxSortOrder = 10) {
-    const scope = `tree-id-${randomInt(1234321)}`;
+function randomTree(scope, depth, width, maxSortOrder = 10) {
     const children = [...range(depth > 0 ? randomInt(width) : 0)].map(() =>
-        randomTree(depth - 1, width)
+        randomTree(scope, depth - 1, width)
     );
     let sortOrder = 0;
     children.forEach((child) => {
@@ -34,7 +33,8 @@ function addHardcodedExample(name, lines) {
 
 function generateRandomTrees(nb) {
     return [...range(nb)].map((n) => {
-        const lines = randomTree(3, 5).lines();
+        const scope = `tree-id-${getNextId("tree-scope")}`;
+        const lines = randomTree(scope, 4, 13).lines();
         const rootId = lines[0][0];
         const items = shuffle(
             lines

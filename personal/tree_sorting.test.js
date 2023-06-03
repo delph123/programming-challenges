@@ -1,9 +1,9 @@
 const { hardcodedExamples, generatedExamples } = require("./trees_input");
 const Tree = require("./tree_sorting");
 
-function testInput(input) {
-    test(input.name, () => {
-        const lines = Tree.from(input.items)
+function testInput(treeFromInput, input) {
+    test(`${input.name} with ${input.items.length} lines`, () => {
+        const lines = treeFromInput(input.items)
             .lines()
             .slice(1)
             .map(([itemId, , , lineNum]) => [itemId, lineNum]);
@@ -12,9 +12,21 @@ function testInput(input) {
 }
 
 describe("Check line number hardcoded", () => {
-    hardcodedExamples.forEach(testInput);
+    hardcodedExamples.forEach((input) => testInput((l) => Tree.from(l), input));
 });
 
 describe("Check line number generated", () => {
-    generatedExamples.forEach(testInput);
+    generatedExamples.forEach((input) => testInput((l) => Tree.from(l), input));
+});
+
+describe("Check line number hardcoded with O(n^2) parser", () => {
+    hardcodedExamples.forEach((input) =>
+        testInput((l) => Tree.from_quadratic(l).sort(), input)
+    );
+});
+
+describe("Check line number generated with O(n^2) parser", () => {
+    generatedExamples.forEach((input) =>
+        testInput((l) => Tree.from_quadratic(l).sort(), input)
+    );
 });
