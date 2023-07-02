@@ -160,20 +160,25 @@ describe("Range", () => {
     it("Creates a range of 0..n", () => {
         expect([...range(0)]).toEqual([]);
         expect([...range(4)]).toEqual([0, 1, 2, 3]);
+        expect([...range(-5)]).toEqual([]);
     });
 
     it("Creates a range of s..e", () => {
         expect(collect([range(0, 0)])).toEqual([]);
         expect(collect([range(2, 4)])).toEqual([2, 3]);
+        expect(collect([range(-2, 4)])).toEqual([-2, -1, 0, 1, 2, 3]);
     });
 
     it("Creates a range of s..e with step 5", () => {
         expect(expand(range(0, -2, 5))).toEqual([]);
         expect(expand(range(2, 30, 5))).toEqual([2, 7, 12, 17, 22, 27]);
+        expect(expand(range(-17, -4, 5))).toEqual([-17, -12, -7]);
     });
 
     it("Creates a range of s..e with step -1", () => {
         expect(Array.from(range(0, 0, -1))).toEqual([]);
+        expect(Array.from(range(-3, -7, -1))).toEqual([-3, -4, -5, -6]);
         expect(Array.from(range(2, -4, -1))).toEqual([2, 1, 0, -1, -2, -3]);
+        expect(Array.from(range(12, 6, -1))).toEqual([12, 11, 10, 9, 8, 7]);
     });
 });
