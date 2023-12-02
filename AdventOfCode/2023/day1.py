@@ -2,12 +2,8 @@ import re
 
 # Part 1
 
-calibration = []
-
-with open("AoC2023/examples/day1-1.in") as file:
-    for l in file:
-        str_digits = re.sub(r'[\D]+', '', l)
-        calibration.append(int(str_digits[0] + str_digits[-1]))
+digits = [re.sub(r'[\D]+', '', l) for l in open("AdventOfCode/2023/examples/day1-1.in")]
+calibration = [int(d[0] + d[-1]) for d in digits]
 
 print('Part 1: ', sum(calibration))
 
@@ -18,7 +14,7 @@ all_digits = [['one', 1], ['two', 2], ['three', 3], ['four', 4], ['five', 5], ['
 
 calibration = []
 
-with open("AoC2023/examples/day1-2.in") as file:
+with open("AdventOfCode/2023/examples/day1-2.in") as file:
     for l in file:
         str_digits = []
 

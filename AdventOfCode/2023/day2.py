@@ -2,7 +2,7 @@
 
 games = []
 
-with open("AoC2023/examples/day2.in") as file:
+with open("AdventOfCode/2023/examples/day2.in") as file:
     for line in file:
         line = line.replace(" ", "").replace("\n", "")
         game, sets = line.split(":")
