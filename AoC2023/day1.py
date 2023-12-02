@@ -4,7 +4,7 @@ import re
 
 calibration = []
 
-with open("AoC2023/inputs/day1.txt") as file:
+with open("AoC2023/examples/day1-1.in") as file:
     for l in file:
         str_digits = re.sub(r'[\D]+', '', l)
         calibration.append(int(str_digits[0] + str_digits[-1]))
@@ -18,7 +18,7 @@ all_digits = [['one', 1], ['two', 2], ['three', 3], ['four', 4], ['five', 5], ['
 
 calibration = []
 
-with open("AoC2023/inputs/day1.txt") as file:
+with open("AoC2023/examples/day1-2.in") as file:
     for l in file:
         str_digits = []
 

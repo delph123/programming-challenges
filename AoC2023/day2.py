@@ -2,7 +2,7 @@
 
 games = []
 
-with open("AoC2023/inputs/day2.txt") as file:
+with open("AoC2023/examples/day2.in") as file:
     for line in file:
         line = line.replace(" ", "").replace("\n", "")
         game, sets = line.split(":")
@@ -34,7 +34,7 @@ for i, game in enumerate(games):
             excludes.append(i+1)
             break
 
-print("Part 1: ", int(100 * (100 + 1) / 2 - sum(excludes)))
+print("Part 1: ", int(len(games) * (len(games) + 1) / 2 - sum(excludes)))
 
 # Part 2
 
