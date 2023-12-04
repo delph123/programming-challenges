@@ -1,6 +1,6 @@
 # Parse file
 
-cards = [line.split(": ")[1].strip().split(" | ") for line in open("AdventOfCode/2023/inputs/day4.in").read().strip().split("\n")]
+cards = [line.split(": ")[1].strip().split(" | ") for line in open("AdventOfCode/2023/examples/day4.in").read().strip().split("\n")]
 cards = [([int(n) for n in a.split()], [int(n) for n in b.split()]) for (a,b) in cards]
 
 # Part 1

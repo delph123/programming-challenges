@@ -56,7 +56,7 @@ for i, line in enumerate(engine):
                 save(num, i, j - len(num))
                 num = ''
 
-print("Part 1: ", sum(parts))
+print("Part 1:", sum(parts))
 
 # Part 2
 
@@ -66,7 +66,7 @@ def find_part(i, j):
     for (part, i1, j1, j2) in all_parts:
         if i == i1 and j >= j1 and j <= j2:
             return part
-        
+
 def search(i, j):
     global gears
     found = set()
@@ -94,7 +94,7 @@ def search(i, j):
     if i < len(engine) - 1:
         if engine[i+1][j].isdigit():
             found.add(find_part(i+1, j))
-    
+
     if len(found) == 2:
         x, y = found
         gears.append(x*y)
@@ -105,4 +105,4 @@ for i, line in enumerate(engine):
         if char == "*":
             search(i, j)
 
-print("Part 2: ", sum(gears))
+print("Part 2:", sum(gears))

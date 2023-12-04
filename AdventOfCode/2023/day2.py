@@ -34,7 +34,7 @@ for i, game in enumerate(games):
             excludes.append(i+1)
             break
 
-print("Part 1: ", int(len(games) * (len(games) + 1) / 2 - sum(excludes)))
+print("Part 1:", int(len(games) * (len(games) + 1) / 2 - sum(excludes)))
 
 # Part 2
 
@@ -48,4 +48,4 @@ for game in games:
         bm = max(bm, b)
     powers.append(rm * gm * bm)
 
-print("Part 2: ", sum(powers))
+print("Part 2:", sum(powers))
