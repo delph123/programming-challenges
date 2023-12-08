@@ -2,15 +2,25 @@ import re
 
 # Part 1
 
-digits = [re.sub(r'[\D]+', '', l) for l in open("AdventOfCode/2023/examples/day1-1.in")]
+digits = [re.sub(r"[\D]+", "", l) for l in open("AdventOfCode/2023/examples/day1-1.in")]
 calibration = [int(d[0] + d[-1]) for d in digits]
 
-print('Part 1:', sum(calibration))
+print("Part 1:", sum(calibration))
 
 
 # Part 2
 
-all_digits = [['one', 1], ['two', 2], ['three', 3], ['four', 4], ['five', 5], ['six', 6], ['seven', 7], ['eight', 8], ['nine', 9]]
+all_digits = [
+    ["one", 1],
+    ["two", 2],
+    ["three", 3],
+    ["four", 4],
+    ["five", 5],
+    ["six", 6],
+    ["seven", 7],
+    ["eight", 8],
+    ["nine", 9],
+]
 
 calibration = []
 
@@ -34,4 +44,4 @@ with open("AdventOfCode/2023/examples/day1-2.in") as file:
 
         calibration.append(int(str(str_digits[0]) + str(str_digits[-1])))
 
-print('Part 2:', sum(calibration))
+print("Part 2:", sum(calibration))

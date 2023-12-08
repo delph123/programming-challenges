@@ -6,7 +6,7 @@ with open("AdventOfCode/2023/examples/day6.in") as file:
 
 wins = 1
 
-for (t, d) in zip(time, dist):
+for t, d in zip(time, dist):
     w = 0
     for v in range(t):
         w += 1 if v * (t - v) > d else 0
