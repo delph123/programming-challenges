@@ -1,6 +1,6 @@
 report = [
     [int(n) for n in l.strip().split()]
-    for l in open("AdventOfCode/2023/examples/day9.in").read().strip().split("\n")
+    for l in open("AdventOfCode/2023/examples/day09.in").read().strip().split("\n")
 ]
 
 # Compute diffs
