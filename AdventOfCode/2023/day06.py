@@ -1,6 +1,6 @@
 # Part 1
 
-with open("AdventOfCode/2023/examples/day6.in") as file:
+with open("AdventOfCode/2023/examples/day06.in") as file:
     time = [int(a.strip()) for a in file.readline()[10:].strip().split()]
     dist = [int(a.strip()) for a in file.readline()[10:].strip().split()]
 
@@ -16,7 +16,7 @@ print("Part 1:", wins)
 
 # Part 2
 
-with open("AdventOfCode/2023/examples/day6.in") as file:
+with open("AdventOfCode/2023/examples/day06.in") as file:
     time = int(file.readline()[10:].replace(" ", "").strip())
     dist = int(file.readline()[10:].replace(" ", "").strip())
 
