@@ -7,7 +7,7 @@ conv = {"T": 10, "J": 11, "Q": 12, "K": 13, "A": 14}
 
 hands = []
 
-with open("AdventOfCode/2023/examples/day7.in") as file:
+with open("AdventOfCode/2023/examples/day07.in") as file:
     for line in file:
         cards, bid = line.split(" ")
         bid = int(bid.strip())
@@ -50,7 +50,7 @@ conv = {"T": 10, "J": 1, "Q": 12, "K": 13, "A": 14}
 
 hands_p2 = []
 
-with open("AdventOfCode/2023/examples/day7.in") as file:
+with open("AdventOfCode/2023/examples/day07.in") as file:
     for line in file:
         cards, bid = line.split(" ")
         bid = int(bid.strip())
