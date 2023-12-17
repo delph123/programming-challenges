@@ -2,7 +2,7 @@ import re
 
 # Part 1
 
-digits = [re.sub(r"[\D]+", "", l) for l in open("AdventOfCode/2023/examples/day1-1.in")]
+digits = [re.sub(r"[\D]+", "", l) for l in open("AdventOfCode/2023/examples/day01a.in")]
 calibration = [int(d[0] + d[-1]) for d in digits]
 
 print("Part 1:", sum(calibration))
@@ -24,7 +24,7 @@ all_digits = [
 
 calibration = []
 
-with open("AdventOfCode/2023/examples/day1-2.in") as file:
+with open("AdventOfCode/2023/examples/day01b.in") as file:
     for l in file:
         str_digits = []
 
