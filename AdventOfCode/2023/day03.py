@@ -1,6 +1,6 @@
 # Parse file content
 
-engine = open("AdventOfCode/2023/examples/day3.in").read().split("\n")
+engine = open("AdventOfCode/2023/examples/day03.in").read().split("\n")
 
 # Part 1
 
