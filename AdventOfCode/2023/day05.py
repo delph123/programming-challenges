@@ -1,6 +1,6 @@
 # Parse input
 
-with open("AdventOfCode/2023/examples/day5.in") as file:
+with open("AdventOfCode/2023/examples/day05.in") as file:
     groups = file.read().strip().split("\n\n")
     seeds = [int(n) for n in groups[0].split(": ")[1].split()]
     mappings = dict()
