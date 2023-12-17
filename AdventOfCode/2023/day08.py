@@ -2,7 +2,7 @@ from math import sqrt, prod
 
 # Parse file
 
-path, graph = open("AdventOfCode/2023/examples/day8.in").read().split("\n\n")
+path, graph = open("AdventOfCode/2023/examples/day08.in").read().split("\n\n")
 path = [p for p in path.strip()]
 graph = [line.split(" = ") for line in graph.strip().split("\n")]
 graph = {f: tuple(lr.strip("()").split(", ")) for [f, lr] in graph}
