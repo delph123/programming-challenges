@@ -47,17 +47,20 @@ def accept_p2(coord):
         return None, 0
 
 
-# Due to the nature of the input, the walk will cycle after 131 steps.
+# Due to the nature of the input, the walk will cycle after 262 steps
+# (since the map size is 131, which is odd, we need to multiply the
+# number of steps by two to 262 to cycle - or the points we reach after
+# only 131 steps will alternate).
 # What's more, the middle of the map is located exactly 65 steps from
 # the border.
 # Interestingly, the number of steps to reach can be expressed:
-#   26501365 = 202300 * 131 + 65
+#   26501365 = 101150 * 262 + 65
 def walk_p2():
     n1 = set([start()])
     cache = [set(), set()]
-    # Let's compute 3 factors (each every 131 steps)
+    # Let's compute 3 factors (each every 262 steps)
     factors = []
-    for s in range(2 * 131 + 65):
+    for s in range(2 * 262 + 65):
         n2 = set()
         for n in n1:
             for d in [1, -1, 1j, -1j]:
@@ -66,13 +69,24 @@ def walk_p2():
                     n2.add(n + d)
         n1 = n2 - cache[s % 2]
         cache[s % 2] = n2 | cache[s % 2]
-        if (s + 1) % 131 == 65:
+        if (s + 1) % 262 == 65:
             factors.append(len(cache[s % 2]))
-    # After having computing 3 factors, we can use a polynomial
-    # regression of second degree to compute the result of the problem
-    a, b, c = factors
-    n = 26501365 // 131
-    return a + (b - a) * n + (a + c - 2 * b) * (n * (n - 1) // 2)
+    # After having computing 3 factors, we can compute the diff between them
+    # and use the fact that we have 8 odd diamonds followed by 16 even diamonds
+    # after one cycle (first diff) and 24 odd diamonds followed by 32 even after
+    # second cycle (second diff).
+    # Therefore:
+    #     - 8 * odd + 16 * even = f[1] - f[0]
+    #     - 24 * odd + 32 * even = f[2] - f[1]
+    # And:
+    #     - 8 * odd = (f[2] - f[1]) - 2 * (f[1] - f[0])
+    #     - 8 * even = (f[1] - f[0] - odd) / 2
+    odd = factors[2] - 3 * factors[1] + 2 * factors[0]
+    even = (factors[1] - factors[0] - odd) // 2
+    # The formula to compute is the following:
+    # f[0] + 8 * odd + 2 * 8 * even + 3 * 8 * odd + 4 * 8 * even + ... + 8 * (2 * n - 1) * odd + 8 * 2 * n * even
+    n = 26501365 // 262
+    return factors[0] + n * n * odd + n * (n + 1) * even
 
 
 # Note: it won't work on the example though
