@@ -1,11 +1,27 @@
 # Parse input
 
-input = open("AdventOfCode/2015/examples/day05.in").read().strip()
+strings = open("AdventOfCode/2015/examples/day05.in").read().strip().split("\n")
 
 # Part 1
 
-print("Part 1:", input)
+
+def nice(string):
+    return (
+        sum([string.count(vowel) for vowel in "aeiou"]) >= 3
+        and any(string[i] == string[i + 1] for i in range(len(string) - 1))
+        and not any(gr in string for gr in ["ab", "cd", "pq", "xy"])
+    )
+
+
+print("Part 1:", sum(1 for s in strings if nice(s)))
 
 # Part 2
 
-print("Part 2:", 0)
+
+def nice_p2(string):
+    return any(
+        string[i : i + 2] in string[i + 2 :] for i in range(len(string) - 3)
+    ) and any(string[i] == string[i + 2] for i in range(len(string) - 2))
+
+
+print("Part 2:", sum(1 for s in strings if nice_p2(s)))
