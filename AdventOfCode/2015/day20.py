@@ -1,11 +1,13 @@
+from libs import *
+
 # Parse input
 
-input = open("AdventOfCode/2015/examples/day20.in").read().strip()
+input = read("input")
 
 # Part 1
 
-print("Part 1:", input)
+part_one(input)
 
 # Part 2
 
-print("Part 2:", 0)
+part_two(0)
