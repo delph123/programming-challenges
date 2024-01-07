@@ -1,12 +1,14 @@
+from libs import *
+
 # Parse input
 
 speeds = [
-    l.replace("can fly ", "")
-    .replace("km/s for ", "")
-    .replace("seconds, but then must rest for ", "")
-    .replace(" seconds.", "")
-    .split(" ")
-    for l in open("AdventOfCode/2015/inputs/day14.in").read().strip().split("\n")
+    replace_all(
+        ["can fly ", "km/s for ", "seconds, but then must rest for ", " seconds."],
+        "",
+        l,
+    ).split(" ")
+    for l in read("example").split("\n")
 ]
 
 speeds = {
@@ -27,7 +29,7 @@ def distance(reindeer, duration):
         return bursts * speed * dur + remainder * speed
 
 
-print("Part 1:", max([distance(r, 2503) for r in speeds.keys()]))
+part_one(max([distance(r, 2503) for r in speeds.keys()]))
 
 # Part 2
 
@@ -47,4 +49,4 @@ def race(duration):
     return points
 
 
-print("Part 2:", max(race(2503).values()))
+part_two(max(race(2503).values()))
