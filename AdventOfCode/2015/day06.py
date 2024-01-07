@@ -1,3 +1,5 @@
+from libs import *
+
 # Parse input
 
 instructions = [
@@ -6,7 +8,7 @@ instructions = [
         tuple(int(n) for n in l.replace("turn ", "turn_").split(" ")[1].split(",")),
         tuple(int(n) for n in l.split(" through ")[1].split(",")),
     )
-    for l in open("AdventOfCode/2015/examples/day06.in").read().strip().split("\n")
+    for l in read("example").split("\n")
 ]
 
 # Part 1
@@ -26,7 +28,7 @@ def lit():
     return lights
 
 
-print("Part 1:", sum([sum(l) for l in lit()]))
+part_one(sum([sum(l) for l in lit()]))
 
 # Part 2
 
@@ -49,4 +51,4 @@ def lit_p2():
     return lights
 
 
-print("Part 2:", sum([sum(l) for l in lit_p2()]))
+part_two(sum([sum(l) for l in lit_p2()]))
