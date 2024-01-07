@@ -1,6 +1,8 @@
+from libs import *
+
 # Parse input
 
-sequence = open("AdventOfCode/2015/examples/day10.in").read().strip()
+sequence = read("i")
 
 # Part 1
 
@@ -22,14 +24,8 @@ def say(seq):
     return "".join(res)
 
 
-def repeat(seq, times):
-    for _ in range(times):
-        seq = say(seq)
-    return seq
-
-
-print("Part 1:", len(repeat(sequence, 40)))
+part_one(len(compose(40 * [say], sequence)))
 
 # Part 2
 
-print("Part 2:", len(repeat(sequence, 50)))
+part_two(len(compose(50 * [say], sequence)))
