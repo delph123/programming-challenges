@@ -1,6 +1,8 @@
+from libs import *
+
 # Parse input
 
-password = open("AdventOfCode/2015/examples/day11.in").read().strip()
+password = read("example")
 
 # Part 1
 
@@ -44,8 +46,8 @@ def next(pw):
     return "".join([chr(l + ord("a")) for l in pw])
 
 
-print("Part 1:", next(password))
+part_one(next(password))
 
 # Part 2
 
-print("Part 2:", next(next(password)))
+part_two(next(next(password)))
