@@ -12,7 +12,7 @@ DIRS = {">": 1, "<": -1, "^": -1j, "v": 1j}
 
 def walk(moves):
     s = 0
-    visited = set([s])
+    visited = {0}
     for m in moves:
         s += DIRS[m]
         visited.add(s)
