@@ -1,10 +1,9 @@
-from functools import cache
+from libs import *
 
 # Parse input
 
 instructions = {
-    conn.split(" -> ")[1]: conn.split(" -> ")[0]
-    for conn in open("AdventOfCode/2015/examples/day07.in").read().strip().split("\n")
+    conn.split(" -> ")[1]: conn.split(" -> ")[0] for conn in read("example").split("\n")
 }
 
 # Part 1
@@ -36,7 +35,7 @@ def value(label: str, get_value):
     return parse(instructions[label], get_value)
 
 
-print("Part 1:", value("a", value))
+part_one(value("a", value))
 
 # Part 2
 
@@ -47,4 +46,4 @@ def value_p2(label: str, _):
     return value(label, value_p2)
 
 
-print("Part 2:", value_p2("a", value_p2))
+part_two(value_p2("a", value_p2))
