@@ -1,14 +1,14 @@
-from functools import reduce
+from libs import *
 
 # Parse input
 
 properties = [
-    reduce(
-        lambda x, y: x.replace(y, ""),
+    replace_all(
         [" capacity ", " durability ", " flavor ", " texture ", " calories "],
+        "",
         l,
     ).split(":")
-    for l in open("AdventOfCode/2015/examples/day15.in").read().strip().split("\n")
+    for l in read("example").split("\n")
 ]
 
 properties = {
@@ -41,7 +41,7 @@ def best_take(take, score):
     return bt
 
 
-print("Part 1:", best_take({}, score))
+part_one(best_take({}, score))
 
 # Part 2
 
@@ -61,4 +61,4 @@ def score_p2(take):
         return 0
 
 
-print("Part 2:", best_take({}, score_p2))
+part_two(best_take({}, score_p2))
