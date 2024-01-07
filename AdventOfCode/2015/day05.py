@@ -1,6 +1,8 @@
+from libs import *
+
 # Parse input
 
-strings = open("AdventOfCode/2015/examples/day05.in").read().strip().split("\n")
+strings = read("example").split("\n")
 
 # Part 1
 
@@ -13,7 +15,7 @@ def nice(string):
     )
 
 
-print("Part 1:", sum(1 for s in strings if nice(s)))
+part_one(sum(1 for s in strings if nice(s)))
 
 # Part 2
 
@@ -24,4 +26,4 @@ def nice_p2(string):
     ) and any(string[i] == string[i + 2] for i in range(len(string) - 2))
 
 
-print("Part 2:", sum(1 for s in strings if nice_p2(s)))
+part_two(sum(1 for s in strings if nice_p2(s)))
