@@ -1,11 +1,12 @@
+from libs import *
+
 # Parse input
 
 potentials = [
-    l.replace(".", "")
-    .replace("would ", "")
-    .replace("happiness units by sitting next to ", "")
-    .split(" ")
-    for l in open("AdventOfCode/2015/inputs/day13.in").read().strip().split("\n")
+    replace_all([".", "would ", "happiness units by sitting next to "], "", l).split(
+        " "
+    )
+    for l in read("example").split("\n")
 ]
 
 potentials = {
@@ -14,7 +15,6 @@ potentials = {
 }
 
 attendees = list(set([a for a, _ in potentials.keys()]))
-
 
 # Part 1
 
@@ -43,14 +43,12 @@ def best_arrangement(attendees, arr, i):
     return ba
 
 
-print(
-    "Part 1:",
+part_one(
     best_arrangement(attendees, attendees[0:1] + [None] * (len(attendees) - 1), 1),
 )
 
 # Part 2
 
-print(
-    "Part 2:",
+part_two(
     best_arrangement(["myself"] + attendees, ["myself"] + [None] * len(attendees), 1),
 )
