@@ -1,6 +1,8 @@
+from libs import *
+
 # Parse input
 
-moves = open("AdventOfCode/2015/examples/day03.in").read().strip()
+moves = read("example")
 
 
 # Part 1
@@ -17,8 +19,8 @@ def walk(moves):
     return visited
 
 
-print("Part 1:", len(walk(moves)))
+part_one(len(walk(moves)))
 
 # Part 2
 
-print("Part 2:", len(walk(moves[::2]) | walk(moves[1::2])))
+part_two(len(walk(moves[::2]) | walk(moves[1::2])))
