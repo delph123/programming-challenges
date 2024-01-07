@@ -1,5 +1,4 @@
-\--- Day 25: Let It Snow ---
-----------
+## \--- Day 25: Let It Snow ---
 
 Merry Christmas! Santa is booting up his weather machine; looks like you might get a [white Christmas](1) after all.
 
@@ -11,12 +10,12 @@ You look up the support number for the manufacturer and give them a call. Good t
 
 "Oh, that machine is quite old!", they tell you. "That model went out of support six minutes ago, and we just finished shredding all of the manuals. I bet we can find you the code generation algorithm, though."
 
-After putting you on hold for twenty minutes (your call is *very* important to them, it reminded you repeatedly), they finally find an engineer that remembers how the code system works.
+After putting you on hold for twenty minutes (your call is _very_ important to them, it reminded you repeatedly), they finally find an engineer that remembers how the code system works.
 
 The codes are printed on an infinite sheet of paper, starting in the top-left corner. The codes are filled in by diagonals: starting with the first row with an empty first box, the codes are filled in diagonally up and to the right. This process repeats until the [infinite paper is covered](https://en.wikipedia.org/wiki/Cantor's_diagonal_argument). So, the first few codes are filled in in this order:
 
 ```
-   | 1   2   3   4   5   6  
+   | 1   2   3   4   5   6
 ---+---+---+---+---+---+---+
  1 |  1   3   6  10  15  21
  2 |  2   5   9  14  20
@@ -49,10 +48,14 @@ So, to find the second code (which ends up in row `2`, column `1`), start with t
 
 "Now remember", the voice continues, "that's not even all of the first few numbers; for example, you're missing the one at 7,1 that would come before 6,2. But, it should be enough to let your-- oh, it's time for lunch! Bye!" The call disconnects.
 
-Santa looks nervous. Your puzzle input contains the message on the machine's console. *What code do you give the machine?*
+Santa looks nervous. Your puzzle input contains the message on the machine's console. _What code do you give the machine?_
 
-To begin, [get your puzzle input](25/input).
+## \--- Part Two ---
 
-Answer:
+The machine springs to life, then falls silent again. It beeps. "Insufficient fuel", the console reads. "_Fifty stars_ are required before proceeding. _One star_ is available."
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22Let+It+Snow%22+%2D+Day+25+%2D+Advent+of+Code+2015&url=https%3A%2F%2Fadventofcode%2Ecom%2F2015%2Fday%2F25&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+..."one star is available"? You check the fuel tank; sure enough, a lone star sits at the bottom, awaiting its friends. Looks like you need to provide 49 yourself.
+
+You fill the weather machine with _fifty stars_. It comes to life!
+
+_Snow begins to fall_.

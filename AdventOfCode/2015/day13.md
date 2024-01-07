@@ -1,7 +1,6 @@
-\--- Day 13: Knights of the Dinner Table ---
-----------
+## \--- Day 13: Knights of the Dinner Table ---
 
-In years past, the holiday feast with your family hasn't gone so well. Not everyone gets along! This year, you resolve, will be different. You're going to find the *optimal seating arrangement* and avoid all those awkward conversations.
+In years past, the holiday feast with your family hasn't gone so well. Not everyone gets along! This year, you resolve, will be different. You're going to find the _optimal seating arrangement_ and avoid all those awkward conversations.
 
 You start by writing up a list of everyone invited and the amount their happiness would increase or decrease if they were to find themselves sitting next to each other person. You have a circular table that will be just big enough to fit everyone comfortably, and so each person will have exactly two neighbors.
 
@@ -38,10 +37,12 @@ Carol       Alice
 
 After trying every other seating arrangement in this hypothetical scenario, you find that this one is the most optimal, with a total change in happiness of `330`.
 
-What is the *total change in happiness* for the optimal seating arrangement of the actual guest list?
+What is the _total change in happiness_ for the optimal seating arrangement of the actual guest list?
 
-To begin, [get your puzzle input](13/input).
+## \--- Part Two ---
 
-Answer:
+In all the commotion, you realize that you forgot to seat yourself. At this point, you're pretty apathetic toward the whole thing, and your happiness wouldn't really go up or down regardless of who you sit next to. You assume everyone else would be just as ambivalent about sitting next to you, too.
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22Knights+of+the+Dinner+Table%22+%2D+Day+13+%2D+Advent+of+Code+2015&url=https%3A%2F%2Fadventofcode%2Ecom%2F2015%2Fday%2F13&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+So, add yourself to the list, and give all happiness relationships that involve you a score of `0`.
+
+What is the _total change in happiness_ for the optimal seating arrangement that actually includes yourself?
