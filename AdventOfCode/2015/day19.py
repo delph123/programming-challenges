@@ -1,3 +1,5 @@
+from libs import *
+
 # Parse input
 
 
@@ -8,9 +10,7 @@ def replacement_dict():
     return rp
 
 
-replacements, medicine = (
-    open("AdventOfCode/2015/examples/day19.in").read().strip().split("\n\n")
-)
+replacements, medicine = read("example").split("\n\n")
 
 replacements = [l.split(" => ") for l in replacements.strip().split("\n")]
 replacements = replacement_dict()
@@ -37,29 +37,40 @@ def replace(mol):
     return set(molecules)
 
 
-print("Part 1:", len(replace(medicine)))
+part_one(len(replace(medicine)))
 
 # Part 2
 
 
-# Greedily destructuring  the molecule seems to work - most of the times.
-# When it doesn't it will print an error and stop.
+# Greedily destructuring  the molecule seems to work
 def destructure(molecule):
+    # Build a list of inversed replacements
+    inv_repl = dict()
+    for reactant, products in replacements.items():
+        for product in products:
+            assert product not in inv_repl
+            inv_repl[product] = reactant
+
+    # Sort replacements candidates according to their length, starting
+    # from the longest to take them in priority
+    inv_repl_set = sorted(inv_repl.keys(), key=lambda x: -len(x))
+
+    # Greedily consume molecules, taking longest molecules in priority
     s = 0
     while molecule != "e":
-        p = s
-        for reactant, products in replacements.items():
-            if any(m for m in products if m in molecule):
-                m = next(m for m in products if m in molecule)
-                molecule = molecule.replace(m, reactant, 1)
+        p = s  # For safeguarding purposes
+        for product in inv_repl_set:
+            if product in molecule:
+                molecule = molecule.replace(product, inv_repl[product], 1)
                 s += 1
+                break
         if p == s:
             print("error - try again")
             return 0
     return s
 
 
-# print("Part 2:", destructure(medicine))
+# part_two(destructure(medicine))
 
 
 def template(mol):
@@ -134,7 +145,7 @@ def tokenize(mol):
 # by the initial token. Therefore, the number of replacements to build
 # the medicine must be the number of tokens minus number of 'Y'.
 if len(medicine) > 10:
-    print("Part 2:", len(tokenize(medicine)[0]) - medicine.count("Y"))
+    part_two(len(tokenize(medicine)[0]) - medicine.count("Y"))
 
 
 # This won't work for actual input since it generates too many
@@ -155,4 +166,4 @@ def fabricate(start, mol):
 
 
 if len(medicine) < 10:
-    print("Part 2:", fabricate("e", medicine))
+    part_two(fabricate("e", medicine))
