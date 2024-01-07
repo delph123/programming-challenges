@@ -1,8 +1,9 @@
 from hashlib import md5
+from libs import *
 
 # Parse input
 
-secret = open("AdventOfCode/2015/examples/day04.in").read().strip()
+secret = read("example")
 
 # Part 1
 
@@ -14,8 +15,8 @@ def find_hash(key, nb_zeros):
             return i
 
 
-print("Part 1:", find_hash(secret, 5))
+part_one(find_hash(secret, 5))
 
 # Part 2
 
-print("Part 2:", find_hash(secret, 6))
+part_two(find_hash(secret, 6))
