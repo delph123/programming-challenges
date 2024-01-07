@@ -1,3 +1,5 @@
+from libs import *
+
 # Parse input
 
 detected = """
@@ -18,10 +20,7 @@ detected = {
     for l in detected.strip().split("\n")
 }
 
-sues = [
-    l.strip().replace(": ", "|", 1).split("|")
-    for l in open("AdventOfCode/2015/examples/day16.in").read().strip().split("\n")
-]
+sues = [l.strip().replace(": ", "|", 1).split("|") for l in read("example").split("\n")]
 
 sues = {
     s[4:]: {
@@ -38,7 +37,7 @@ def match(sue):
     return all(detected[c] == v for c, v in sue.items())
 
 
-print("Part 1:", list({sue for sue, caracs in sues.items() if match(caracs)})[0])
+part_one(list({sue for sue, caracs in sues.items() if match(caracs)})[0])
 
 # Part 2
 
@@ -54,4 +53,4 @@ def match_p2(sue):
     return all(matcher(c, v, detected[c]) for c, v in sue.items())
 
 
-print("Part 2:", list({sue for sue, caracs in sues.items() if match_p2(caracs)})[0])
+part_two(list({sue for sue, caracs in sues.items() if match_p2(caracs)})[0])
