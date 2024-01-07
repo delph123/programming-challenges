@@ -1,11 +1,8 @@
-from copy import deepcopy
+from libs import *
 
 # Parse input
 
-grid = [
-    list(l)
-    for l in open("AdventOfCode/2015/examples/day18.in").read().strip().split("\n")
-]
+grid = [list(l) for l in read("example").split("\n")]
 
 # Part 1
 
@@ -31,13 +28,10 @@ def next(grid):
 
 
 def simulate(times):
-    g = grid
-    for _ in range(times):
-        g = next(g)
-    return g
+    return compose(times * [next], grid)
 
 
-print("Part 1:", sum([sum([1 for x in l if x == "#"]) for l in simulate(100)]))
+part_one(len([1 for x in flatten(simulate(100)) if x == "#"]))
 
 # Part 2
 
@@ -63,9 +57,7 @@ def simulate_p2(times):
     g[0][-1] = "#"
     g[-1][0] = "#"
     g[-1][-1] = "#"
-    for _ in range(times):
-        g = next_p2(g)
-    return g
+    return compose(times * [next_p2], grid)
 
 
-print("Part 2:", sum([sum([1 for x in l if x == "#"]) for l in simulate_p2(100)]))
+part_two(len([1 for x in flatten(simulate_p2(100)) if x == "#"]))
