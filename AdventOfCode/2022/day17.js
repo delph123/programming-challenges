@@ -1,10 +1,6 @@
-/**
- * Day 17:
- *
- * .
- */
+const fs = require("fs");
 
-const movements = require("./inputs/day17");
+const movements = fs.readFileSync("./examples/day17.in", "utf-8").trim();
 
 const X_MAX = 7;
 const Y_MAX = 1_000_000;
@@ -28,17 +24,17 @@ const SHAPES = [
     ],
 ];
 
-const [grid, highest, spliced, cycle] = tetris(SHAPES, movements, 1_000_000);
-console.log(grid, highest, spliced, cycle);
+console.log("Part 1:", tetris(SHAPES, movements, 2022n).toString());
+console.log("Part 2:", tetris(SHAPES, movements, 1000000000000n).toString());
 
 function tetris(shapes, movements, numberOfTurns) {
     let grid = new Array(Y_MAX).fill(0).map(() => new Array(X_MAX).fill(0));
-    let h_spliced = 0;
+    let h_spliced = 0n;
     let highest = new Array(X_MAX).fill(-1);
     let cycle = { step: -1, nb: 0, shapes: new Map() };
 
-    for (let round = 0; round < numberOfTurns; round++) {
-        let s = shapes[round % shapes.length];
+    for (let round = 0n; round < numberOfTurns; round++) {
+        let s = shapes[Number(round % BigInt(shapes.length))];
         let h_max = highest.reduce((a, b) => Math.max(a, b), -1);
         let px = 2;
         let py = h_max + 4;
@@ -50,22 +46,30 @@ function tetris(shapes, movements, numberOfTurns) {
             cycle.step = (cycle.step + 1) % movements.length;
 
             // Detect cycle
-            if (cycle.step === 0) {
+            if (h_spliced == 0n && cycle.step === 0) {
                 cycle.nb++;
                 let h_min = highest.reduce(
                     (a, b) => Math.min(a, b),
                     highest[0]
                 );
-                let fingerprint = `${round % shapes.length}:${py - h_max}/${
-                    py - h_min
-                }:${highest.map((n) => n - h_min)}`;
+                let fingerprint = `${round % BigInt(shapes.length)}:${
+                    py - h_max
+                }/${py - h_min}:${highest.map((n) => n - h_min)}`;
                 if (!cycle.shapes.has(fingerprint)) {
-                    cycle.shapes.set(fingerprint, []);
+                    cycle.shapes.set(fingerprint, [h_min, round]);
+                } else {
+                    // We have identified a cycle:
+                    //  - the cycle has a duration of (round - t1)
+                    //  - the gain in min height for each cycle is (h_min - h1)
+                    let [h1, t1] = cycle.shapes.get(fingerprint);
+                    // we can compute how many cycles will be necessary to
+                    // complete the requested number of turns
+                    let cycles = (numberOfTurns - t1) / (round - t1);
+                    // and fast-forward in the future
+                    round += (cycles - 1n) * (round - t1);
+                    // adding as many height as necessary
+                    h_spliced = (cycles - 1n) * BigInt(h_min - h1);
                 }
-                cycle.shapes.set(fingerprint, [
-                    h_min + h_spliced,
-                    ...cycle.shapes.get(fingerprint),
-                ]);
             }
 
             // Move if possible
@@ -91,25 +95,9 @@ function tetris(shapes, movements, numberOfTurns) {
                 }
             }
         }
-
-        // Splice array to avoid consuming to much memory
-        if (round % 100_000 === 0) {
-            let min = highest.reduce((a, b) => Math.min(a, b), highest[0]);
-            if (min > 0) {
-                grid = new Array(Y_MAX)
-                    .fill(0)
-                    .map((_, i) =>
-                        i + min < Y_MAX
-                            ? grid[i + min]
-                            : new Array(X_MAX).fill(0)
-                    );
-                h_spliced += min;
-                highest = highest.map((n) => n - min);
-            }
-        }
     }
 
-    return [grid, highest, h_spliced, cycle];
+    return h_spliced + BigInt(Math.max(...highest) + 1);
 }
 
 function allowed(grid, shape, px, py) {
