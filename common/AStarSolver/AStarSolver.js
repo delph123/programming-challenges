@@ -2,7 +2,7 @@ const Heap = require("../Heap");
 
 class AStarSolver {
     getHash;
-    getNeighbours;
+    getNeighbors;
     cost;
     heuristic;
     compareHeuristic;
@@ -12,7 +12,7 @@ class AStarSolver {
 
     constructor({
         hash,
-        neighbours,
+        neighbors,
         cost,
         heuristic,
         compareHeuristic,
@@ -20,7 +20,7 @@ class AStarSolver {
         isGoal,
     }) {
         this.getHash = hash;
-        this.getNeighbours = neighbours;
+        this.getNeighbors = neighbors;
         this.cost = cost;
         this.heuristic = heuristic;
         this.compareHeuristic = compareHeuristic;
@@ -60,11 +60,11 @@ class AStarSolver {
                 return this.reconstructPath(bestCandidate, visited);
             }
 
-            const neighbours = this.getNeighbours(bestCandidate.node)
+            const neighbors = this.getNeighbors(bestCandidate.node)
                 .map((n) => this.mapToAStarNode(n, bestCandidate))
                 .filter((n) => !visited.has(n.hash));
 
-            neighbours.forEach((n) => {
+            neighbors.forEach((n) => {
                 if (nodesMap.has(n.hash)) {
                     let node = nodesMap.get(n.hash);
                     if (
@@ -89,16 +89,16 @@ class AStarSolver {
         );
     }
 
-    mapToAStarNode(neighbour, predecessor) {
-        const neighbourCost =
+    mapToAStarNode(neighbor, predecessor) {
+        const neighborCost =
             predecessor == null
                 ? 0
-                : this.cost(predecessor.node, neighbour, predecessor.cost);
+                : this.cost(predecessor.node, neighbor, predecessor.cost);
         return {
-            node: neighbour,
-            hash: this.getHash(neighbour),
-            cost: neighbourCost,
-            heuristic: this.heuristic(neighbour, neighbourCost),
+            node: neighbor,
+            hash: this.getHash(neighbor),
+            cost: neighborCost,
+            heuristic: this.heuristic(neighbor, neighborCost),
             predecessor: predecessor?.hash,
         };
     }

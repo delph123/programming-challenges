@@ -1,11 +1,39 @@
-/**
- * Day 19: Not Enough Minerals
- *
- * Find maximal number of geode-cracking robots for 30 blueprints.
- */
+const fs = require("fs");
+const AStarSolver = require("../../common/AStarSolver/AStarSolver");
 
-const AStarSolver = require("../common/AStarSolver/AStarSolver");
-const blueprints = require("./inputs/day19");
+const blueprints = fs
+    .readFileSync("./examples/day19.in", "utf-8")
+    .trim()
+    .split("\n")
+    .map((bp) => bp.split(": Each ore robot costs "))
+    .map(([a, b]) => [
+        parseInt(a.split("Blueprint ")[1]),
+        ...b
+            .split(" ore. Each clay robot costs ")
+            .map((l) => l.split(" ore. Each obsidian robot costs ")),
+    ])
+    .map(([a, [b], [c, d]]) => [
+        a,
+        parseInt(b),
+        parseInt(c),
+        ...d.split(" clay. Each geode robot costs "),
+    ])
+    .map(([a, b, c, d, e]) => [
+        a,
+        b,
+        c,
+        d.split(" ore and "),
+        e.split(" obsidian.")[0].split(" ore and "),
+    ])
+    .map(([a, b, c, [d, e], [f, g]]) => [
+        a,
+        b,
+        c,
+        parseInt(d),
+        parseInt(e),
+        parseInt(f),
+        parseInt(g),
+    ]);
 
 const MAX_DURATION_PART_1 = 24;
 const MAX_DURATION_PART_2 = 32;
@@ -19,7 +47,7 @@ let v2 = 0;
 
 blueprints.forEach((bp) => {
     console.time("a* " + bp[0]);
-    const { path, cost, visited } = collect_astar(bp, [
+    const { path, cost, visited } = collect_geodes(bp, [
         MAX_DURATION_PART_1,
         { ore: 0, clay: 0, obs: 0, geo: 0 },
         { ore: 1, clay: 0, obs: 0, geo: 0 },
@@ -44,7 +72,7 @@ blueprints.forEach((bp) => {
 
     if (bp[0] < 4) {
         console.time("a* p2 " + bp[0]);
-        const { path, cost, visited } = collect_astar(bp, [
+        const { path, cost, visited } = collect_geodes(bp, [
             MAX_DURATION_PART_2,
             { ore: 0, clay: 0, obs: 0, geo: 0 },
             { ore: 1, clay: 0, obs: 0, geo: 0 },
@@ -70,20 +98,20 @@ blueprints.forEach((bp) => {
 });
 
 console.log("--");
-console.log("Quality:", q, "visited", v);
-console.log("Mult*3:", m, "visited", v2);
+console.log("Part 1:", q, "(visited", v, "states)");
+console.log("Part 2:", m, "(visited", v2, "states)");
 
 console.timeEnd("total");
 
-function collect_astar(blueprint, start) {
+function collect_geodes(blueprint, start) {
     const solver = new AStarSolver({
         hash: getHash,
-        neighbours: ([turn, collection, robots]) => {
+        neighbors: ([turn, collection, robots]) => {
             return [
-                getNeighbour(blueprint, turn, collection, robots, 0),
-                getNeighbour(blueprint, turn, collection, robots, 1),
-                getNeighbour(blueprint, turn, collection, robots, 2),
-                getNeighbour(blueprint, turn, collection, robots, 3),
+                getNeighbor(blueprint, turn, collection, robots, 0),
+                getNeighbor(blueprint, turn, collection, robots, 1),
+                getNeighbor(blueprint, turn, collection, robots, 2),
+                getNeighbor(blueprint, turn, collection, robots, 3),
             ].filter((s) => s != null);
         },
         cost: ([ft, fc, fr], [tt, tc, tr], cost) => tc.geo,
@@ -137,7 +165,7 @@ function getHash([turn, col, rob]) {
     return `${rob.ore}/${rob.clay}/${rob.obs}/${rob.geo} | ${col.ore}/${col.clay}/${col.obs}/${col.geo} | ${turn}`;
 }
 
-function getNeighbour(blueprint, duration, collection, robots, robot_turn) {
+function getNeighbor(blueprint, duration, collection, robots, robot_turn) {
     let col = { ...collection };
     let rob = { ...robots };
 
@@ -200,7 +228,7 @@ function exhausted(
         );
     } else {
         // Need to produce geode even during last turn
-        // or we won't generate any neighbour during last turn!
+        // or we won't generate any neighbor during last turn!
         return false;
     }
 }
