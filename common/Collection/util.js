@@ -95,8 +95,21 @@ function* range(from, to = undefined, step = 1) {
     }
 }
 
+function deepCopy(a) {
+    if (Array.isArray(a)) {
+        return a.slice(0).map(deepCopy);
+    } else if (typeof a === "object") {
+        return Object.fromEntries(
+            Object.entries(a).map(([k, v]) => [k, deepCopy(v)])
+        );
+    } else {
+        return a;
+    }
+}
+
 module.exports = {
     defaultCompare,
+    deepCopy,
     noop,
     collect,
     expand,
