@@ -13,14 +13,17 @@ function read(version) {
 
     let directory = "inputs";
 
-    if (version.startsWith("e")) {
+    if (process.argv[2] != null) {
+        console.log("\x1b[30;43m INFO \x1b[0m Reading from", process.argv[2]);
+    } else if (version.startsWith("e")) {
         console.log("\x1b[30;41m /!\\ \x1b[0m Reading from example");
         directory = "examples";
     }
 
     return fs
         .readFileSync(
-            path.join(calling_path.dir, directory, `day${day}.in`),
+            process.argv[2] ??
+                path.join(calling_path.dir, directory, `day${day}.in`),
             "utf-8"
         )
         .replaceAll("\r", "")
