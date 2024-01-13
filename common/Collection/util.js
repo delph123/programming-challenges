@@ -5,11 +5,11 @@ function defaultCompare(a, b) {
 }
 
 function sum(...values) {
-    return values.reduce((s, c) => s + c);
+    return collect(values).reduce((s, c) => s + c);
 }
 
 function product(...values) {
-    return values.reduce((s, c) => s * c);
+    return collect(values).reduce((s, c) => s * c);
 }
 
 function* zip(...iterables) {
