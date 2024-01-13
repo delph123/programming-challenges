@@ -24,7 +24,7 @@ function read(version) {
             "utf-8"
         )
         .replaceAll("\r", "")
-        .trim();
+        .trimEnd();
 }
 
 function readLines(version) {
