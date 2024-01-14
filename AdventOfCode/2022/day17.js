@@ -1,6 +1,6 @@
-const fs = require("fs");
+const { part_one, part_two, read } = require("../../common/aoc");
 
-const movements = fs.readFileSync("./examples/day17.in", "utf-8").trim();
+const movements = read("example");
 
 const X_MAX = 7;
 const Y_MAX = 1_000_000;
@@ -24,8 +24,8 @@ const SHAPES = [
     ],
 ];
 
-console.log("Part 1:", tetris(SHAPES, movements, 2022n).toString());
-console.log("Part 2:", tetris(SHAPES, movements, 1000000000000n).toString());
+part_one(tetris(SHAPES, movements, 2022n).toString());
+part_two(tetris(SHAPES, movements, 1000000000000n).toString());
 
 function tetris(shapes, movements, numberOfTurns) {
     let grid = new Array(Y_MAX).fill(0).map(() => new Array(X_MAX).fill(0));
