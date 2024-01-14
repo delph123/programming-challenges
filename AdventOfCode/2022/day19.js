@@ -1,10 +1,7 @@
-const fs = require("fs");
+const { part_one, part_two, readLines } = require("../../common/aoc");
 const AStarSolver = require("../../common/AStarSolver/AStarSolver");
 
-const blueprints = fs
-    .readFileSync("./examples/day19.in", "utf-8")
-    .trim()
-    .split("\n")
+const blueprints = readLines("example")
     .map((bp) => bp.split(": Each ore robot costs "))
     .map(([a, b]) => [
         parseInt(a.split("Blueprint ")[1]),
@@ -98,10 +95,12 @@ blueprints.forEach((bp) => {
 });
 
 console.log("--");
-console.log("Part 1:", q, "(visited", v, "states)");
-console.log("Part 2:", m, "(visited", v2, "states)");
-
+console.log("visited:", v, "(total part 1),", v2, "(total part 2)");
 console.timeEnd("total");
+console.log("--");
+
+part_one(q);
+part_two(m);
 
 function collect_geodes(blueprint, start) {
     const solver = new AStarSolver({
