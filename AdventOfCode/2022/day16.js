@@ -59,6 +59,8 @@ const shortest_path = relevant_nodes
             ]),
     }));
 
+const cache = new Map();
+
 part_one(walk(AA, 30, new Set(["AA"]))[1]);
 
 const s2 = walk_p2(AA, AA, 26, 26, new Set(["AA"]));
@@ -66,6 +68,10 @@ part_two(s2[1] + s2[3]);
 
 function walk(start, duration, avoid) {
     if (duration <= 0) return [[], 0];
+    const k = start.id + duration + [...avoid].sort().join("");
+    if (cache.has(k)) {
+        return cache.get(k);
+    }
     let d0 = start.flow === 0 ? duration : duration - 1;
     let f = start.flow * d0;
     let subtrees = shortest_path
@@ -82,7 +88,8 @@ function walk(start, duration, avoid) {
         ([p1, b1], [p2, b2]) => (b1 > b2 ? [p1, b1] : [p2, b2]),
         [[], 0]
     );
-    return [[start.id, ...path], f + best];
+    cache.set(k, [[start.id, ...path], f + best]);
+    return cache.get(k);
 }
 
 function walk_p2(start1, start2, dur1, dur2, avoid) {
