@@ -17,122 +17,115 @@ const nodes = readLines("example")
     }))
     .sort((a, b) => b.flow - a.flow);
 
-// Compute a reduction of the graph composed of only meaningful nodes
-// (with a strictly positive flow) plus the starting point
-const relevant_nodes = nodes
-    .map((nd) => ({ ...nd, links: nd.links.map((ll) => next(nd, ll)) }))
-    .filter((nd) => nd.id === "AA" || nd.flow > 0);
-// Replace links to point to nodes from relevant_nodes itself
-relevant_nodes.forEach((nd) => {
-    nd.links = nd.links.map(([n, l]) => [
-        relevant_nodes.find((e) => e.id === n.id),
-        l,
-    ]);
-});
+const [vertices, distances, flows] = shortest_dist();
+const avoid = new Array(vertices.length).fill(false).map((_, i) => i === 0);
 
-// Starting point
-const AA = relevant_nodes.find((n) => n.id === "AA");
+const paths_30 = paths_arrangements(0, 30, avoid);
+part_one(paths_30.reduce((a, b) => (a[1] > b[1] ? a : b), [[], 0])[1]);
 
-const short_path_solver = new AStarSolver({
-    hash: (n) => n.id,
-    neighbors: (n) => n.links.map(([a]) => a),
-    cost: (src, tgt, c) => src.links.find(([t]) => t.id === tgt.id)[1] + c,
-    heuristic: (_, c) => c, // Dijkstra :)
-    compareHeuristic: (h1, h2) => h2 - h1, // Smaller is better
-});
+part_two(joined_paths(0, 26, avoid));
 
-// Compute shortest path from every meaningful node (flow > 0)
-// and starting point to every other meaningful node
-const shortest_path = relevant_nodes
-    .filter((n) => n.flow > 0)
-    .concat(AA)
-    .map((n) => ({
-        id: n.id,
-        links: relevant_nodes
-            .filter((t) => t.flow > 0 && t.id !== n.id)
-            .map((t) => [
-                t.id,
-                short_path_solver.solve({
-                    start: n,
-                    isGoal: (v) => v.id === t.id,
-                }).cost,
-            ]),
-    }));
-
-const cache = new Map();
-
-part_one(walk(AA, 30, new Set(["AA"]))[1]);
-
-const s2 = walk_p2(AA, AA, 26, 26, new Set(["AA"]));
-part_two(s2[1] + s2[3]);
-
-function walk(start, duration, avoid) {
-    if (duration <= 0) return [[], 0];
-    const k = start.id + duration + [...avoid].sort().join("");
-    if (cache.has(k)) {
-        return cache.get(k);
+function joined_paths(start, duration, avoid) {
+    const sub_paths = paths_arrangements(start, duration, avoid);
+    const best_avoiding = new Map();
+    let max = 0;
+    for (let i = 0; i < sub_paths.length; i++) {
+        const path = toKey(sub_paths[i][0].slice(1));
+        if (!best_avoiding.has(path)) {
+            let bmax = 0;
+            const avoid = new Set(sub_paths[i][0].slice(1));
+            // There is no need to loop again over paths we've already
+            // explored. Those will always be taken into account in current
+            // max. We can start from position i+1
+            for (let j = i + 1; j < sub_paths.length; j++) {
+                // Exclude paths with intersecting nodes (both players
+                // should not open the same valve)
+                if (sub_paths[j][0].every((v) => !avoid.has(v))) {
+                    bmax = Math.max(bmax, sub_paths[j][1]);
+                }
+            }
+            best_avoiding.set(path, bmax);
+        }
+        max = Math.max(max, sub_paths[i][1] + best_avoiding.get(path));
     }
-    let d0 = start.flow === 0 ? duration : duration - 1;
-    let f = start.flow * d0;
-    let subtrees = shortest_path
-        .find((n) => n.id === start.id)
-        .links.filter(([n, d]) => !avoid.has(n) && d0 > d + 1)
-        .map(([n, d]) =>
-            walk(
-                relevant_nodes.find((r) => r.id === n),
-                d0 - d,
-                new Set([...avoid, n])
-            )
-        );
-    let [path, best] = subtrees.reduce(
-        ([p1, b1], [p2, b2]) => (b1 > b2 ? [p1, b1] : [p2, b2]),
-        [[], 0]
-    );
-    cache.set(k, [[start.id, ...path], f + best]);
-    return cache.get(k);
+    return max;
 }
 
-function walk_p2(start1, start2, dur1, dur2, avoid) {
-    if (dur1 <= 0 || dur2 <= 0) return [[], 0, [], 0];
-
-    // Try moving from start1
-    let d1 = start1.flow === 0 ? dur1 : dur1 - 1;
-    let f1 = start1.flow * d1;
-    let subtrees1 = shortest_path
-        .find((n) => n.id === start1.id)
-        .links.filter(([n, d]) => !avoid.has(n) && d1 > d + 1)
-        .map(([n, d]) =>
-            walk_p2(
-                relevant_nodes.find((r) => r.id === n),
-                start2,
-                d1 - d,
-                dur2,
-                new Set([...avoid, n])
-            )
-        );
-
-    let [path1a, best1a, path2a, best2a] = subtrees1.reduce(
-        ([p1, b1, p2, b2], [p3, b3, p4, b4]) =>
-            b1 + b2 > b3 + b4 ? [p1, b1, p2, b2] : [p3, b3, p4, b4],
-        [[], 0, [], 0]
-    );
-
-    // Or stop in start1 and move from start2
-    let [p3, b3] = walk(start2, dur2, avoid);
-    if (best1a + best2a > b3) {
-        return [[start1.id, ...path1a], best1a + f1, path2a, best2a];
-    } else {
-        return [[start1.id], f1, p3, b3];
+function toKey(indices) {
+    // Compute a unique key representing traversed vertices
+    // (unique in such a way that two paths traversing the same
+    // vertices in a different order will have the same key)
+    const vert = new Array(vertices.length).fill(0);
+    for (let i of indices) {
+        vert[i] = 1;
     }
+    return vert.join(""); // convert to string to be usable as Map key
 }
 
-function next(src, id, op = 0) {
-    const tgt = nodes.find((n) => n.id === id);
-    if (tgt.id === "AA" || tgt.flow > 0) return [tgt, op + 1];
-    let n = tgt.links
-        .map((id) => nodes.find((n) => n.id === id))
-        .filter((n) => n.id != src.id);
-    if (n.length === 1 && n[0].flow === 0) return next(tgt, n[0].id, op + 1);
-    if (n.length === 1) return [n[0], op + 2];
-    return n;
+function paths_arrangements(start, duration, avoided) {
+    // First arrangement: do nothing
+    const paths = [[[start], 0]];
+    // Check other paths so long that we have enough duration to
+    // open the next valve and that the valve is not already opened
+    for (let i = 0; i < vertices.length; i++) {
+        if (!avoided[i] && distances[start][i] + 1 < duration) {
+            avoided[i] = true;
+            const sub = paths_arrangements(
+                i,
+                duration - distances[start][i] - 1,
+                avoided
+            );
+            for (const [p, f] of sub) {
+                paths.push([
+                    [start, ...p],
+                    flows[i] * (duration - distances[start][i] - 1) + f,
+                ]);
+            }
+            avoided[i] = false;
+        }
+    }
+    return paths;
+}
+
+function shortest_dist() {
+    let vertices = nodes
+        .filter((n) => n.id !== "AA")
+        .sort((n1, n2) => n1.flow - n2.flow)
+        .concat(nodes.find((n) => n.id === "AA"))
+        .reverse();
+
+    // Compute shortest distance between all nodes with Floyd–Warshall algorithm
+    let dist = new Array(vertices.length)
+        .fill(0)
+        .map(() => new Array(vertices.length).fill(Infinity));
+
+    vertices.forEach((v, i) => {
+        dist[i][i] = 0;
+        v.links.forEach((dest) => {
+            dist[i][vertices.findIndex((n) => n.id === dest)] = 1;
+        });
+    });
+
+    for (let k = 0; k < vertices.length; k++) {
+        for (let i = 0; i < vertices.length; i++) {
+            for (let j = 0; j < vertices.length; j++) {
+                dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+            }
+        }
+    }
+
+    // Now, keep only meaningful nodes (starting point and nodes with flow > 0)
+    const flows = vertices
+        .filter((nd) => nd.id === "AA" || nd.flow > 0)
+        .map((nd) => nd.flow);
+
+    vertices = vertices
+        .filter((nd) => nd.id === "AA" || nd.flow > 0)
+        .map((nd) => nd.id);
+
+    dist = dist
+        .map((nodes) => nodes.slice(0, vertices.length))
+        .slice(0, vertices.length);
+
+    return [vertices, dist, flows];
 }
