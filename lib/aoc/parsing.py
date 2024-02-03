@@ -1,3 +1,4 @@
+import sys
 import inspect
 from pathlib import Path
 
@@ -10,22 +11,17 @@ def read(version):
 
     print(f"\x1b[30;33m--- Advent of Code {year} - Day {day} ---\x1b[0m")
 
-    if (
-        version == "e"
-        or version == "ex"
-        or version == "example"
-        or version == "examples"
-    ):
+    if len(sys.argv) >= 2 and sys.argv[1]:
+        print("\x1b[30;43m INFO \x1b[0m Reading from", sys.argv[1])
+        input_file = sys.argv[1]
+    elif version.startswith("e"):
         print("\x1b[30;41m /!\ \x1b[0m Reading from example")
-        directory = "examples"
-    elif version == "i" or version == "in" or version == "input" or version == "inputs":
-        directory = "inputs"
+        input_file = (
+            calling_path.parent / "examples" / calling_path.with_suffix(".in").name
+        )
     else:
-        print("/!\ Wrong file version specified, reading from input")
-        directory = "inputs"
+        input_file = (
+            calling_path.parent / "inputs" / calling_path.with_suffix(".in").name
+        )
 
-    return (
-        open(calling_path.parent / directory / calling_path.with_suffix(".in").name)
-        .read()
-        .strip()
-    )
+    return open(input_file).read().rstrip()
