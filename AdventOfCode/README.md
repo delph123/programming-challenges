@@ -9,7 +9,7 @@ Inputs are not available due copyright restrictions and in order to [avoid repro
 Use the [CLI](https://github.com/scarvalhojr/aoc-cli) to easily get all puzzle inputs & statements.
 
 ```bash
-for i in {01..25}; do aoc d -d $i -y 2015 -i inputs/day$i.in -p day$i.md -o; done;
+for i in {01..25}; do aoc download -d $i -y 2016 -i inputs/day$i.in -p day$i.md -o; done;
 
 for i in {01..25}; do cat dayXX.py | sed s/dayXX/day$i/g > day$i.py;  done;
 ```
