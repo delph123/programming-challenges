@@ -4,7 +4,7 @@ from lib.math import *
 
 # Import advent of code tooling
 from lib.aoc.printing import part_one, part_two, preview
-from lib.aoc.parsing import read
+from lib.aoc.parsing import read, read_lines
 
 # Useful tools from standard library
 import re
