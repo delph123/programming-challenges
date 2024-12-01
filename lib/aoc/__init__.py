@@ -9,7 +9,7 @@ from lib.aoc.parsing import read, read_lines
 # Useful tools from standard library
 import re
 from collections import deque, Counter
-from itertools import pairwise
+from itertools import pairwise, groupby, combinations
 from functools import cache, reduce, cmp_to_key
 from math import sqrt, prod, floor, ceil
 from copy import deepcopy
