@@ -1,15 +1,10 @@
+from libs import *
+
 # Parse file
 
-rocks = [
-    list(m)
-    for m in open("AdventOfCode/2023/inputs/day14.in").read().strip().split("\n")
-]
+rocks = [list(m) for m in read_lines("example")]
 
 # Part 1
-
-
-def rotate(map):
-    return [[map[i][j] for i in range(len(map))] for j in range(len(map[0]))]
 
 
 def template(map):
@@ -41,14 +36,14 @@ def segments(map):
 
 
 rows = segments(rocks)
-cols = segments(rotate(rocks))
+cols = segments(transpose(rocks))
 
 map_template = template(rocks)
-rmap_template = template(rotate(rocks))
+rmap_template = template(transpose(rocks))
 
 
 def tilt(map, rot, beg):
-    rmap = rotate(map) if rot else map
+    rmap = transpose(map) if rot else map
     template = rmap_template if rot else map_template
     t = [template[i][:] for i in range(len(template))]
     segs = cols if rot else rows
@@ -60,7 +55,7 @@ def tilt(map, rot, beg):
             else:
                 t[i][b - c : b] = "O" * c
 
-    return rotate(t) if rot else t
+    return transpose(t) if rot else t
 
 
 def load(map):
@@ -70,7 +65,7 @@ def load(map):
     return l
 
 
-print("Part 1:", load(tilt(rocks, True, True)))
+part_one(load(tilt(rocks, True, True)))
 
 # Part 2
 
@@ -92,4 +87,4 @@ def cycle(map, n, cache):
     return m
 
 
-print("Part 2:", load(cycle(rocks, 1000000000, dict())))
+part_two(load(cycle(rocks, 1000000000, dict())))

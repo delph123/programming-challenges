@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-xmas_grid = read_lines("i")
+xmas_grid = read_lines("example")
 
 # Part 1
 
@@ -11,10 +11,6 @@ def count_xmas(grid):
     forward = sum([len(re.findall(r"XMAS", row)) for row in grid])
     backward = sum([len(re.findall(r"XMAS", "".join(reversed(row)))) for row in grid])
     return forward + backward
-
-
-def transpose(map):
-    return ["".join([map[i][j] for i in range(len(map))]) for j in range(len(map[0]))]
 
 
 def rotate45(map):

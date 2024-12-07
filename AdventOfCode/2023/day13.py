@@ -1,15 +1,10 @@
+from libs import *
+
 # Parse file
 
-maps = [
-    m.strip().split("\n")
-    for m in open("AdventOfCode/2023/examples/day13.in").read().strip().split("\n\n")
-]
+maps = [m.strip().split("\n") for m in read("example").split("\n\n")]
 
 # Part 1
-
-
-def rotate(map):
-    return ["".join([map[i][j] for i in range(len(map))]) for j in range(len(map[0]))]
 
 
 def reflect(map):
@@ -20,9 +15,8 @@ def reflect(map):
 
 
 rows = [reflect(m) for m in maps]
-cols = [reflect(rotate(m)) for m in maps]
-print(
-    "Part 1:",
+cols = [reflect(transpose(m)) for m in maps]
+part_one(
     sum([100 * (r + 1) for r in rows if r is not None])
     + sum([c + 1 for c in cols if c is not None]),
 )
@@ -47,9 +41,8 @@ def reflect_smudge(map):
 
 
 rows_smudge = [reflect_smudge(m) for m in maps]
-cols_smudge = [reflect_smudge(rotate(m)) for m in maps]
-print(
-    "Part 2:",
+cols_smudge = [reflect_smudge(transpose(m)) for m in maps]
+part_two(
     sum([100 * (r + 1) for r in rows_smudge if r is not None])
     + sum([c + 1 for c in cols_smudge if c is not None]),
 )
