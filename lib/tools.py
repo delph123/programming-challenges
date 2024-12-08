@@ -1,5 +1,6 @@
 from functools import reduce
 from itertools import chain, combinations
+from copy import deepcopy
 
 
 def replace_all(old_words: list[str], new_word: str, source: str):
@@ -100,3 +101,55 @@ class Point:
 
     def set(self, grid, val):
         grid[self.y][self.x] = val
+
+
+class Grid:
+    def __init__(self, content):
+        self.content = content
+
+    def __len__(self):
+        return len(self.content) * len(self.content[0])
+
+    def __eq__(self, other):
+        return self.content == other.content
+
+    def __ne__(self, other):
+        return self.content != other.content
+
+    def copy(self):
+        return Grid(deepcopy(self.content))
+
+    def __getitem__(self, p: Point):
+        return self.content[p.y][p.x]
+
+    def __setitem__(self, p: Point, val):
+        self.content[p.y][p.x] = val
+
+    def __contains__(self, p: Point):
+        return p.is_within(self.content)
+
+    def keys(self):
+        for j in range(len(self.content)):
+            for i in range(len(self.content[j])):
+                yield Point(i, j)
+
+    __iter__ = keys
+
+    def values(self):
+        for row in self.content:
+            for v in row:
+                yield v
+
+    def items(self):
+        for y, row in enumerate(self.content):
+            for x, v in enumerate(row):
+                yield (Point(x, y), v)
+
+    def index(self, val):
+        for y, row in enumerate(self.content):
+            for x, v in enumerate(row):
+                if v == val:
+                    return Point(x, y)
+
+    def count(self, val):
+        return sum(sum(1 for v in row if v == val) for row in self.content)

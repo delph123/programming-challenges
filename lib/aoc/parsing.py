@@ -1,6 +1,7 @@
 import sys
 import inspect
 from pathlib import Path
+from ..tools import Grid
 
 
 def read(version):
@@ -34,3 +35,7 @@ def read(version):
 
 def read_lines(version):
     return read(version).split("\n")
+
+
+def read_grid(version):
+    return Grid([list(r) for r in read_lines(version)])

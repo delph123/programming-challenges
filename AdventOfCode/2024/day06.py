@@ -2,83 +2,61 @@ from libs import *
 
 # Parse input
 
-lab = [list(r) for r in read_lines("example")]
+lab = read_grid("example")
 
 # Part 1
 
 
-def guard(grid):
-    for y, row in enumerate(grid):
-        for x, c in enumerate(row):
-            if c == "^":
-                return x + y * 1j
-
-
-def patrol(grid):
-    p = guard(grid)
-    d = -1j
-    grid[int(p.imag)][int(p.real)] = "X"
-    while (
-        p.real + d.real >= 0
-        and p.real + d.real < len(grid[0])
-        and p.imag + d.imag >= 0
-        and p.imag + d.imag < len(grid)
-    ):
-        if grid[int(p.imag + d.imag)][int(p.real + d.real)] == "#":
+def patrol(grid: Grid):
+    p = grid.index("^")
+    d = Point(0, -1)
+    grid[p] = "X"
+    while (p + d) in grid:
+        if grid[p + d] == "#":
             # turn
-            d = -d.imag + d.real * 1j
+            d = Point(-d.y, d.x)
         else:
             p += d
-            grid[int(p.imag)][int(p.real)] = "X"
+            grid[p] = "X"
     return grid
 
 
-def count(grid, letter):
-    return sum(sum(1 for c in row if c == letter) for row in grid)
-
-
-part_one(count(patrol(deepcopy(lab)), "X"))
+part_one(patrol(lab.copy()).count("X"))
 
 # Part 2
 
-lab2 = [["#" if c == "#" else 0 for c in row] for row in lab]
+lab2 = Grid([["#" if c == "#" else 0 for c in row] for row in lab.content])
 
 
-def is_looping(grid, p):
-    d = -1j
-    grid[int(p.imag)][int(p.real)] += 1
-    while (
-        p.real + d.real >= 0
-        and p.real + d.real < len(grid[0])
-        and p.imag + d.imag >= 0
-        and p.imag + d.imag < len(grid)
-    ):
-        if grid[int(p.imag + d.imag)][int(p.real + d.real)] == "#":
+def is_looping(grid: Grid, p: Point):
+    d = Point(0, -1)
+    grid[p] += 1
+    while (p + d) in grid:
+        if grid[p + d] == "#":
             # turn
-            d = -d.imag + d.real * 1j
+            d = Point(-d.y, d.x)
         else:
             p += d
-        if grid[int(p.imag)][int(p.real)] == 4:
+        if grid[p] == 4:
             return True
         else:
-            grid[int(p.imag)][int(p.real)] += 1
+            grid[p] += 1
     return False
 
 
-def obstructions(grid):
-    p = guard(lab)
-    path = patrol(deepcopy(lab))
-    path[int(p.imag)][int(p.real)] = "."
+def obstructions(grid: Grid):
+    p0 = lab.index("^")
+    path = patrol(lab.copy())
+    path[p0] = "."
 
-    for y, row in enumerate(path):
-        for x, c in enumerate(row):
-            if c == "X":
-                g = deepcopy(grid)
-                g[y][x] = "#"
-                if is_looping(g, p):
-                    path[y][x] = "O"
+    for p, c in path.items():
+        if c == "X":
+            g = grid.copy()
+            g[p] = "#"
+            if is_looping(g, p0):
+                path[p] = "O"
 
     return path
 
 
-part_two(count(obstructions(lab2), "O"))
+part_two(obstructions(lab2).count("O"))
