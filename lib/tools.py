@@ -39,6 +39,7 @@ def transpose(grid):
 
 
 class Point:
+
     def __init__(self, x, y=None):
         if isinstance(x, complex) and y is None:
             self.x = int(x.real)
@@ -103,7 +104,11 @@ class Point:
         grid[self.y][self.x] = val
 
 
+Point.UDLR = {"^": Point(0, -1), "v": Point(0, 1), "<": Point(-1, 0), ">": Point(1, 0)}
+
+
 class Grid:
+
     def __init__(self, content):
         self.content = content
 
@@ -127,6 +132,9 @@ class Grid:
 
     def __contains__(self, p: Point):
         return p.is_within(self.content)
+
+    def get(self, p: Point, default=None):
+        return self[p] if p in self else default
 
     def keys(self):
         for j in range(len(self.content)):
@@ -153,3 +161,6 @@ class Grid:
 
     def count(self, val):
         return sum(sum(1 for v in row if v == val) for row in self.content)
+
+    def find_all(self, val):
+        return set(p for (p, v) in self.items() if v == val)

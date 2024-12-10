@@ -37,5 +37,5 @@ def read_lines(version):
     return read(version).split("\n")
 
 
-def read_grid(version):
-    return Grid([list(r) for r in read_lines(version)])
+def read_grid(version, cell_format=str):
+    return Grid([[cell_format(c) for c in row] for row in read_lines(version)])
