@@ -13,7 +13,7 @@ def ordered(r):
 
 def safe(r):
     return ordered(r) and all(
-        abs(a - b) < 4 and abs(a - b) > 0 for (a, b) in zip(r, r[1:])
+        abs(a - b) < 4 and abs(a - b) > 0 for (a, b) in pairwise(r)
     )
 
 
