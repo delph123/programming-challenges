@@ -73,6 +73,9 @@ class Point:
     def __ne__(self, other):
         return self.x != other.x or self.y != other.y
 
+    def __rmul__(self, right):
+        return Point(right * self.x, right * self.y)
+
     def __hash__(self):
         return complex(self).__hash__()
 
@@ -105,6 +108,13 @@ class Point:
 
 
 Point.UDLR = {"^": Point(0, -1), "v": Point(0, 1), "<": Point(-1, 0), ">": Point(1, 0)}
+Point.DIAGONALS = {
+    "↖": Point(-1, -1),
+    "↗": Point(1, -1),
+    "↘": Point(1, 1),
+    "↙": Point(-1, 1),
+}
+Point.DIRS = Point.UDLR | Point.DIAGONALS
 
 
 class Grid:
