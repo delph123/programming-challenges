@@ -125,6 +125,12 @@ class Grid:
     def __len__(self):
         return len(self.content) * len(self.content[0])
 
+    def __str__(self):
+        return str(self.content)
+
+    def __repr__(self):
+        return f"Grid({self})"
+
     def __eq__(self, other):
         return self.content == other.content
 
@@ -162,6 +168,9 @@ class Grid:
         for y, row in enumerate(self.content):
             for x, v in enumerate(row):
                 yield (Point(x, y), v)
+
+    def rows(self):
+        return self.content
 
     def index(self, val):
         for y, row in enumerate(self.content):

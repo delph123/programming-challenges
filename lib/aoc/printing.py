@@ -1,3 +1,6 @@
+from ..tools import Grid
+
+
 def preview(result):
     if isinstance(result, (list, set)):
         for line in result:
@@ -16,6 +19,8 @@ def preview(result):
     elif isinstance(result, dict):
         for key, value in result.items():
             print(f"{key}:", value)
+    elif isinstance(result, Grid):
+        preview(result.content)
     else:
         print(result)
 
