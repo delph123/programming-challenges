@@ -1,11 +1,8 @@
-from astar import AStar
+from libs import *
 
 # Parse file
 
-heat_map = [
-    [int(n) for n in l]
-    for l in open("AdventOfCode/2023/examples/day17.in").read().strip().split("\n")
-]
+heat_map = [[int(n) for n in l] for l in read_lines("i")]
 
 lava_pool = (0, 0)
 machine_parts = ((len(heat_map) - 1) + (len(heat_map) - 1) * 1j, 0)
@@ -52,13 +49,13 @@ class HeatMazeAStar(AStar):
         ]
         return [m for m in ns if m is not None]
 
-    def distance_between(self, node1, node2):
+    def cost_between(self, node1, node2):
         return get(self.maze, node2[0])
 
-    def heuristic_cost_estimate(self, current, goal):
+    def heuristic_cost_estimate(self, current, cost, goal):
         g = goal[0]
         c = current[0]
-        return int(abs(g.real - c.real)) + int(abs(g.imag - c.imag))
+        return cost + int(abs(g.real - c.real)) + int(abs(g.imag - c.imag))
 
     def is_goal_reached(self, current, goal):
         return current[0] == goal[0]
@@ -69,9 +66,8 @@ def heat(maze, path):
     return h[1:]
 
 
-print(
-    "Part 1:",
-    sum(heat(heat_map, list(HeatMazeAStar(heat_map).astar(lava_pool, machine_parts)))),
+part_one(
+    sum(heat(heat_map, HeatMazeAStar(heat_map).solve(lava_pool, machine_parts).path()))
 )
 
 # Part 2
@@ -108,9 +104,8 @@ class HeatMazeAStarP2(HeatMazeAStar):
         return n == goal[0] and s >= 4
 
 
-print(
-    "Part 2:",
+part_two(
     sum(
-        heat(heat_map, list(HeatMazeAStarP2(heat_map).astar(lava_pool, machine_parts)))
+        heat(heat_map, HeatMazeAStarP2(heat_map).solve(lava_pool, machine_parts).path())
     ),
 )
