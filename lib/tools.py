@@ -88,6 +88,9 @@ class Point:
     def __complex__(self):
         return self.x + 1j * self.y
 
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y
+
     def is_within(self, grid):
         return 0 <= self.y < len(grid) and 0 <= self.x < len(grid[self.y])
 
