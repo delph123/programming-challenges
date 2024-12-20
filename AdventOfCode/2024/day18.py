@@ -41,13 +41,10 @@ part_one(MemoryAStar(1024 if file.startswith("i") else 12).solve(start, end).cos
 
 # Bisect coordinates set to find first coordinates that prevents reaching end
 def bad_coordinates(min, max):
-    s = MemoryAStar(min + (max - min) // 2).solve(start, end) is not None
-    if min >= max - 1:
-        return min + int(s) - 1
-    elif s:
-        return bad_coordinates(min + (max - min) // 2 + 1, max)
-    else:
-        return bad_coordinates(min, min + (max - min) // 2)
+    def blocked(x):
+        return MemoryAStar(x).solve(start, end) is None
+
+    return bisect(range(min, max), True, key=blocked, smallest=True) + min - 1
 
 
 c = bad_coordinates(1024 if file.startswith("i") else 12, len(coordinates))
