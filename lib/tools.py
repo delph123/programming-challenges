@@ -1,6 +1,8 @@
 from functools import reduce
 from itertools import chain, combinations
 from copy import deepcopy
+import cmath
+from sys import float_info
 
 
 def replace_all(old_words: list[str], new_word: str, source: str):
@@ -73,8 +75,23 @@ class Point:
     def __ne__(self, other):
         return self.x != other.x or self.y != other.y
 
-    def __rmul__(self, right):
-        return Point(right * self.x, right * self.y)
+    def __rmul__(self, left):
+        return Point(complex(left) * complex(self))
+
+    def __mul__(self, right):
+        return Point(complex(self) * complex(right))
+
+    def __rtruediv__(self, left):
+        return Point(complex(left) / complex(self))
+
+    def __truediv__(self, right):
+        return Point(complex(self) / complex(right))
+
+    def __floordiv__(self, right):
+        return Point(self.x // right, self.y // right)
+
+    def __mod__(self, right):
+        return Point(self.x % right, self.y % right)
 
     def __hash__(self):
         return complex(self).__hash__()
@@ -90,6 +107,11 @@ class Point:
 
     def dot(self, other):
         return self.x * other.x + self.y * other.y
+
+    def rotate(self, angle):
+        """Rotate the vector by angle in degree"""
+        # we need to add epsilon to avoid rounding issues with integer coordinates
+        return self * cmath.rect(1 + float_info.epsilon, angle * cmath.pi / 180)
 
     def is_within(self, grid):
         return 0 <= self.y < len(grid) and 0 <= self.x < len(grid[self.y])
@@ -110,6 +132,7 @@ class Point:
         grid[self.y][self.x] = val
 
 
+Point.ZERO = Point(0, 0)
 Point.UDLR = {"^": Point(0, -1), "v": Point(0, 1), "<": Point(-1, 0), ">": Point(1, 0)}
 Point.DIAGONALS = {
     "↖": Point(-1, -1),
@@ -155,6 +178,22 @@ class Grid:
     def get(self, p: Point, default=None):
         return self[p] if p in self else default
 
+    def at(self, index: int | complex | Point):
+        """
+        A more generic version of __getitem__ that can handle integer, complex or point.
+
+        When the index is an integer, the returned item is equivalent to getting the nth
+        value from iterator. Index can be negative to search from the end.
+        When index is a Point or a complex, the returned item is equivalent to getting the
+        item from __getitem__ with possibly a complex conversion to Point.
+        """
+        if isinstance(index, Point):
+            return self[index]
+        elif isinstance(index, complex):
+            return self[Point(index)]
+        else:
+            return self[self.index_at(index)]
+
     def keys(self):
         for j in range(len(self.content)):
             for i in range(len(self.content[j])):
@@ -174,6 +213,12 @@ class Grid:
 
     def rows(self):
         return self.content
+
+    def index_at(self, index: int):
+        """The index (Point) in the grid at the index position in the iterator."""
+        x = (index % len(self)) % len(self.content[0])
+        y = (index % len(self)) // len(self.content[0])
+        return Point(x, y)
 
     def index(self, val):
         for y, row in enumerate(self.content):
