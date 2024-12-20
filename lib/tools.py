@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from functools import reduce
 from itertools import chain, combinations
 from copy import deepcopy
@@ -25,7 +26,7 @@ def compose(functions, initial):
 
 
 def powerset(sequence):
-    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    """powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"""
     return flatten(combinations(sequence, r) for r in range(len(sequence) + 1))
 
 
@@ -38,6 +39,24 @@ def transpose(grid):
         ]
     else:
         return [[grid[i][j] for i in range(len(grid))] for j in range(len(grid[0]))]
+
+
+def bisect(seq: Sequence, value, *, key=None, reverse=False, smallest=False):
+    if not seq:
+        return -1
+    i = (len(seq) - 1) // 2
+    v = seq[i]
+    if key is not None:
+        v = key(v)
+    if not reverse and v < value or reverse and v > value:
+        i2 = bisect(seq[i + 1 :], value, key=key, reverse=reverse, smallest=smallest)
+        return i + 1 + i2 if i2 >= 0 else -1
+    elif v == value and (not smallest or i == 0):
+        return i
+    elif v == value:
+        return bisect(seq[: i + 1], value, key=key, reverse=reverse, smallest=smallest)
+    else:
+        return bisect(seq[:i], value, key=key, reverse=reverse, smallest=smallest)
 
 
 class Point:
