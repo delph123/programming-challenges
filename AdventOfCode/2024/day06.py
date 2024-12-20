@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-lab = read_grid("example")
+lab = read_grid("i")
 
 # Part 1
 
@@ -13,8 +13,8 @@ def patrol(grid: Grid):
     grid[p] = "X"
     while (p + d) in grid:
         if grid[p + d] == "#":
-            # turn
-            d = Point(-d.y, d.x)
+            # turn 90°
+            d = d.rotate(90)
         else:
             p += d
             grid[p] = "X"
@@ -33,8 +33,8 @@ def is_looping(grid: Grid, p: Point):
     grid[p] += 1
     while (p + d) in grid:
         if grid[p + d] == "#":
-            # turn
-            d = Point(-d.y, d.x)
+            # turn 90°
+            d = d.rotate(90)
         else:
             p += d
         if grid[p] == 4:
