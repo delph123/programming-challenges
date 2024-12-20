@@ -45,7 +45,6 @@ class AStarSolution(Generic[T]):
 
 
 class AStar(ABC, Generic[T]):
-    @abstractmethod
     def heuristic_cost_estimate(self, current: T, cost: C, goal=None) -> H:
         """
         Computes the estimated (rough) distance between a node and the goal.
@@ -53,18 +52,17 @@ class AStar(ABC, Generic[T]):
         This method must be return the estimated cost to the goal.
         heuristic = distance(current, goal) + cost
         """
-        raise NotImplementedError
+        return cost  # by default, heuristic from current to goal is 0 (Dijkstra)
 
-    @abstractmethod
     def cost_between(self, n1: T, n2: T) -> C:
         """
         Gives the real distance between two adjacent nodes n1 and n2 (i.e n2
         belongs to the list of n1's neighbors).
         n2 is guaranteed to belong to the list returned by the call to neighbors(n1).
-        This method must return the real cost of traveling to n2 through n1:
-        cost = n1_cost + distance(n1, n2)
+        This method must return the real cost of traveling to n2 from n1:
+        cost = distance(n1, n2)
         """
-        raise NotImplementedError
+        return 1  # By default cost between two adjacent nodes is 1
 
     @abstractmethod
     def neighbors(self, node: T) -> Iterable[T]:
