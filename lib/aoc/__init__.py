@@ -11,6 +11,6 @@ from lib.aoc.parsing import read, read_lines, read_grid
 import re
 from collections import deque, Counter, defaultdict
 from itertools import pairwise, groupby, combinations, product, zip_longest, batched
-from functools import cache, reduce, cmp_to_key
+from functools import cache, reduce, cmp_to_key, partial
 from math import sqrt, prod, floor, ceil
 from copy import deepcopy
