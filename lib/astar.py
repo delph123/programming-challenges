@@ -43,6 +43,17 @@ class AStarSolution(Generic[T]):
     def cost(self):
         return self.goal.cost
 
+    def all_paths(self):
+        def paths(nodes):
+            for node in nodes:
+                for p in paths(node.predecessors):
+                    p.append(node.node)
+                    yield p
+                if not node.predecessors:
+                    yield [node.node]
+
+        return paths([self.goal])
+
 
 class AStar(ABC, Generic[T]):
     def heuristic_cost_estimate(self, current: T, cost: C, goal=None) -> H:
