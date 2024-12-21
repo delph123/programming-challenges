@@ -21,6 +21,10 @@ def flatten(list_of_lists, collect=list):
     return collect(chain.from_iterable(list_of_lists))
 
 
+def reversed_mapping(mapping):
+    return {v: k for k, v in mapping.items()}
+
+
 def compose(functions, initial):
     return reduce(lambda v, f: f(v), functions, initial)
 
