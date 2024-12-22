@@ -25,8 +25,30 @@ def reversed_mapping(mapping):
     return {v: k for k, v in mapping.items()}
 
 
-def compose(functions, initial):
-    return reduce(lambda v, f: f(v), functions, initial)
+def cycle(iterable, times=None):
+    if times is not None and times < 0:
+        raise ValueError("times argument cannot be negative")
+    if times == 0:
+        return
+
+    saved = []
+
+    for element in iterable:
+        yield element
+        saved.append(element)
+
+    if times is None:
+        while saved:
+            for element in saved:
+                yield element
+    else:
+        for _ in range(1, times):
+            for element in saved:
+                yield element
+
+
+def compose(functions, initial, repeat=1):
+    return reduce(lambda v, f: f(v), cycle(functions, repeat), initial)
 
 
 def powerset(sequence):
