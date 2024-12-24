@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-file = "i"
+file = "example"
 registers, program = read(file).split("\n\n")
 registers = [r.split("Register ")[1].split(": ") for r in registers.split("\n")]
 registers = {r: int(v) for (r, v) in registers}
