@@ -1,6 +1,7 @@
 # Import some utilities
 from lib.tools import *
 from lib.math import *
+from lib.grid import Point, Grid
 from lib.astar import AStar
 
 # Import advent of code tooling

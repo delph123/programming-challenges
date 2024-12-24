@@ -1,7 +1,7 @@
 import sys
 import inspect
 from pathlib import Path
-from ..tools import Grid
+from ..grid import Grid
 
 
 def read(version):
