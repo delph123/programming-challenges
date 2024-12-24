@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-codes = read_lines("i")
+codes = read_lines("example")
 
 UDLR = reversed_mapping(Point.UDLR)
 
