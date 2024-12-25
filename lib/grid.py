@@ -1,6 +1,7 @@
 import cmath
 from sys import float_info
 from copy import deepcopy
+from .tools import transpose as transpose_matrix
 
 
 class Point:
@@ -203,3 +204,6 @@ class Grid:
 
     def find_all(self, val):
         return set(p for (p, v) in self.items() if v == val)
+
+    def transpose(self):
+        return Grid(transpose_matrix(self.content))
