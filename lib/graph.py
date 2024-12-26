@@ -36,20 +36,27 @@ class Graph:
             for end in nb:
                 yield (start, end)
 
-    def bron_kerbosch(self, clique: set, candidates: set, excluded: set):
+    def _pivoted(self, candidates, excluded):
+        if candidates:
+            return candidates - max(
+                (candidates & self.neighbor(c) for c in (candidates | excluded)),
+                key=len,
+            )
+        else:
+            return candidates
+
+    def _bron_kerbosch(self, clique: set, candidates: set, excluded: set):
         if not candidates and not excluded:
             yield clique
-        while candidates:
-            c = candidates.pop()
+        for c in self._pivoted(candidates, excluded):
             nc = self.neighbor(c, set())
-            for cq in self.bron_kerbosch(
-                clique | set([c]), candidates & nc, excluded & nc
-            ):
+            for cq in self._bron_kerbosch(clique | {c}, candidates & nc, excluded & nc):
                 yield cq
+            candidates.remove(c)
             excluded.add(c)
 
     def cliques(self):
-        return list(self.bron_kerbosch(set(), self.nodes(), set()))
+        return list(self._bron_kerbosch(set(), self.nodes(), set()))
 
     def maximum_clique(self):
-        return max(self.bron_kerbosch(set(), self.nodes(), set()), key=len)
+        return max(self._bron_kerbosch(set(), self.nodes(), set()), key=len)
