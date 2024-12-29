@@ -51,7 +51,7 @@ def run(registers, program):
     return output
 
 
-part_one(",".join([str(d) for d in run(registers.copy(), program)]))
+part_one(run(registers.copy(), program), sep=",")
 
 # Part 2
 
