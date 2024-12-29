@@ -175,6 +175,6 @@ def incorrectly_wired(gates):
 
 
 try:
-    part_two(",".join(sorted(flatten(incorrectly_wired(gates)))))
+    part_two(sorted(flatten(incorrectly_wired(gates))), sep=",")
 except:
     part_two("Cannot run part two on example data!")
