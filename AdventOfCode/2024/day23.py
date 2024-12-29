@@ -22,4 +22,4 @@ part_one(
 
 # Part 2
 
-part_two(",".join(sorted(connections.maximum_clique())))
+part_two(sorted(connections.maximum_clique()), sep=",")
