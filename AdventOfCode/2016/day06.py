@@ -12,21 +12,13 @@ def pick(messages, col):
 
 
 part_one(
-    "".join(
-        [
-            Counter(pick(messages, i)).most_common()[0][0]
-            for i in range(len(messages[0]))
-        ]
-    )
+    [Counter(pick(messages, i)).most_common()[0][0] for i in range(len(messages[0]))],
+    sep="",
 )
 
 # Part 2
 
 part_two(
-    "".join(
-        [
-            Counter(pick(messages, i)).most_common()[-1][0]
-            for i in range(len(messages[0]))
-        ]
-    )
+    [Counter(pick(messages, i)).most_common()[-1][0] for i in range(len(messages[0]))],
+    sep="",
 )
