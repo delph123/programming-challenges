@@ -121,6 +121,10 @@ class Grid:
     def __init__(self, content):
         self.content = content
 
+    @classmethod
+    def of_size(cls, width, height):
+        return cls([list(range(width * j, width * (j + 1))) for j in range(height)])
+
     def __len__(self):
         return len(self.content) * len(self.content[0])
 
@@ -198,6 +202,11 @@ class Grid:
             for x, v in enumerate(row):
                 if v == val:
                     return Point(x, y)
+
+    def fill(self, val):
+        for p in self.keys():
+            self[p] = val
+        return self
 
     def count(self, val):
         return sum(sum(1 for v in row if v == val) for row in self.content)
