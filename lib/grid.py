@@ -78,7 +78,7 @@ class Point:
         return self.x * other.x + self.y * other.y
 
     def rotate(self, angle):
-        """Rotate the vector by angle in degree"""
+        """Rotate clockwise the vector by angle in degree"""
         # we need to add epsilon to avoid rounding issues with integer coordinates
         return self * cmath.rect(1 + float_info.epsilon, angle * cmath.pi / 180)
 

@@ -3,15 +3,22 @@ from functools import reduce
 from itertools import chain, combinations
 
 
-def replace_all(old_words: list[str], new_word: str, source: str):
+def replace_all(old_words: list[str], new_words: str | list[str], source: str):
     """Returns a copy with all occurrences from old words replaced with
-    new one in source string.
+    new one(s) in source string.
     """
-    return reduce(
-        lambda x, y: x.replace(y, new_word),
-        old_words,
-        source,
-    )
+    if isinstance(new_words, str):
+        return reduce(
+            lambda x, y: x.replace(y, new_words),
+            old_words,
+            source,
+        )
+    else:
+        return reduce(
+            lambda x, rep: x.replace(rep[0], rep[1]),
+            zip(old_words, new_words),
+            source,
+        )
 
 
 def flatten(list_of_lists, collect=list):

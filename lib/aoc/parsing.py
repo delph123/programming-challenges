@@ -34,7 +34,7 @@ def read(version):
 
 
 def read_lines(version):
-    return read(version).split("\n")
+    return read(version).splitlines()
 
 
 def read_grid(version, cell_format=str):
