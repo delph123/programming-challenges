@@ -2,33 +2,28 @@ from libs import *
 
 # Parse input
 
-instructions = read_lines("example")
-square_keypad = ["123", "456", "789"]
-diamond_keypad = ["  1  ", " 234 ", "56789", " ABC ", "  D  "]
-DIRS = {"U": -1j, "D": 1j, "L": -1, "R": 1}
+# Read and normalize directions from file to ^ v < > notation
+instructions = replace_all(list("UDLR"), list("^v<>"), read("example")).splitlines()
+
+square_keypad = Grid(["123", "456", "789"])
+diamond_keypad = Grid(["  1  ", " 234 ", "56789", " ABC ", "  D  "])
 
 # Part 1
 
 
-def decode(start, keypad):
+def decode(keypad):
+    start = keypad.index("5")
     code = []
     for inst in instructions:
         for t in inst:
-            s = start + DIRS[t]
-            if (
-                s.imag >= 0
-                and s.imag < len(keypad)
-                and s.real >= 0
-                and s.real < len(keypad)
-                and keypad[int(s.imag)][int(s.real)] != " "
-            ):
-                start = s
-        code.append(keypad[int(start.imag)][int(start.real)])
+            if keypad.get(start + Point.UDLR[t], " ") != " ":
+                start += Point.UDLR[t]
+        code.append(keypad[start])
     return "".join(code)
 
 
-part_one(decode(1 + 1j, square_keypad))
+part_one(decode(square_keypad))
 
 # Part 2
 
-part_two(decode(0 + 2j, diamond_keypad))
+part_two(decode(diamond_keypad))
