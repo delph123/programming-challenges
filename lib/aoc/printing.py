@@ -25,17 +25,20 @@ def preview(result):
         print(result)
 
 
-def print_result(result, part: int):
-    if isinstance(result, (str, int)):
+def print_result(result, part: int, sep=None):
+    if sep is not None:
+        print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m ", end="")
+        print(*result, sep=sep)
+    elif isinstance(result, (str, int)):
         print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m", result)
     else:
         print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m")
         preview(result)
 
 
-def part_one(result):
-    print_result(result, part=1)
+def part_one(result, sep=None):
+    print_result(result, part=1, sep=sep)
 
 
-def part_two(result):
-    print_result(result, part=2)
+def part_two(result, sep=None):
+    print_result(result, part=2, sep=sep)
