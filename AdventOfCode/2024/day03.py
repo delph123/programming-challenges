@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-instruction = read("e").replace("\n", "")  # Concatenate multi-line input
+instruction = read("example", ignore=["\n"])  # Concatenate multi-line input
 
 # Part 1
 
