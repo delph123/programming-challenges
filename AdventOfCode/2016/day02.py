@@ -3,7 +3,7 @@ from libs import *
 # Parse input
 
 # Read and normalize directions from file to ^ v < > notation
-instructions = replace_all(list("UDLR"), list("^v<>"), read("example")).splitlines()
+instructions = read_lines("example", replace=zip("UDLR", "^v<>"))
 
 square_keypad = Grid(["123", "456", "789"])
 diamond_keypad = Grid(["  1  ", " 234 ", "56789", " ABC ", "  D  "])
