@@ -3,12 +3,11 @@ from libs import *
 # Parse input
 
 properties = [
-    replace_all(
-        [" capacity ", " durability ", " flavor ", " texture ", " calories "],
-        "",
-        l,
-    ).split(":")
-    for l in read("example").split("\n")
+    l.split(":")
+    for l in read_lines(
+        "example",
+        ignore=[" capacity ", " durability ", " flavor ", " texture ", " calories "],
+    )
 ]
 
 properties = {
