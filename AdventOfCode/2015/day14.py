@@ -2,14 +2,11 @@ from libs import *
 
 # Parse input
 
-speeds = [
-    replace_all(
-        ["can fly ", "km/s for ", "seconds, but then must rest for ", " seconds."],
-        "",
-        l,
-    ).split(" ")
-    for l in read("example").split("\n")
-]
+speeds = read_lines(
+    "example",
+    ignore=["can fly ", "km/s for ", "seconds, but then must rest for ", " seconds."],
+)
+speeds = [l.split(" ") for l in speeds]
 
 speeds = {
     reindeer: (int(speed), int(duration), int(rest))
