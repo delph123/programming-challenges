@@ -1,4 +1,5 @@
-from ..grid import Grid
+from ..tools import is_iterable
+from ..grid import Grid, Point
 
 
 def preview(result):
@@ -26,13 +27,15 @@ def preview(result):
 
 
 def print_result(result, part: int, sep=None):
+    print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m ", end="")
     if sep is not None:
-        print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m ", end="")
         print(*result, sep=sep)
-    elif isinstance(result, (str, int)):
-        print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m", result)
+    elif isinstance(result, (bool, str, int, float, complex, Point)):
+        print(result)
+    elif is_iterable(result) and len(result) == 1:
+        print(next(iter(result)))
     else:
-        print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m")
+        print("")
         preview(result)
 
 

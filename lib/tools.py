@@ -29,6 +29,13 @@ def reversed_mapping(mapping):
     return {v: k for k, v in mapping.items()}
 
 
+def is_iterable(obj):
+    try:
+        return iter(obj) is not None
+    except:
+        return False
+
+
 def cycle(iterable, times=None):
     if times is not None and times < 0:
         raise ValueError("times argument cannot be negative")
