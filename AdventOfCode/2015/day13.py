@@ -2,12 +2,10 @@ from libs import *
 
 # Parse input
 
-potentials = [
-    replace_all([".", "would ", "happiness units by sitting next to "], "", l).split(
-        " "
-    )
-    for l in read("example").split("\n")
-]
+potentials = read_lines(
+    "example", ignore=[".", "would ", "happiness units by sitting next to "]
+)
+potentials = [l.split(" ") for l in potentials]
 
 potentials = {
     (p1, p2): int(units) if outcome == "gain" else -int(units)
