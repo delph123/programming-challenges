@@ -50,8 +50,7 @@ class Graph:
             yield clique
         for c in self._pivoted(candidates, excluded):
             nc = self.neighbor(c, set())
-            for cq in self._bron_kerbosch(clique | {c}, candidates & nc, excluded & nc):
-                yield cq
+            yield from self._bron_kerbosch(clique | {c}, candidates & nc, excluded & nc)
             candidates.remove(c)
             excluded.add(c)
 
