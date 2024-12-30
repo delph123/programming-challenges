@@ -1,7 +1,7 @@
 import sys
 import inspect
 from pathlib import Path
-from ..tools import replace_all, transpose
+from ..tools import replace_all, multi_replace
 from ..grid import Grid
 
 
@@ -12,8 +12,7 @@ def sanitized(
     if ignore is not None:
         text = replace_all(ignore, "", text)
     if replace is not None:
-        old, new = transpose(replace)
-        text = replace_all(old, new, text)
+        text = multi_replace(replace, text)
     return text
 
 

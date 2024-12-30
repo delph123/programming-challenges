@@ -5,20 +5,22 @@ from itertools import chain, combinations
 
 def replace_all(old_words: list[str], new_words: str | list[str], source: str):
     """Returns a copy with all occurrences from old words replaced with
-    new one(s) in source string.
+    new one in source string.
     """
-    if isinstance(new_words, str):
-        return reduce(
-            lambda x, y: x.replace(y, new_words),
-            old_words,
-            source,
-        )
-    else:
-        return reduce(
-            lambda x, rep: x.replace(rep[0], rep[1]),
-            zip(old_words, new_words),
-            source,
-        )
+    return reduce(
+        lambda x, y: x.replace(y, new_words),
+        old_words,
+        source,
+    )
+
+
+def multi_replace(replacements: list[tuple[str, str]], source: str):
+    """Apply multiple replacements sequentially and return the result"""
+    return reduce(
+        lambda x, rep: x.replace(rep[0], rep[1]),
+        replacements,
+        source,
+    )
 
 
 def flatten(list_of_lists, collect=list):
@@ -71,11 +73,9 @@ def transpose(grid):
     if len(grid) == 0:
         return []
     if isinstance(grid[0], str):
-        return [
-            "".join([grid[i][j] for i in range(len(grid))]) for j in range(len(grid[0]))
-        ]
+        return ["".join(r) for r in zip(*grid)]
     else:
-        return [[grid[i][j] for i in range(len(grid))] for j in range(len(grid[0]))]
+        return list(zip(*grid))
 
 
 def bisect(seq: Sequence, value, *, key=None, reverse=False, smallest=False):
