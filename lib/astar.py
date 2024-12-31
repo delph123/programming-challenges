@@ -23,6 +23,11 @@ class AStarNode(Generic[T]):
         """Nodes must be comparable on their heuristic value"""
         return self.heuristic < b.heuristic
 
+    def __str__(self):
+        return str(
+            (self.node, self.cost, self.heuristic, self.closed, self.predecessors)
+        )
+
 
 class AStarSolution(Generic[T]):
     """Represent the solution to the A* algorithm."""
@@ -56,6 +61,11 @@ class AStarSolution(Generic[T]):
 
 
 class AStar(ABC, Generic[T]):
+    def __init__(self, *, visit_closed=True, debug=False):
+        super().__init__()
+        self.visit_closed = visit_closed
+        self.debug = debug
+
     def heuristic_cost_estimate(self, current: T, cost: C, goal=None) -> H:
         """
         Computes the estimated (rough) distance between a node and the goal.
@@ -107,20 +117,29 @@ class AStar(ABC, Generic[T]):
             current = candidates.pop()
 
             if self.is_goal_reached(current.node, goal):
+                if self.debug:
+                    print(
+                        f"Found solution with cost {current.cost} (after visiting {len(visited)} nodes)"
+                    )
                 return AStarSolution(current, visited)
 
-            # For debug purpose only, we still visit closed nodes
-            # to compute predecessors
             current.closed = True
 
             for neighbor in self.neighbors(current.node):
                 explored = neighbor in visited
+
+                # By default, we still visit closed nodes to compute predecessors,
+                # but this can be deactivated.
+                if not self.visit_closed and explored and visited[neighbor].closed:
+                    continue
 
                 cost = current.cost + self.cost_between(current.node, neighbor)
                 heuristic = self.heuristic_cost_estimate(neighbor, cost, goal)
 
                 if not explored:
                     visited[neighbor] = AStarNode(neighbor, current, cost, heuristic)
+                    if self.debug and len(visited) % 100000 == 0:
+                        print(len(visited))
                     candidates.push(visited[neighbor])
                     continue
 
@@ -134,4 +153,6 @@ class AStar(ABC, Generic[T]):
                 elif explored and heuristic == neighbor_node.heuristic:
                     neighbor_node.predecessors.append(current)
 
+        if self.debug:
+            print("No solution found!")
         return None
