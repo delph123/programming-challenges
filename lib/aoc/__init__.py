@@ -15,5 +15,5 @@ from collections import deque, Counter, defaultdict
 from itertools import pairwise, groupby, combinations, product, zip_longest, batched
 from functools import cache, reduce, cmp_to_key, partial
 from operator import itemgetter, attrgetter
-from math import sqrt, prod, floor, ceil
+from math import sqrt, prod, floor, ceil, copysign
 from copy import deepcopy
