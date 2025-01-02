@@ -12,8 +12,9 @@ from lib.aoc.parsing import read, read_lines, read_grid
 # Useful tools from standard library
 import re
 from collections import deque, Counter, defaultdict
-from itertools import pairwise, groupby, combinations, product, zip_longest, batched
+from itertools import count, accumulate, batched, groupby, islice, pairwise, zip_longest
+from itertools import product, permutations, combinations, combinations_with_replacement
 from functools import cache, reduce, cmp_to_key, partial
 from operator import itemgetter, attrgetter
-from math import sqrt, prod, floor, ceil, copysign
+from math import sqrt, prod, floor, ceil, copysign, gcd
 from copy import deepcopy
