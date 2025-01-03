@@ -2,9 +2,9 @@ from libs import *
 
 # Parse input
 
-favorite_number, coordinates = read_lines("example")
-favorite_number = int(favorite_number)
-coordinates = Point(*(int(d) for d in coordinates.split(",")))
+favorite_number = int(read("example"))
+
+coordinates = Point(7, 4) if read.from_example else Point(31, 39)
 
 # Part 1
 
