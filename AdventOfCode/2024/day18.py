@@ -2,16 +2,17 @@ from libs import *
 
 # Parse input
 
-file = "example"
 coordinates = [
-    Point(int(l.split(",")[0]), int(l.split(",")[1])) for l in read_lines(file)
+    Point(int(l.split(",")[0]), int(l.split(",")[1])) for l in read_lines("example")
 ]
+
+memory_space_size = 7 if read.from_example else 71
+corrupted_memory_size = 12 if read.from_example else 1024
 
 # Part 1
 
-size = 71 if file.startswith("i") else 7
 start = Point(0, 0)
-end = Point(size - 1, size - 1)
+end = Point(memory_space_size - 1, memory_space_size - 1)
 
 
 class MemoryAStar(AStar):
@@ -23,7 +24,7 @@ class MemoryAStar(AStar):
         return (
             node + d
             for d in Point.UDLR.values()
-            if (node + d).is_within_bounds(size, size)
+            if (node + d).is_within_bounds(memory_space_size, memory_space_size)
             and (node + d) not in self.corrupted_memory
         )
 
@@ -34,7 +35,7 @@ class MemoryAStar(AStar):
         return cost + current.manhattan(goal)
 
 
-part_one(MemoryAStar(1024 if file.startswith("i") else 12).solve(start, end).cost())
+part_one(MemoryAStar(corrupted_memory_size).solve(start, end).cost())
 
 # Part 2
 
@@ -47,5 +48,5 @@ def bad_coordinates(min, max):
     return bisect(range(min, max), True, key=blocked, smallest=True) + min - 1
 
 
-c = bad_coordinates(1024 if file.startswith("i") else 12, len(coordinates))
+c = bad_coordinates(12 if read.from_example else 1024, len(coordinates))
 part_two(str(coordinates[c].x) + "," + str(coordinates[c].y))
