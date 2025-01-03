@@ -2,8 +2,10 @@ from libs import *
 
 # Parse input
 
-file = "example"
-racetrack = read_grid(file)
+racetrack = read_grid("example")
+
+min_savings = 0 if read.from_example else 100
+min_savings_p2 = 50 if read.from_example else 100
 
 start = racetrack.index("S")
 end = racetrack.index("E")
@@ -32,7 +34,6 @@ def cheats_2sec():
     return cheat_coordinates
 
 
-min_savings = 100 if file.startswith("i") else 0
 part_one(
     len([(cheat, win) for (cheat, win) in cheats_2sec().items() if win >= min_savings])
 )
@@ -68,5 +69,4 @@ def cheats(duration):
     return cheats_by_savings
 
 
-min_savings = 100 if file.startswith("i") else 50
-part_two(sum([cheats for (win, cheats) in cheats(20).items() if win >= min_savings]))
+part_two(sum([cheats for (win, cheats) in cheats(20).items() if win >= min_savings_p2]))
