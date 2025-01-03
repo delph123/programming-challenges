@@ -2,11 +2,13 @@ from libs import *
 
 # Parse input
 
-file = "example"
-registers, program = read(file).split("\n\n")
+registers, program = read("example").split("\n\n")
+
 registers = [r.split("Register ")[1].split(": ") for r in registers.split("\n")]
 registers = {r: int(v) for (r, v) in registers}
+
 program = list(batched([int(d) for d in program.split("Program: ")[1].split(",")], 2))
+program_p2 = [(0, 3), (5, 4), (3, 0)] if read.from_example else program
 
 # Part 1
 
@@ -59,8 +61,7 @@ part_one(run(registers.copy(), program), sep=",")
 # After some transformation, we can see that running the program with register A
 # initialized to some value is equivalent to running the below program for some
 # specific next() function.
-def exec(a_register, next):
-    a = a_register
+def exec(a, next):
     output = []
     while a > 0:
         output.append(next(a))
@@ -71,7 +72,7 @@ def exec(a_register, next):
 # The next function is very simple to find for the example, while for
 # my input it looks like this big expression below.
 def next(a):
-    if file.startswith("e"):
+    if read.from_example:
         return (a // 8) % 8
     else:
         return (((a % 8) ^ 5) ^ (a // 2 ** ((a % 8) ^ 5)) ^ 6) % 8
@@ -80,14 +81,8 @@ def next(a):
 # We can know regenerate a value for register A, by running the program backward
 # identifying the step by step the octal digit that can work for the provided
 # output (which, in the case of the exercise must be equal to the program code).
-
-if file.startswith("e"):
-    reverse_program = list(reversed([0, 3, 5, 4, 3, 0]))
-else:
-    reverse_program = list(reversed(flatten(program)))
-
-
 def find_register_value(i, num):
+    reverse_program = list(reversed(flatten(program_p2)))
     if i == len(reverse_program):
         return num
     for n in range(8):
@@ -98,4 +93,10 @@ def find_register_value(i, num):
     return None
 
 
-part_two(find_register_value(0, 0))
+a = find_register_value(0, 0)
+
+# Check that the solution found actually works:
+if exec(a, next) == flatten(program_p2):
+    part_two(a)
+else:
+    print_error(f"Error while verifying computation with register value {a}.")
