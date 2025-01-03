@@ -6,7 +6,7 @@ from lib.graph import Graph
 from lib.astar import AStar
 
 # Import advent of code tooling
-from lib.aoc.printing import part_one, part_two, preview
+from lib.aoc.printing import part_one, part_two, preview, print_error
 from lib.aoc.parsing import read, read_lines, read_grid
 
 # Useful tools from standard library

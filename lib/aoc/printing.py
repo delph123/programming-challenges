@@ -26,6 +26,10 @@ def preview(result):
         print(result)
 
 
+def print_error(text):
+    print("\x1b[1;31m" + text + "\x1b[0m")
+
+
 def print_result(result, part: int, sep=None):
     print(f"\x1b[30;{36 if part == 1 else 32}mPart {part}:\x1b[0m ", end="")
     if sep is not None:

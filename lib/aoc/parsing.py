@@ -31,13 +31,16 @@ def read(version, replace: list[str] | None = None, ignore: list[str] | None = N
 
     if len(sys.argv) >= 2 and sys.argv[1]:
         print("\x1b[30;43m INFO \x1b[0m Reading from", sys.argv[1])
+        read.from_example = "example" in sys.argv[1]
         input_file = sys.argv[1]
     elif version.startswith("e"):
         print("\x1b[30;41m /!\\ \x1b[0m Reading from example")
+        read.from_example = True
         input_file = (
             calling_path.parent / "examples" / calling_path.with_suffix(".in").name
         )
     else:
+        read.from_example = False
         input_file = (
             calling_path.parent / "inputs" / calling_path.with_suffix(".in").name
         )
