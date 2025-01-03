@@ -2,8 +2,9 @@ from libs import *
 
 # Parse input
 
-initial_state, disk_length = read_lines("example")
-disk_length = int(disk_length)
+initial_state = read("example")
+
+disk_length = 20 if read.from_example else 272
 
 # Part 1
 
