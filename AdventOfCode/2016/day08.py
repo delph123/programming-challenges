@@ -2,8 +2,9 @@ from libs import *
 
 # Parse input
 
-file = "example"
-instructions = read_lines(file)
+instructions = read_lines("i")
+
+width, height = (7, 3) if read.from_example else (50, 6)
 
 # Part 1
 
@@ -36,7 +37,6 @@ def display(instructions, width, height):
     return screen
 
 
-width, height = (50, 6) if file.startswith("i") else (7, 3)
 screen = display(instructions, width, height)
 
 part_one(screen.count("#"))
