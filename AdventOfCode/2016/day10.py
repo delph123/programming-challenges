@@ -2,11 +2,11 @@ from libs import *
 
 # Parse input
 
-file = "example"
-
 instructions = read_lines(
-    file, ignore=["goes to bot ", "gives low to ", "and high to "]
+    "example", ignore=["goes to bot ", "gives low to ", "and high to "]
 )
+
+values_to_compare = [2, 5] if read.from_example else [17, 61]
 
 bot_values = [l[6:].split(" ") for l in instructions if l.startswith("value")]
 bot_values = {
@@ -50,7 +50,7 @@ def detect_bot_possessing(values):
     return detect_bot
 
 
-part_one(find_bot(detect_bot_possessing([17, 61] if file.startswith("i") else [2, 5])))
+part_one(find_bot(detect_bot_possessing(values_to_compare)))
 
 # Part 2
 
