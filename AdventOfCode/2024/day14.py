@@ -3,9 +3,7 @@ import time
 
 # Parse input
 
-file = "example"
-
-robots = [r.split("p=")[1].split(" v=") for r in read_lines(file)]
+robots = [r.split("p=")[1].split(" v=") for r in read_lines("example")]
 robots = [
     (
         Point(int(a.split(",")[0]), int(a.split(",")[1])),
@@ -14,7 +12,7 @@ robots = [
     for (a, b) in robots
 ]
 
-space = Point(101, 103) if file.startswith("i") else Point(11, 7)
+space = Point(11, 7) if read.from_example else Point(101, 103)
 
 # Part 1
 
@@ -113,7 +111,7 @@ def time_to_display_easter(robots):
     # We'll assume that when the robots are arranged into a picture of a Christmas
     # tree, the robots that are part of the tree form a group of size more than 50
     # We use 8 for the example since the example never really arrange in a tree.
-    EASTER_GROUP_SIZE = 50 if file.startswith("i") else 8
+    EASTER_GROUP_SIZE = 8 if read.from_example else 50
 
     for i in range(100000):
         b = biggest_group(robots)
