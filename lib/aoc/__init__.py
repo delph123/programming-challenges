@@ -18,4 +18,5 @@ from functools import cache, reduce, cmp_to_key, partial
 from operator import itemgetter, attrgetter
 from math import sqrt, prod, floor, ceil, copysign, gcd
 from hashlib import md5
+from dataclasses import dataclass
 from copy import deepcopy
