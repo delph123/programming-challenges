@@ -1,6 +1,8 @@
 import sys
 import inspect
+import re
 from pathlib import Path
+from functools import partial
 from ..tools import replace_all, multi_replace
 from ..grid import Grid
 
@@ -56,3 +58,36 @@ def read_lines(
 
 def read_grid(version, cell_format=str):
     return Grid([[cell_format(c) for c in row] for row in read_lines(version)])
+
+
+def transform(pattern, groups):
+    if isinstance(pattern, str):
+        return pattern
+    else:
+        container = type(pattern)
+        return container(
+            groups[g] if isinstance(g, int) else transform(g, groups) for g in pattern
+        )
+
+
+def create_matcher(rules: list[str]):
+    """Basic matcher for parsing input files."""
+    regexes = [
+        (
+            re.compile(rule.replace("{int}", "(\d+)").replace("{str}", "([^ ]+)")),
+            re.findall(r"\{([^{]+)\}", rule),
+            partial(transform, pattern),
+        )
+        for rule, pattern in rules
+    ]
+
+    def matcher(text):
+        for regex, types, transform in regexes:
+            if m := regex.fullmatch(text):
+                groups = [
+                    int(g) if t == "int" else g for g, t in zip(m.groups(), types)
+                ]
+                return transform(groups)
+        return text
+
+    return matcher
