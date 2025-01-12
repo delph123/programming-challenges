@@ -55,4 +55,4 @@ part_one(hvac_shortest_path.min_steps_to_visit_all_poi())
 
 # Part 2
 
-part_one(hvac_shortest_path.min_steps_to_visit_all_poi(returning=True))
+part_two(hvac_shortest_path.min_steps_to_visit_all_poi(returning=True))
