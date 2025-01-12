@@ -31,4 +31,4 @@ def ratings(p, i):
     )
 
 
-part_one(sum([ratings(p, 0) for p in topographic_map.find_all(0)]))
+part_two(sum([ratings(p, 0) for p in topographic_map.find_all(0)]))
