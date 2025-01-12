@@ -43,4 +43,4 @@ def blink_stone(s, times):
     return blink_stone(2024 * s, times - 1)
 
 
-part_one(sum([blink_stone(s, 75) for s in stones]))
+part_two(sum([blink_stone(s, 75) for s in stones]))
