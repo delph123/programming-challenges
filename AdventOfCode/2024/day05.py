@@ -35,4 +35,4 @@ def reorder(update):
     return sorted(update, key=cmp_to_key(cmp_pages))
 
 
-part_one(sum([reorder(p)[int(len(p) / 2)] for p in production if not right_order(p)]))
+part_two(sum([reorder(p)[int(len(p) / 2)] for p in production if not right_order(p)]))
