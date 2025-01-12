@@ -7,11 +7,11 @@ C = TypeVar("C")  # type of cost
 H = TypeVar("H")  # type of heuristic
 
 
-class AStarNode(Generic[T]):
+class PathNode(Generic[T]):
     """Represent a node manipulated by the A* algorithm."""
 
     def __init__(
-        self, node: T, predecessor: "AStarNode[T]", cost: C, heuristic: H
+        self, node: T, predecessor: "PathNode[T]", cost: C, heuristic: H
     ) -> None:
         self.node = node
         self.cost = cost
@@ -19,7 +19,7 @@ class AStarNode(Generic[T]):
         self.predecessors = [predecessor] if predecessor is not None else []
         self.closed = False
 
-    def __lt__(self, b: "AStarNode[T]") -> bool:
+    def __lt__(self, b: "PathNode[T]") -> bool:
         """Nodes must be comparable on their heuristic value"""
         return self.heuristic < b.heuristic
 
@@ -29,10 +29,10 @@ class AStarNode(Generic[T]):
         )
 
 
-class AStarSolution(Generic[T]):
+class PathSolution(Generic[T]):
     """Represent the solution to the A* algorithm."""
 
-    def __init__(self, goal: AStarNode[T], explored: Dict[T, AStarNode[T]]):
+    def __init__(self, goal: PathNode[T], explored: Dict[T, PathNode[T]]):
         self.goal = goal
         self.explored = explored
 
@@ -101,16 +101,24 @@ class AStar(ABC, Generic[T]):
         """
         return current == goal
 
+    def key(self, node):
+        """
+        Returns the key of the node, that is used to know if the node was already
+        visited. Two nodes with same key will be considered equivalent by the A*
+        algorithm and only a single one of them will be explored.
+        """
+        return node  # by default, return the node unchanged as its own key
+
     def solve(self, start: T, goal=None):
 
-        start_node = AStarNode(
+        start_node = PathNode(
             start,
             predecessor=None,
             cost=0,
             heuristic=self.heuristic_cost_estimate(start, 0, goal),
         )
 
-        visited = {start: start_node}
+        visited = {self.key(start): start_node}
         candidates = MappedQueue([start_node])
 
         while candidates:
@@ -121,29 +129,30 @@ class AStar(ABC, Generic[T]):
                     print(
                         f"Found solution with cost {current.cost} (after visiting {len(visited)} nodes)"
                     )
-                return AStarSolution(current, visited)
+                return PathSolution(current, visited)
 
             current.closed = True
 
             for neighbor in self.neighbors(current.node):
-                explored = neighbor in visited
+                neighbor_key = self.key(neighbor)
+                explored = neighbor_key in visited
 
                 # By default, we still visit closed nodes to compute predecessors,
                 # but this can be deactivated.
-                if not self.visit_closed and explored and visited[neighbor].closed:
+                if not self.visit_closed and explored and visited[neighbor_key].closed:
                     continue
 
                 cost = current.cost + self.cost_between(current.node, neighbor)
                 heuristic = self.heuristic_cost_estimate(neighbor, cost, goal)
 
                 if not explored:
-                    visited[neighbor] = AStarNode(neighbor, current, cost, heuristic)
+                    visited[neighbor_key] = PathNode(neighbor, current, cost, heuristic)
                     if self.debug and len(visited) % 100000 == 0:
                         print(len(visited))
-                    candidates.push(visited[neighbor])
+                    candidates.push(visited[neighbor_key])
                     continue
 
-                neighbor_node = visited[neighbor]
+                neighbor_node = visited[neighbor_key]
 
                 if explored and heuristic < neighbor_node.heuristic:
                     neighbor_node.cost = cost
