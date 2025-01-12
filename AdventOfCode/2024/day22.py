@@ -17,7 +17,7 @@ def next_secret(sec):
     return sec
 
 
-part_one(sum([compose([next_secret], s, repeat=2000) for s in secrets]))
+part_one(sum([compose(2000 * [next_secret], s) for s in secrets]))
 
 # Part 2
 
