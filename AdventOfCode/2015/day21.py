@@ -6,7 +6,7 @@ from libs import *
 def scores(items):
     items = items.strip().split("\n")
     items = [
-        re.match("(.*) {2,10}(\d+) +(\d+) +(\d+)", item).groups() for item in items
+        re.match(r"(.*) {2,10}(\d+) +(\d+) +(\d+)", item).groups() for item in items
     ]
     return [
         (name.strip(), int(cost), int(damage), int(armor))
