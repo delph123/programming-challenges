@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-sequence = read("i")
+sequence = read("example")
 
 # Part 1
 
