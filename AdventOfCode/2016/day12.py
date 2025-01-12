@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-instructions = [tuple(l.split()) for l in read_lines("i")]
+instructions = [tuple(l.split()) for l in read_lines("example")]
 
 # Part 1 & 2
 
