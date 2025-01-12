@@ -3,7 +3,7 @@ from libs import *
 # Parse input
 
 row, column = (
-    int(n) for n in re.match(".* row (\d*), column (\d*)\.", read("example")).groups()
+    int(n) for n in re.match(r".* row (\d*), column (\d*)\.", read("example")).groups()
 )
 
 # Part 1
