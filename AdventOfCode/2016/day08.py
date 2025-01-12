@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-instructions = read_lines("i")
+instructions = read_lines("example")
 
 width, height = (7, 3) if read.from_example else (50, 6)
 
