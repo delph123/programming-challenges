@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 10: Hoof It ---
 
 You all arrive at a [Lava Production Facility](/2023/day/15) on a floating island in the sky. As the others begin to search the massive industrial complex, you feel a small nose boop your leg and look down to discover a reindeer wearing a hard hat.

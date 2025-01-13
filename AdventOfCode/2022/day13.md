@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 13: Distress Signal ---
 
 You climb the hill and again try contacting the Elves. However, you instead receive a signal you weren't expecting: a _distress signal_.
@@ -160,5 +158,3 @@ For the example above, the result of putting the packets in the correct order is
 Afterward, locate the divider packets. To find the _decoder key_ for this distress signal, you need to determine the indices of the two divider packets and multiply them together. (The first packet is at index 1, the second packet is at index 2, and so on.) In this example, the divider packets are _10th_ and _14th_, and so the decoder key is `*140*`.
 
 Organize all of the packets into the correct order. _What is the decoder key for the distress signal?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

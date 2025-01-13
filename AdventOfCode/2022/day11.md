@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 11: Monkey in the Middle ---
 
 As you finally start making your way upriver, you realize your pack is much lighter than you remember. Just then, one of the items from your pack goes flying overhead. Monkeys are playing [Keep Away](https://en.wikipedia.org/wiki/Keep_away) with your missing things!
@@ -322,5 +320,3 @@ Monkey 3 inspected items 52013 times.
 After 10000 rounds, the two most active monkeys inspected items 52166 and 52013 times. Multiplying these together, the level of _monkey business_ in this situation is now `*2713310158*`.
 
 Worry levels are no longer divided by three after each item is inspected; you'll need to find another way to keep your worry levels manageable. Starting again from the initial state in your puzzle input, _what is the level of monkey business after 10000 rounds?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

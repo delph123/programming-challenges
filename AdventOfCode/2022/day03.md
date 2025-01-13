@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 3: Rucksack Reorganization ---
 
 One Elf has the important job of loading all of the [rucksacks](https://en.wikipedia.org/wiki/Rucksack) with supplies for the jungle journey. Unfortunately, that Elf didn't quite follow the packing instructions, and so a few items now need to be rearranged.
@@ -71,5 +69,3 @@ In the first group, the only item type that appears in all three rucksacks is lo
 Priorities for these items must still be found to organize the sticker attachment efforts: here, they are 18 (`r`) for the first group and 52 (`Z`) for the second group. The sum of these is `*70*`.
 
 Find the item type that corresponds to the badges of each three-Elf group. _What is the sum of the priorities of those item types?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

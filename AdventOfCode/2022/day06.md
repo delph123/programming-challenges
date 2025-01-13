@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 6: Tuning Trouble ---
 
 The preparations are finally complete; you and the Elves leave camp on foot and begin to make your way toward the _star_ fruit grove.
@@ -50,5 +48,3 @@ Here are the first positions of start-of-message markers for all of the above ex
 -   `zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw`: first marker after character `*26*`
 
 _How many characters need to be processed before the first start-of-message marker is detected?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

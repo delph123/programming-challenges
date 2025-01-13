@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 12: Garden Groups ---
 
 Why not search for the Chief Historian near the [gardener](/2023/day/5) and his [massive farm](/2023/day/21)? There's plenty of food, so The Historians grab something to eat while they search.

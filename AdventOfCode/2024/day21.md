@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 21: Keypad Conundrum ---
 
 As you teleport onto Santa's [Reindeer-class starship](/2019/day/25), The Historians begin to panic: someone from their search party is _missing_. A quick life-form scan by the ship's computer reveals that when the missing Historian teleported, he arrived in another part of the ship.

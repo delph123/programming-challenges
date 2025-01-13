@@ -1,5 +1,4 @@
-\--- Day 12: Leonardo's Monorail ---
-----------
+## \--- Day 12: Leonardo's Monorail ---
 
 You finally reach the top floor of this building: a garden with a slanted glass ceiling. Looks like there are no more stars to be had.
 
@@ -11,12 +10,12 @@ You remotely connect to the monorail control systems and discover that the boot 
 
 The assembunny code you've extracted operates on four [registers](https://en.wikipedia.org/wiki/Processor_register) (`a`, `b`, `c`, and `d`) that start at `0` and can hold any [integer](https://en.wikipedia.org/wiki/Integer). However, it seems to make use of only a few [instructions](https://en.wikipedia.org/wiki/Instruction_set):
 
-* `cpy x y` *copies* `x` (either an integer or the *value* of a register) into register `y`.
-* `inc x` *increases* the value of register `x` by one.
-* `dec x` *decreases* the value of register `x` by one.
-* `jnz x y` *jumps* to an instruction `y` away (positive means forward; negative means backward), but only if `x` is *not zero*.
+-   `cpy x y` _copies_ `x` (either an integer or the _value_ of a register) into register `y`.
+-   `inc x` _increases_ the value of register `x` by one.
+-   `dec x` _decreases_ the value of register `x` by one.
+-   `jnz x y` _jumps_ to an instruction `y` away (positive means forward; negative means backward), but only if `x` is _not zero_.
 
-The `jnz` instruction moves relative to itself: an offset of `-1` would continue at the previous instruction, while an offset of `2` would *skip over* the next instruction.
+The `jnz` instruction moves relative to itself: an offset of `-1` would continue at the previous instruction, while an offset of `2` would _skip over_ the next instruction.
 
 For example:
 
@@ -32,10 +31,10 @@ dec a
 
 The above code would set register `a` to `41`, increase its value by `2`, decrease its value by `1`, and then skip the last `dec a` (because `a` is not zero, so the `jnz a 2` skips it), leaving register `a` at `42`. When you move past the last instruction, the program halts.
 
-After executing the assembunny code in your puzzle input, *what value is left in register `a`?*
+After executing the assembunny code in your puzzle input, _what value is left in register `a`?_
 
-To begin, [get your puzzle input](12/input).
+## \--- Part Two ---
 
-Answer:
+As you head down the fire escape to the monorail, you notice it didn't start; register `c` needs to be initialized to the position of the ignition key.
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22Leonardo%27s+Monorail%22+%2D+Day+12+%2D+Advent+of+Code+2016&url=https%3A%2F%2Fadventofcode%2Ecom%2F2016%2Fday%2F12&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+If you instead _initialize register `c` to be `1`_, what value is now left in register `a`?

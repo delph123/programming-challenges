@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 18: Boiling Boulders ---
 
 You and the elephants finally reach fresh air. You've emerged near the base of a large volcano that seems to be actively erupting! Fortunately, the lava seems to be flowing away from you and toward the ocean.
@@ -44,5 +42,3 @@ Instead, consider only cube sides that could be reached by the water and steam a
 In the larger example above, exactly one cube of air is trapped within the lava droplet (at `2,2,5`), so the exterior surface area of the lava droplet is `*58*`.
 
 _What is the exterior surface area of your scanned lava droplet?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

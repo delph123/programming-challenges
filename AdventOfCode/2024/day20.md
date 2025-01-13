@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 20: Race Condition ---
 
 The Historians are quite pixelated again. This time, a massive, black building looms over you - you're [right outside](/2017/day/24) the CPU!

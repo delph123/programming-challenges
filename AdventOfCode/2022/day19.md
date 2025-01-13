@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 19: Not Enough Minerals ---
 
 Your scans show that the lava did indeed form obsidian!
@@ -387,5 +385,3 @@ However, blueprint 2 from the example above is still better; using it, the large
 You _no longer have enough blueprints to worry about quality levels_. Instead, for each of the first three blueprints, determine the largest number of geodes you could open; then, multiply these three values together.
 
 Don't worry about quality levels; instead, just determine the largest number of geodes you could open using each of the first three blueprints. _What do you get if you multiply these numbers together?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 8: Treetop Tree House ---
 
 The expedition comes across a peculiar patch of tall trees all planted carefully in a grid. The Elves explain that a previous expedition planted these trees as a reforestation effort. Now, they're curious if this would be a good location for a [tree house](https://en.wikipedia.org/wiki/Tree_house).
@@ -80,5 +78,3 @@ However, you can do even better: consider the tree of height `5` in the middle o
 This tree's scenic score is `*8*` (`2 * 2 * 1 * 2`); this is the ideal spot for the tree house.
 
 Consider each tree on your map. _What is the highest scenic score possible for any tree?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

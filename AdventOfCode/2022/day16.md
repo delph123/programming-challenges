@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 16: Proboscidea Volcanium ---
 
 The sensors have led you to the origin of the distress signal: yet another handheld device, just like the one the Elves gave you. However, you don't see any Elves around; instead, the device is surrounded by elephants! They must have gotten lost in these tunnels, and one of the elephants apparently figured out how to turn on the distress signal.
@@ -235,5 +233,3 @@ Valves BB, CC, DD, EE, HH, and JJ are open, releasing 81 pressure.
 With the elephant helping, after 26 minutes, the best you could do would release a total of `*1707*` pressure.
 
 _With you and an elephant working together for 26 minutes, what is the most pressure you could release?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

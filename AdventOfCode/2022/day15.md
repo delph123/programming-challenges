@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 15: Beacon Exclusion Zone ---
 
 You feel the ground rumble again as the distress signal leads you to a large network of subterranean tunnels. You don't have time to search them all, but you don't need to: your pack contains a set of deployable _sensors_ that you imagine were originally built to locate lost Elves.
@@ -122,5 +120,3 @@ To isolate the distress beacon's signal, you need to determine its _tuning frequ
 In the example above, the search space is smaller: instead, the `x` and `y` coordinates can each be at most `20`. With this reduced search area, there is only a single position that could have a beacon: `x=14, y=11`. The tuning frequency for this distress beacon is `*56000011*`.
 
 Find the only possible position for the distress beacon. _What is its tuning frequency?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

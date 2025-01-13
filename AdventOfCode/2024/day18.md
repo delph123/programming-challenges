@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 18: RAM Run ---
 
 You and The Historians look a lot more pixelated than you remember. You're [inside a computer](/2017/day/2) at the North Pole!

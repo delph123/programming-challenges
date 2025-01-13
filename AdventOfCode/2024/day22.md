@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 22: Monkey Market ---
 
 As you're all teleported deep into the jungle, a [monkey](/2022/day/11) steals The Historians' device! You'll need to get it back while The Historians are looking for the Chief.

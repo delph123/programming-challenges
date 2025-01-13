@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 17: Pyroclastic Flow ---
 
 Your handheld device has located an alternative exit from the cave for you and the elephants. The ground is rumbling almost continuously now, but the strange valves bought you some time. It's definitely getting warmer in here, though.
@@ -357,5 +355,3 @@ The elephants are not impressed by your simulation. They demand to know how tall
 In the example above, the tower would be `*1514285714288*` units tall!
 
 _How tall will the tower be after `1000000000000` rocks have stopped?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

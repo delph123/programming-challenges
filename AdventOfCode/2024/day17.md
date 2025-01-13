@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 17: Chronospatial Computer ---
 
 The Historians push the button on their strange device, but this time, you all just feel like you're [falling](/2018/day/6).

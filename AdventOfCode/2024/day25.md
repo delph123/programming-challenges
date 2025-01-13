@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 25: Code Chronicle ---
 
 Out of ideas and time, The Historians agree that they should go back to check the _Chief Historian's office_ one last time, just in case he went back there without you noticing.

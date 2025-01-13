@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 9: Rope Bridge ---
 
 This rope bridge creaks as you walk along it. You aren't sure how old it is, or whether it can even support your weight.
@@ -712,5 +710,3 @@ Now, the tail (`9`) visits `*36*` positions (including `s`) at least once:
 ```
 
 Simulate your complete series of motions on a larger rope with ten knots. _How many positions does the tail of the rope visit at least once?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

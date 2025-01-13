@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 10: Cathode-Ray Tube ---
 
 You avoid the ropes, plunge into the river, and swim to shore.
@@ -336,5 +334,3 @@ Allowing the program to run to completion causes the CRT to produce the followin
 ```
 
 Render the image given by your program. _What eight capital letters appear on your CRT?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

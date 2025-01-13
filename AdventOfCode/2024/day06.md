@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 6: Guard Gallivant ---
 
 The Historians use their fancy [device](4) again, this time to whisk you all away to the North Pole prototype suit manufacturing lab... in the year [1518](/2018/day/5)! It turns out that having direct access to history is very convenient for a group of historians.

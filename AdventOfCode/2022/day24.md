@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 24: Blizzard Basin ---
 
 With everything replanted for next year (and with elephants and monkeys to tend the grove), you and the Elves leave for the extraction point.
@@ -276,5 +274,3 @@ Since you're so good at dodging blizzards, the Elves humbly request that you go 
 In the above example, the first trip to the goal takes `18` minutes, the trip back to the start takes `23` minutes, and the trip back to the goal again takes `13` minutes, for a total time of `*54*` minutes.
 
 _What is the fewest number of minutes required to reach the goal, go back to the start, then reach the goal again?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

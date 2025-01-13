@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 14: Regolith Reservoir ---
 
 The distress signal leads you to a giant waterfall! Actually, hang on - the signal seems like it's coming from the waterfall itself, and that doesn't make any sense. However, you do notice a little path that leads _behind_ the waterfall.
@@ -190,5 +188,3 @@ To find somewhere safe to stand, you'll need to simulate falling sand until a un
 ```
 
 Using your scan, simulate the falling sand until the source of the sand becomes blocked. _How many units of sand come to rest?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

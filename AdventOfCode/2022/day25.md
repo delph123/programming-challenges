@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 25: Full of Hot Air ---
 
 As the expedition finally reaches the extraction point, several large [hot air balloons](https://en.wikipedia.org/wiki/Hot_air_balloon) drift down to meet you. Crews quickly start unloading the equipment the balloons brought: many hot air balloon kits, some fuel tanks, and a _fuel heating machine_.
@@ -118,5 +116,3 @@ As you do, a very young Elf - one you recognize from the expedition team - appro
 Only _49 stars_ to go.
 
 If you like, you can .
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

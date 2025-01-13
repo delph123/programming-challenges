@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 13: Claw Contraption ---
 
 Next up: the [lobby](/2020/day/24) of a resort on a tropical island. The Historians take a moment to admire the hexagonal floor tiles before spreading out.

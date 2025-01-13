@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 12: Hill Climbing Algorithm ---
 
 You try contacting the Elves using your handheld device, but the river you're following must be too low to get a decent signal.
@@ -69,5 +67,3 @@ Now, there are six choices for starting position (five marked `a`, plus the squa
 This path reaches the goal in only `*29*` steps, the fewest possible.
 
 _What is the fewest steps required to move starting from any square with elevation `a` to the location that should get the best signal?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

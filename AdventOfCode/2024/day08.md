@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 8: Resonant Collinearity ---
 
 You find yourselves on the [roof](/2016/day/25) of a top-secret Easter Bunny installation.

@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 16: Reindeer Maze ---
 
 It's time again for the [Reindeer Olympics](/2015/day/14)! This year, the big event is the _Reindeer Maze_, where the Reindeer compete for the _lowest score_.

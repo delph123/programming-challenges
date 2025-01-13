@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 23: Unstable Diffusion ---
 
 You enter a large crater of gray dirt where the grove is supposed to be. All around you, plants you imagine were expected to be full of fruit are instead withered and broken. A large group of Elves has formed in the middle of the grove.
@@ -252,5 +250,3 @@ In the example above, the _first round where no Elf moved_ was round `*20*`:
 ```
 
 Figure out where the Elves need to go. _What is the number of the first round where no Elf moves?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

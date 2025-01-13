@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 21: Monkey Math ---
 
 The [monkeys](11) are back! You're worried they're going to try to steal your stuff again, but it seems like they're just holding their ground and making various monkey noises at you.
@@ -58,5 +56,3 @@ Second, you got the wrong monkey for the job starting with `humn:`. It isn't a m
 In the above example, the number you need to yell to pass `root`'s equality test is `*301*`. (This causes `root` to get the same number, `150`, from both of its monkeys.)
 
 _What number do you yell to pass `root`'s equality test?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

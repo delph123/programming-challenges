@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 20: Grove Positioning System ---
 
 It's finally time to meet back up with the Elves. When you try to contact them, however, you get no reply. Perhaps you're out of range?
@@ -113,5 +111,3 @@ After 10 rounds of mixing:
 The grove coordinates can still be found in the same way. Here, the 1000th number after `0` is `*811589153*`, the 2000th is `*2434767459*`, and the 3000th is `*-1623178306*`; adding these together produces `*1623178306*`.
 
 Apply the decryption key and mix your encrypted file ten times. _What is the sum of the three numbers that form the grove coordinates?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*

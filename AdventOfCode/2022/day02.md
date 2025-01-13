@@ -1,5 +1,3 @@
-article \*[title]{border-bottom:1px dotted #ffff66;}
-
 ## \--- Day 2: Rock Paper Scissors ---
 
 The Elves begin to set up camp on the beach. To decide whose tent gets to be closest to the snack storage, a giant [Rock Paper Scissors](https://en.wikipedia.org/wiki/Rock_paper_scissors) tournament is already in progress.
@@ -46,5 +44,3 @@ The total score is still calculated in the same way, but now you need to figure 
 Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of `*12*`.
 
 Following the Elf's instructions for the second column, _what would your total score be if everything goes exactly according to your strategy guide?_
-
-Both parts of this puzzle are complete! They provide two gold stars: \*\*
