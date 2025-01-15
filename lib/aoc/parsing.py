@@ -75,7 +75,7 @@ def create_matcher(rules: list[str]):
     regexes = [
         (
             re.compile(
-                rule.replace("{int}", "(\d+)")
+                rule.replace("{int}", "(-?\d+)")
                 .replace("{str}", "([^ ]+)")
                 .replace("{str*}", "(.+)")
             ),
