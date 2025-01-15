@@ -74,7 +74,11 @@ def create_matcher(rules: list[str]):
     """Basic matcher for parsing input files."""
     regexes = [
         (
-            re.compile(rule.replace("{int}", "(\d+)").replace("{str}", "([^ ]+)")),
+            re.compile(
+                rule.replace("{int}", "(\d+)")
+                .replace("{str}", "([^ ]+)")
+                .replace("{str*}", "(.+)")
+            ),
             re.findall(r"\{([^{]+)\}", rule),
             partial(transform, pattern),
         )
