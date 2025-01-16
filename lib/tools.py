@@ -60,8 +60,11 @@ def cycle(iterable, times=None):
                 yield element
 
 
-def compose(functions, initial, repeat=1):
-    return reduce(lambda v, f: f(v), cycle(functions, repeat), initial)
+def compose(functions, *initial_args, repeat=1):
+    if len(initial_args) == 1:
+        return reduce(lambda v, f: f(v), cycle(functions, repeat), initial_args[0])
+    else:
+        return reduce(lambda v, f: f(*v), cycle(functions, repeat), initial_args)
 
 
 def powerset(sequence):
