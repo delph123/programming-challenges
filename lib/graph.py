@@ -59,3 +59,20 @@ class Graph:
 
     def maximum_clique(self):
         return max(self._bron_kerbosch(set(), self.nodes(), set()), key=len)
+
+    def accessible_from(self, start):
+        visited = set()
+        frontier = {start}
+        while frontier:
+            visited |= frontier
+            frontier = set(e for f in frontier for e in self.neighbor(f)) - visited
+        return visited
+
+    def groups(self):
+        g = []
+        nodes = self.nodes()
+        while nodes:
+            n = nodes.pop()
+            g.append(self.accessible_from(n))
+            nodes -= g[-1]
+        return g
