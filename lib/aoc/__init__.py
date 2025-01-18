@@ -2,7 +2,7 @@
 from lib.tools import *
 from lib.math import *
 from lib.grid import Point, Grid
-from lib.graph import Graph
+from lib.graph import Graph, group_adjacent, adjacent
 from lib.astar import AStar
 
 # Import advent of code tooling

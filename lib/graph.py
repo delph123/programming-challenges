@@ -1,4 +1,22 @@
-from collections import defaultdict
+from functools import partial
+
+
+def adjacent(start, neighbors):
+    visited = set()
+    frontier = {start}
+    while frontier:
+        visited |= frontier
+        frontier = set(e for f in frontier for e in neighbors(f)) - visited
+    return visited
+
+
+def group_adjacent(iterable, neighbors):
+    visited = set()
+    for e in iterable:
+        if e not in visited:
+            group = adjacent(e, neighbors)
+            yield group
+            visited |= group
 
 
 class Graph:
@@ -61,18 +79,7 @@ class Graph:
         return max(self._bron_kerbosch(set(), self.nodes(), set()), key=len)
 
     def accessible_from(self, start):
-        visited = set()
-        frontier = {start}
-        while frontier:
-            visited |= frontier
-            frontier = set(e for f in frontier for e in self.neighbor(f)) - visited
-        return visited
+        return adjacent(start, self.neighbor)
 
     def groups(self):
-        g = []
-        nodes = self.nodes()
-        while nodes:
-            n = nodes.pop()
-            g.append(self.accessible_from(n))
-            nodes -= g[-1]
-        return g
+        return list(group_adjacent(self.nodes(), self.neighbor))
