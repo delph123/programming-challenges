@@ -1,9 +1,15 @@
+from itertools import islice, tee
 from ..tools import is_iterable
 from ..grid import Grid, Point
 
 
 def preview(result):
-    if isinstance(result, (list, set)):
+    if isinstance(result, dict):
+        for key, value in result.items():
+            print(f"{key}:", value)
+    elif isinstance(result, Grid):
+        preview(result.content)
+    elif is_iterable(result):
         for line in result:
             if isinstance(line, (list, set)):
                 if (
@@ -17,11 +23,6 @@ def preview(result):
                     print(line)
             else:
                 print(line)
-    elif isinstance(result, dict):
-        for key, value in result.items():
-            print(f"{key}:", value)
-    elif isinstance(result, Grid):
-        preview(result.content)
     else:
         print(result)
 
@@ -36,11 +37,17 @@ def print_result(result, part: int, sep=None):
         print(*result, sep=sep)
     elif isinstance(result, (bool, str, int, float, complex, Point)):
         print(result)
-    elif is_iterable(result) and len(result) == 1:
-        print(next(iter(result)))
+    elif is_iterable(result):
+        l = list(islice(result, 6))
+        if len(l) == 1:
+            print(l[0])
+        elif len(l) < 6:
+            print(result)
+        else:
+            print("")
+            preview(result)
     else:
-        print("")
-        preview(result)
+        print(result)
 
 
 def part_one(result, sep=None):
