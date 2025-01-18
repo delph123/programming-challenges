@@ -8,23 +8,10 @@ garden = read_grid("example")
 
 
 def regions(grid: Grid):
-    grp = []
-    grp_grid = Grid([[-1 for _ in row] for row in garden.content])
-    for p, v in grid.items():
-        if grp_grid[p] >= 0:
-            continue
-        g = len(grp)
-        grp.append(set())
-        explore = {p}
-        while explore:
-            p2 = explore.pop()
-            if grid[p2] == v:
-                grp_grid[p2] = g
-                grp[g].add(p2)
-                for d in Point.UDLR.values():
-                    if p2 + d in grid and grp_grid[p2 + d] < 0:
-                        explore.add(p2 + d)
-    return grp
+    def neighbors(p):
+        return [p + d for d in Point.UDLR.values() if grid.get(p + d) == grid[p]]
+
+    return group_adjacent(grid, neighbors)
 
 
 def perimeter(region):
