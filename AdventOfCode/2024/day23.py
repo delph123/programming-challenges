@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-connections = Graph([tuple(l.split("-")) for l in read_lines("example")])
+connections = Graph.from_edges([tuple(l.split("-")) for l in read_lines("example")])
 
 # Part 1
 
@@ -10,7 +10,7 @@ connections = Graph([tuple(l.split("-")) for l in read_lines("example")])
 def three_cliques(g: Graph):
     cliques = set()
     for a, b in g.edges():
-        for c in g.neighbor(a):
+        for c in g.neighbors(a):
             if c != b and (a, c) in g and (b, c) in g:
                 cliques.add(tuple(sorted([a, b, c])))
     return cliques
