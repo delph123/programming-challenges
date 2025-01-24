@@ -15,9 +15,36 @@ matcher = create_matcher(
     ]
 )
 
-particles = [Particle(*matcher(l)) for l in read_lines("i")]
+parts = read("example").split("\n\n")
+if not read.from_example:
+    parts.extend(parts)
+
+particles_p1 = [Particle(*matcher(l)) for l in parts[0].splitlines()]
+particles_p2 = [Particle(*matcher(l)) for l in parts[1].splitlines()]
 
 # Part 1
+
+
+def project(particle):
+    return tuple(Particle(p, v, a) for p, v, a in zip(*particle))
+
+
+def min_steps_to_align(particle: Particle):
+    (p, v, a) = particle
+    ticks = 0
+    while p * a < 0 or p * v < 0:
+        v += a
+        p += v
+        ticks += 1
+    return ticks
+
+
+def advance(particle, k):
+    [px, py, pz] = [
+        Particle(p.p + k * p.v + k * (k + 1) * p.a // 2, p.v + k * p.a, p.a)
+        for p in project(particle)
+    ]
+    return Particle((px.p, py.p, pz.p), (px.v, py.v, pz.v), (px.a, py.a, pz.a))
 
 
 def manhattan(point3d):
@@ -25,55 +52,26 @@ def manhattan(point3d):
 
 
 def slowest(particles: list[Particle]):
-    # TODO normalize particles
-    return sorted(
-        enumerate(particles),
-        key=lambda p: (manhattan(p[1].a), manhattan(p[1].v), manhattan(p[1].p)),
-    )[0]
+    # We need to first align the sign of the particles' positions & velocities with
+    # the sign of their acceleration. For that, we compute the number of ticks that
+    # are necessary to wait before the sign are aligned then we advance all the
+    # particles by that number of ticks.
+    ticks = max(
+        min_steps_to_align(p) for particle in particles for p in project(particle)
+    )
+    adv = [advance(particle, ticks) for particle in particles]
+    # Finally the slowest particles are those with smallest acceleration then velocity
+    # then position (considering manhattan distance of all axis).
+    m = min(
+        range(len(adv)),
+        key=lambda i: (manhattan(adv[i].a), manhattan(adv[i].v), manhattan(adv[i].p)),
+    )
+    return (m, particles[m])
 
 
-part_one(slowest(particles)[0])
+part_one(slowest(particles_p1)[0])
 
 # Part 2
-
-
-def solve_integer_quadratic_eq(a, b, c):
-    # Solve a quadratic equation with coefficients and solutions all
-    # being integer values.
-    #
-    #   delta = b^2 - 4ac
-    #   s = ( -b ± sqrt(delta) ) / 2a
-    #
-    # To collide, following conditions must hold true:
-    #   delta >= 0
-    #   s is an integer
-
-    if a == 0:
-        if b == 0 and c == 0:
-            # everything match, send a special value
-            return ALL
-        elif b == 0:
-            return []
-        if c % b == 0 and -c // b > 0:
-            return [-c // b]
-        else:
-            return []
-
-    delta = b**2 - 4 * a * c
-
-    if delta == 0 and b % (2 * a) == 0:
-        return [-b // (2 * a)]
-
-    if delta <= 0 or int(sqrt(delta)) ** 2 != delta:
-        return []
-
-    sqrt_delta = int(sqrt(delta))
-    solutions = []
-    if (b + sqrt_delta) % (2 * a) == 0:
-        solutions.append((-b - sqrt_delta) // (2 * a))
-    if (b - sqrt_delta) % (2 * a) == 0:
-        solutions.append((-b + sqrt_delta) // (2 * a))
-    return []
 
 
 def collide1d(particle_1, particle_2):
@@ -92,17 +90,16 @@ def collide1d(particle_1, particle_2):
     #   c = (a1 - a2)
     #
     # And we can compute the solutions of a quadratic equation with the additional
-    # constraints that solutions must be integer values only.
+    # constraints that solutions must be positive integer values only.
 
     a = particle_1.a - particle_2.a
     b = 2 * (particle_1.v - particle_2.v) + a
     c = 2 * (particle_1.p - particle_2.p)
 
+    if a == 0 and b == 0 and c == 0:
+        return ALL
+
     return set(s for s in solve_integer_quadratic_eq(a, b, c) if s >= 0)
-
-
-def project(particle):
-    return tuple(Particle(p, v, a) for p, v, a in zip(*particle))
 
 
 def collide(particle_1, particle_2):
@@ -135,4 +132,4 @@ def collisions(particles):
     return parts
 
 
-part_two(len(particles) - len(flatten(collisions(particles).values())))
+part_two(len(particles_p2) - len(flatten(collisions(particles_p2).values())))
