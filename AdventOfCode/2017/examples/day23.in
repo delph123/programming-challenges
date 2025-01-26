@@ -1,0 +1,6 @@
+set a 1022
+set b 1
+mul b 2
+sub a b
+jnz a -2
+mul b 2
