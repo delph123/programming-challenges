@@ -46,7 +46,7 @@ def solve_integer_quadratic_eq(a, b, c):
     # The solutions for a general quadratic equation are:
     #   s = ( -b ± sqrt(delta) ) / 2a
     # Where the discriminant is defined as:
-    #   delta = b^2 - 4ac
+    #   delta = b² - 4ac
     #
     # To be acceptable, following conditions must hold true:
     #   delta >= 0
