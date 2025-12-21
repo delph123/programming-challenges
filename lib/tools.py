@@ -72,6 +72,17 @@ def powerset(sequence):
     return flatten(combinations(sequence, r) for r in range(len(sequence) + 1))
 
 
+def vertical_flip(grid):
+    return list(reversed(grid))
+
+
+def horizontal_flip(grid):
+    if isinstance(grid[0], str):
+        return ["".join(reversed(row)) for row in grid]
+    else:
+        return [list(reversed(row)) for row in grid]
+
+
 def transpose(grid):
     if len(grid) == 0:
         return []
@@ -79,6 +90,19 @@ def transpose(grid):
         return ["".join(r) for r in zip(*grid)]
     else:
         return list(zip(*grid))
+
+
+def rotate(grid, i):
+    if len(grid) == 0:
+        return []
+    if i % 4 == 0:
+        return grid
+    if i % 4 == 1:
+        return horizontal_flip(transpose(grid))
+    if i % 4 == 2:
+        return horizontal_flip(vertical_flip(grid))
+    if i % 4 == 3:
+        return vertical_flip(transpose(grid))
 
 
 def bisect(seq: Sequence, value, *, key=None, reverse=False, smallest=False):

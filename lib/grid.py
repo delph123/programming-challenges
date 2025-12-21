@@ -1,7 +1,12 @@
 import cmath
 from sys import float_info
 from copy import deepcopy
-from .tools import transpose as transpose_matrix
+from .tools import (
+    transpose as transpose_matrix,
+    rotate as rotate_matrix,
+    horizontal_flip,
+    vertical_flip,
+)
 
 
 class Point:
@@ -214,5 +219,14 @@ class Grid:
     def find_all(self, val):
         return set(p for (p, v) in self.items() if v == val)
 
+    def hflip(self):
+        return Grid(horizontal_flip(self.content))
+
+    def vflip(self):
+        return Grid(vertical_flip(self.content))
+
     def transpose(self):
         return Grid(transpose_matrix(self.content))
+
+    def rotate(self, i):
+        return Grid(rotate_matrix(self.content, i))
