@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-box_positions = [tuple(int(n) for n in b.split(",")) for b in read_lines("i")]
+box_positions = [tuple(int(n) for n in b.split(",")) for b in read_lines("example")]
 
 times_p1 = 10 if read.from_example else 1000
 times_p2 = -1
