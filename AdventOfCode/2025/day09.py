@@ -2,7 +2,7 @@ from libs import *
 
 # Parse input
 
-red_tiles = [Point(*(int(n) for n in l.split(","))) for l in read_lines("i")]
+red_tiles = [Point(*(int(n) for n in l.split(","))) for l in read_lines("example")]
 
 # Part 1
 
