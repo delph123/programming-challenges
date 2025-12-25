@@ -8,7 +8,9 @@ from ..grid import Grid
 
 
 def sanitized(
-    text: str, replace: list[str] | None = None, ignore: list[str] | None = None
+    text: str,
+    replace: list[tuple[str, str]] | None = None,
+    ignore: list[str] | None = None,
 ):
     text = text.rstrip()
     if ignore is not None:
@@ -18,7 +20,11 @@ def sanitized(
     return text
 
 
-def read(version, replace: list[str] | None = None, ignore: list[str] | None = None):
+def read(
+    version,
+    replace: list[tuple[str, str]] | None = None,
+    ignore: list[str] | None = None,
+):
     # Read file name from calling file (using the caller's stack frame)
     frame = inspect.currentframe().f_back
     while "__file__" not in frame.f_locals:
@@ -51,7 +57,9 @@ def read(version, replace: list[str] | None = None, ignore: list[str] | None = N
 
 
 def read_lines(
-    version, replace: list[str] | None = None, ignore: list[str] | None = None
+    version,
+    replace: list[tuple[str, str]] | None = None,
+    ignore: list[str] | None = None,
 ):
     return read(version, replace=replace, ignore=ignore).splitlines()
 

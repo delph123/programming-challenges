@@ -3,7 +3,7 @@ from functools import reduce
 from itertools import chain, combinations
 
 
-def replace_all(old_words: list[str], new_words: str | list[str], source: str):
+def replace_all(old_words: list[str], new_words: str, source: str):
     """Returns a copy with all occurrences from old words replaced with
     new one in source string.
     """
