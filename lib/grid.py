@@ -105,6 +105,9 @@ class Point:
     def set(self, grid, val):
         grid[self.y][self.x] = val
 
+    def coordinates(self, origin: int = 0):
+        return (origin + self.x, origin + self.y)
+
 
 Point.ZERO = Point(0, 0)
 Point.UDLR = {"^": Point(0, -1), "v": Point(0, 1), "<": Point(-1, 0), ">": Point(1, 0)}
@@ -129,6 +132,9 @@ class Grid:
     @classmethod
     def of_size(cls, width, height):
         return cls([list(range(width * j, width * (j + 1))) for j in range(height)])
+
+    def size(self):
+        return (len(self.content[0]), len(self.content))
 
     def __len__(self):
         return len(self.content) * len(self.content[0])
@@ -230,3 +236,62 @@ class Grid:
 
     def rotate(self, i):
         return Grid(rotate_matrix(self.content, i))
+
+    def summed_area_calculator(self):
+        """
+        Returns a function that calculate the sum of values in a rectangular subset of
+        this grid. The algorithm is based on the summed-area table and is very efficient
+        to compute multiple different sums for different rectangles of the same grid.
+
+        See https://en.wikipedia.org/wiki/Summed-area_table.
+        """
+
+        px = Point(1, 0)
+        py = Point(0, 1)
+        pxy = Point(1, 1)
+
+        # The summed-area table contains the partial sum of all elements above & to the
+        # left of Point(i, j) inclusive.
+        #
+        # In other words:
+        # SAT(i, j) = sum( VALUES(x, y) for 0 ≤ x ≤ i and 0 ≤ y ≤ j )
+        sat = self.copy()
+
+        # First row
+        for i in range(1, len(sat.content[0])):
+            p = Point(i, 0)
+            sat[p] = self[p] + sat[p - px]
+
+        # First column
+        for j in range(1, len(sat.content)):
+            p = Point(0, j)
+            sat[p] = self[p] + sat[p - py]
+
+        for j in range(1, len(sat.content)):
+            for i in range(1, len(sat.content[i])):
+                p = Point(i, j)
+                sat[p] = self[p] + sat[p - px] + sat[p - py] - sat[p - pxy]
+
+        def sum_rect(p: Point, size: Point):
+            """
+            Computes the sum of values in a rectangular subset of the grid.
+
+            :param p: The origin point of the rectangle
+            :type p: Point
+            :param size: The size of the rectangle
+            :type size: Point
+            """
+            if size.x == 0 or size.y == 0:
+                return 0
+
+            if p.x == 0 and p.y == 0:
+                return sat[size - pxy]
+            elif p.x == 0:
+                return sat[p + size - pxy] - sat[p + Point(size.x, 0) - pxy]
+            elif p.y == 0:
+                return sat[p + size - pxy] - sat[p + Point(0, size.y) - pxy]
+            else:
+                s = sat[p + Point(size.x, 0) - pxy] + sat[p + Point(0, size.y) - pxy]
+                return sat[p + size - pxy] - s + sat[p - pxy]
+
+        return sum_rect
