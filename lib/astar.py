@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Iterable, TypeVar, Generic
+from collections import defaultdict
 from .priorityq import MappedQueue
 
 T = TypeVar("T")
@@ -47,6 +48,15 @@ class PathSolution(Generic[T]):
 
     def cost(self):
         return self.goal.cost
+
+    def nodes_by_distance(self):
+        nodes_by_dist = defaultdict(set)
+        curr = {self.goal}
+        while curr:
+            for c in curr:
+                nodes_by_dist[c.cost].add(c.node)
+            curr = set(p for n in curr for p in n.predecessors)
+        return nodes_by_dist
 
     def all_paths(self):
         def paths(nodes):
