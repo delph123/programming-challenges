@@ -16,4 +16,5 @@ def value(registers, v):
 
 
 def iset(_, b):
+    """Same as a = b."""
     return b
