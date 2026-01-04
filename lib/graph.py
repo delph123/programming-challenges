@@ -20,6 +20,17 @@ def group_adjacent(iterable, neighbors):
             visited |= group
 
 
+def group_by_distance(neighbors, start):
+    nodes = []
+    visited = set()
+    frontier = {start}
+    while frontier:
+        nodes.append(frontier)
+        visited |= frontier
+        frontier = set(e for f in frontier for e in neighbors(f) if e not in visited)
+    return nodes
+
+
 V = TypeVar("V")
 
 
@@ -109,6 +120,9 @@ class Graph(Generic[V]):
 
     def groups(self):
         return list(group_adjacent(self, self.neighbors))
+
+    def nodes_by_distance(self, start):
+        return group_by_distance(self.neighbors, start)
 
     def with_removed(self, edges, oriented=False):
         g2 = self.copy()
